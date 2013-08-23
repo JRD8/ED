@@ -53,13 +53,13 @@ typedef enum
 @property (nonatomic) location *suspectLocation;
 @property (nonatomic) NSArray *suspectPrivateQuestionList;
 @property (nonatomic) BOOL victim;
+@property (nonatomic) BOOL murderer;
 
 - (id)initWithInitialValues: (int) sNumber
                        name: (NSString *) sName
                  occupation: (NSString *) sOccupation
               maritalStatus: (NSString *) sMaritalStatus
-       privateQuestionList: (NSArray *) sQuestionList
-                     victim: (BOOL) sVictim;
+       privateQuestionList: (NSArray *) sQuestionList;
 
 - (NSString *)description;
 

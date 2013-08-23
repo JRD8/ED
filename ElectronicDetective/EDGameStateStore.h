@@ -14,11 +14,14 @@
 {
     
     NSMutableDictionary *masterSuspectDirectory;
+    
     NSArray *suspectNames;
     NSArray *suspectOccupations;
     NSArray *suspectMaritalStatuses;
     NSArray *suspectPrivateQuestionLists;
+    
     int victimNumber;
+    int murdererNumber;
     int murderLocation;
     int murderWeapon;
     int locationOf38;
@@ -30,6 +33,7 @@
 
 - (void) createMasterSuspectDirectory;
 - (void) killVictim;
+- (void) assignMurderer;
 - (void) hideWeapons;
 
 - (NSString *)generateLocationString: (int)location;

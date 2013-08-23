@@ -10,9 +10,9 @@
 
 @implementation EDSuspect
 
-@synthesize  suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, suspectAlibi, suspectSide, suspectArea, suspectLocation, suspectPrivateQuestionList, victim;
+@synthesize  suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, suspectAlibi, suspectSide, suspectArea, suspectLocation, suspectPrivateQuestionList, victim, murderer;
 
-- (id)initWithInitialValues:(int)sNumber name:(NSString *)sName occupation:(NSString *)sOccupation maritalStatus:(NSString *)sMaritalStatus privateQuestionList:(NSArray *)sQuestionList victim:(BOOL)sVictim
+- (id)initWithInitialValues:(int)sNumber name:(NSString *)sName occupation:(NSString *)sOccupation maritalStatus:(NSString *)sMaritalStatus privateQuestionList:(NSArray *)sQuestionList
 {
     self = [super init];
     
@@ -25,6 +25,7 @@
     [self setSuspectLocation:nil];
     [self setSuspectPrivateQuestionList:sQuestionList];
     [self setVictim:NO];
+    [self setMurderer:NO];
     
     return self;
 };
@@ -33,7 +34,7 @@
 {
     NSString *privateQuestionForDescription = [NSString stringWithFormat:@"Questions: %@, %@, %@, %@ & %@", [suspectPrivateQuestionList objectAtIndex:0], [suspectPrivateQuestionList objectAtIndex:1], [suspectPrivateQuestionList objectAtIndex:2], [suspectPrivateQuestionList objectAtIndex:3], [suspectPrivateQuestionList objectAtIndex:4]];
     
-    return [NSString stringWithFormat:@"Suspect Number: %d, Name = %@, Occupation = %@, Marital Status = %@, Private Question List = %@, Victim = %@", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, privateQuestionForDescription, victim ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"Suspect Number: %d, Name = %@, Occupation = %@, Marital Status = %@, Private Question List = %@, Victim = %@, Murderer = %@", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO"];
 }
 
 @end

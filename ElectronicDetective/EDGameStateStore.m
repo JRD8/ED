@@ -36,6 +36,7 @@
     [self createMasterSuspectDirectory];
     
     [self killVictim];
+    [self assignMurderer];
     [self hideWeapons];
     
     NSLog(@"Master Suspect Directory: %@", [masterSuspectDirectory description]);
@@ -79,7 +80,7 @@
     // Create 20 EDSuspect objects and set them into masterSuspectList
     for (int i = 0; i < 20; i++)
     {
-        [masterSuspectDirectory setObject:[[EDSuspect alloc] initWithInitialValues:i+1 name:[suspectNames objectAtIndex:i] occupation:[suspectOccupations objectAtIndex:i] maritalStatus:[suspectMaritalStatuses objectAtIndex:i] privateQuestionList:[suspectPrivateQuestionLists objectAtIndex:i] victim:NO ] forKey:[NSString stringWithFormat:@"suspect%d", i + 1]];
+        [masterSuspectDirectory setObject:[[EDSuspect alloc] initWithInitialValues:i+1 name:[suspectNames objectAtIndex:i] occupation:[suspectOccupations objectAtIndex:i] maritalStatus:[suspectMaritalStatuses objectAtIndex:i] privateQuestionList:[suspectPrivateQuestionLists objectAtIndex:i]] forKey:[NSString stringWithFormat:@"suspect%d", i + 1]];
     }
 }
 
@@ -89,13 +90,15 @@
     murderLocation = arc4random_uniform(5);
     murderWeapon = arc4random_uniform(100) % 2;
 
+    // Flag this on EDSuspect object
     EDSuspect *victim = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
+    [victim setVictim:YES];
     
     NSString *murderLocationString = [self generateLocationString:murderLocation];
     
     NSString *murderWeaponString;
-    
-    switch (murderWeapon) {
+    switch (murderWeapon)
+    {
         case 0:
             murderWeaponString = @".38";
             break;
@@ -107,9 +110,22 @@
     
     NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], murderLocationString, murderWeaponString);
     
-    // Have to change the Boolean variable victim!
-    [victim setVictim:YES];
+}
+
+- (void) assignMurderer
+{
+    do
+    {
+        murdererNumber = arc4random_uniform(19);
+    }
+    while (murdererNumber == victimNumber);
     
+    // Flag this on EDSuspect object
+    EDSuspect *murderer = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", murdererNumber + 1]];
+    [murderer setMurderer:YES];
+    
+    NSLog(@"The Murderer is #%d - %@", [murderer suspectNumber], [murderer suspectName]);
+
 }
 
 - (void) hideWeapons
