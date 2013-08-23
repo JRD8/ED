@@ -14,6 +14,7 @@
 {
     
     NSMutableDictionary *masterSuspectDirectory;
+    NSMutableDictionary *masterLocationDirectory;
     
     NSArray *suspectNames;
     NSArray *suspectOccupations;
@@ -32,6 +33,7 @@
 + (EDGameStateStore *) sharedStore;  // Class method
 
 - (void) createMasterSuspectDirectory;
+- (void) createMasterLocationDirectory;
 - (void) killVictim;
 - (void) assignMurderer;
 - (void) hideWeapons;

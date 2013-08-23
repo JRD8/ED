@@ -10,6 +10,22 @@
 
 @implementation EDLocation
 
-@synthesize locationName, oddMaleSuspect, oddFemaleSuspect, evenMaleSuspect, evenFemaleSuspect, locationSide, locationArea, locationOf38, locationOf45, threeSuspectLocation;
+@synthesize locationName, locationNumber, oddMaleSuspect, oddFemaleSuspect, evenMaleSuspect, evenFemaleSuspect, locationOf38, locationOf45, threeSuspectLocation, murderLocation; // locationSide, locationArea,
+
+- (id) initWithInitialValues: (int) lnumber
+                        name: (NSString *) lname
+{
+    self = [super init];
+    
+    [self setLocationNumber:lnumber];
+    [self setLocationName:lname];
+    
+    return self;
+};
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Location Number #%d - %@, Murder Location = %@, Location Of .38 = %@, Location Of .45 = %@", locationNumber, locationName, murderLocation ? @"YES" : @"NO", locationOf38 ? @"YES" : @"NO", locationOf45 ? @"YES" : @"NO"];
+};
 
 @end

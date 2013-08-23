@@ -35,12 +35,15 @@
     self = [super init];
     
     [self createMasterSuspectDirectory];
+    [self createMasterLocationDirectory];
     
     [self killVictim];
     [self assignMurderer];
     [self hideWeapons];
+    [self randomizeSuspectsInCity];
     
     NSLog(@"Master Suspect Directory: %@", [masterSuspectDirectory description]);
+    NSLog(@"Master Location Directory: %@", [masterLocationDirectory description]);
     
     return self;
 }
@@ -49,7 +52,6 @@
 {
     
     masterSuspectDirectory = [[NSMutableDictionary alloc] init];
-    
     
     // Initial Array Values
     suspectNames = [[NSArray alloc] initWithObjects :@"Lenny Little", @"Al Farook", @"Pepe Perez", @"Tony Racheti", @"Mickey O'Malley", @"Max Fineflugle", @"Ripp Rapp", @"Buster Bailey", @"Rocky Roll", @"Ling Tong", @"Ivy Little", @"Lucy Tumble", @"Piper Perez", @"Dina Racheti", @"Eileen Stellar", @"Joan Fineflugle", @"Rose Pettle", @"Doris Dill", @"Candy Roll", @"Sing Wong", nil];
@@ -85,17 +87,31 @@
     }
 }
 
+- (void) createMasterLocationDirectory
+{
+    NSArray *locationNames = [[NSArray alloc] initWithObjects:@"Art Show", @"Box At Theatre", @"Card Party", @"Docks", @"Embassy", @"Factory", nil];
+    
+    masterLocationDirectory = [[NSMutableDictionary alloc] init];
+    
+    for (int i = 0; i < 6; i++)
+    {
+        [masterLocationDirectory setObject:[[EDLocation alloc] initWithInitialValues:i name:[locationNames objectAtIndex:i]] forKey:[NSString stringWithFormat:@"location%d", i]];
+    }
+}
+
 - (void) killVictim
 {
     victimNumber = arc4random_uniform(19);
     murderLocation = arc4random_uniform(5);
     murderWeapon = arc4random_uniform(100) % 2;
 
-    // Flag this on EDSuspect object
+    // Flag victim on EDSuspect object
     EDSuspect *victim = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
     [victim setVictim:YES];
     
-    NSString *murderLocationString = [self generateLocationString:murderLocation];
+    // Flag location on EDLocation object
+    EDLocation *murderSite = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]];
+    [murderSite setMurderLocation:YES];
     
     NSString *murderWeaponString;
     switch (murderWeapon)
@@ -109,7 +125,7 @@
             break;
     }
     
-    NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], murderLocationString, murderWeaponString);
+    NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], [murderSite locationName], murderWeaponString);
     
 }
 
@@ -121,16 +137,17 @@
     }
     while (murdererNumber == victimNumber);
     
-    // Flag this on EDSuspect object
+    // Flag murderer on EDSuspect object
     EDSuspect *murderer = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", murdererNumber + 1]];
     [murderer setMurderer:YES];
     
-    NSLog(@"The Murderer is #%d - %@", [murderer suspectNumber], [murderer suspectName]);
+    NSLog(@"The Murderer is #%d - %@\n", [murderer suspectNumber], [murderer suspectName]);
 
 }
 
 - (void) hideWeapons
 {
+    
     // First, hide the .38
     do
     {
@@ -138,9 +155,13 @@
         
         NSString *locationOf38String = [self generateLocationString:locationOf38];
         
-        NSLog(@"Hiding the .38 at %@", locationOf38String);
+        NSLog(@"Hiding the .38 at %@\n", locationOf38String);
     }
     while (locationOf38 == murderLocation);
+    
+    // Flag location of .38 on EDLocation object
+    EDLocation *siteOf38 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", locationOf38]];
+    [siteOf38 setLocationOf38:YES];
     
     
     // Then, hide the .45
@@ -150,9 +171,13 @@
         
         NSString *locationOf45String = [self generateLocationString:locationOf45];
         
-        NSLog(@"Hiding the .45 at %@", locationOf45String);
+        NSLog(@"Hiding the .45 at %@\n", locationOf45String);
     }
     while (locationOf45 == murderLocation || locationOf45 == locationOf38);
+    
+    // Flag location of .45 on EDLocation object
+    EDLocation *siteOf45 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", locationOf45]];
+    [siteOf45 setLocationOf45:YES];
 }
 
 
@@ -190,7 +215,19 @@
 
 - (void) randomizeSuspectsInCity
 {
+    NSLog(@"Randomizing suspects in city, excluding the murder location - %@\n\n", [[masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]] locationName]);
+ 
+    
     // Exclude murderLocation
+    int tempLocation;
+    do
+    {
+        tempLocation = arc4random_uniform(5);
+        
+    }
+    while (tempLocation == murderLocation);
+    
+
     // Start with the 3suspect location
     // Then, do the 4 other locations
 }
