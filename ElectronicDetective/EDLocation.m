@@ -19,13 +19,14 @@
     
     [self setLocationNumber:lnumber];
     [self setLocationName:lname];
+    [self setThreeSuspectLocation:NO];
     
     return self;
 };
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Location Number #%d - %@, Murder Location = %@, Location Of .38 = %@, Location Of .45 = %@", locationNumber, locationName, murderLocation ? @"YES" : @"NO", locationOf38 ? @"YES" : @"NO", locationOf45 ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"Location Number #%d - %@, Murder Location = %@, Location Of .38 = %@, Location Of .45 = %@, 3-Suspect Location = %@, Odd Male = %@, Even Male = %@, Odd Female = %@, Even Female = %@", locationNumber, locationName, murderLocation ? @"YES" : @"NO", locationOf38 ? @"YES" : @"NO", locationOf45 ? @"YES" : @"NO", threeSuspectLocation ? @"YES" : @"NO", oddMaleSuspect, evenMaleSuspect, oddFemaleSuspect, evenFemaleSuspect];
 };
 
 @end

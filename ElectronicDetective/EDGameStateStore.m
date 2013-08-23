@@ -125,7 +125,7 @@
             break;
     }
     
-    NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], [murderSite locationName], murderWeaponString);
+    NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], [self generateLocationString:murderLocation], murderWeaponString);
     
 }
 
@@ -215,20 +215,103 @@
 
 - (void) randomizeSuspectsInCity
 {
-    NSLog(@"Randomizing suspects in city, excluding the murder location - %@\n\n", [[masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]] locationName]);
- 
+    NSLog(@"Randomizing suspects in city, excluding the murder location at %@\n\n", [self generateLocationString:murderLocation]);
     
-    // Exclude murderLocation
+    // Start with the 3-Suspect location, exclude murderLocation or location of any weapons
     int tempLocation;
     do
     {
         tempLocation = arc4random_uniform(5);
-        
     }
-    while (tempLocation == murderLocation);
+    while (tempLocation == murderLocation || tempLocation == locationOf38 || tempLocation == locationOf45);
     
+    // Flag threeSuspectLocation on EDLocation object
+    EDLocation *threelocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocation]];
+    [threelocation setThreeSuspectLocation:YES];
 
-    // Start with the 3suspect location
+    
+    // Create an NSMutableArray of AllocatedSuspectNumbers
+    NSMutableArray *allocatedSuspects = [[NSMutableArray alloc] init];
+    
+    // Generate a random Suspect Number
+    int testSuspectNumber = arc4random_uniform(20);
+    
+    // FIXME: Loop not working
+    // Test it against all AllocatedSuspects numbers
+    for (int i = 0; i < [allocatedSuspects count]; i++)
+    {
+        NSNumber *allocatedSuspectNumber = [allocatedSuspects objectAtIndex:i];
+        
+        // Test if already allocated...
+        if (testSuspectNumber != [allocatedSuspectNumber intValue])
+        {
+            NSLog(@"TestSuspect != Allocated Suspect Number");
+
+            if (testSuspectNumber != victimNumber)
+            {
+                NSLog(@"TestSuspect !=  Victim");
+                
+                // First, Allocated Suspects array
+                [allocatedSuspects addObject:[NSNumber numberWithInt:testSuspectNumber]];
+                
+                // Then, Determine Gender...
+                BOOL male;
+                if (testSuspectNumber <=10)
+                {
+                    male = YES;
+                    NSLog(@"TestSuspect is Male");
+                }
+                else if (testSuspectNumber > 10 && testSuspectNumber <= 20)
+                {
+                    male = NO;
+                    NSLog(@"TestSuspect is Female");
+                }
+                
+                // Then, Determine Odd/Even
+                BOOL odd;
+                if (testSuspectNumber % 2 != 0)
+                {
+                    odd = YES;
+                    NSLog(@"TestSuspect is Odd");
+                }
+                else if (testSuspectNumber % 2 == 0)
+                {
+                    odd = NO;
+                    NSLog(@"TestSuspect is Even");
+                }
+                
+                // Then, add to EDLocation object with correct variable flagged
+                
+                if (male == YES || odd == YES) // Odd Male
+                {
+                    [threelocation setOddMaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
+                }
+                else if (male == YES || odd == NO) // Even Male
+                {
+                    [threelocation setEvenMaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
+                }
+                else if (male == NO || odd == YES) // Odd Female
+                {
+                    [threelocation setOddFemaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
+                }
+                else if (male == NO || odd == NO) // Even Female
+                {
+                    [threelocation setEvenFemaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
+                }
+            }
+            else
+            {
+                NSLog(@"TestSuspect =  Victim");
+            }
+        }
+        else
+        {
+            NSLog(@"TestSuspect = Allocated Suspect Number");
+        };
+        
+        NSLog(@"3-Suspect Location = %@\n\n", [threelocation description]);
+    };
+    
     // Then, do the 4 other locations
 }
 
