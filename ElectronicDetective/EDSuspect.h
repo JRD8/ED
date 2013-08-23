@@ -21,7 +21,7 @@ typedef enum
 {
     uptown = 0,
     midtown = 1,
-    downtown
+    downtown = 2,
     
 } area;
 

@@ -8,6 +8,7 @@
 
 #import "EDGameStateStore.h"
 #import "EDSuspect.h"
+#import "EDLocation.h"
 #import <stdlib.h>
 
 @implementation EDGameStateStore
@@ -185,6 +186,13 @@
     
     return outputLocationString;
     
+}
+
+- (void) randomizeSuspectsInCity
+{
+    // Exclude murderLocation
+    // Start with the 3suspect location
+    // Then, do the 4 other locations
 }
 
 @end
