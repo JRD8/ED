@@ -27,6 +27,8 @@
     return [self sharedStore];
 }
 
+#pragma mark - Init Methods
+
 - (id)init
 {
     self = [super init];
@@ -34,6 +36,9 @@
     [self createMasterSuspectDirectory];
     
     [self killVictim];
+    [self hideWeapons];
+    
+    NSLog(@"Master Suspect Directory: %@", [masterSuspectDirectory description]);
     
     return self;
 }
@@ -76,9 +81,6 @@
     {
         [masterSuspectDirectory setObject:[[EDSuspect alloc] initWithInitialValues:i+1 name:[suspectNames objectAtIndex:i] occupation:[suspectOccupations objectAtIndex:i] maritalStatus:[suspectMaritalStatuses objectAtIndex:i] privateQuestionList:[suspectPrivateQuestionLists objectAtIndex:i] victim:NO ] forKey:[NSString stringWithFormat:@"suspect%d", i + 1]];
     }
-    
-    NSLog(@"Master Suspect Directory: %@", [masterSuspectDirectory description]);
-    
 }
 
 - (void) killVictim
@@ -86,33 +88,12 @@
     victimNumber = arc4random_uniform(19);
     murderLocation = arc4random_uniform(5);
     murderWeapon = arc4random_uniform(100) % 2;
+
+    EDSuspect *victim = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
     
-    NSString *murderLocationString;
+    NSString *murderLocationString = [self generateLocationString:murderLocation];
+    
     NSString *murderWeaponString;
-    
-    switch (murderLocation)
-    {
-        case 0:
-            murderLocationString = @"A - Art Show";
-            break;
-        case 1:
-            murderLocationString = @"B - Box At Theatre";
-            break;
-        case 2:
-            murderLocationString = @"C - Card Party";
-            break;
-        case 3:
-            murderLocationString = @"D - Docks";
-            break;
-        case 4:
-            murderLocationString = @"E - Embassy";
-            break;
-        case 5:
-            murderLocationString = @"F - Factory";
-            break;
-        default:
-            break;
-    };
     
     switch (murderWeapon) {
         case 0:
@@ -124,8 +105,6 @@
             break;
     }
     
-    EDSuspect *victim = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
-    
     NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], murderLocationString, murderWeaponString);
     
     // Have to change the Boolean variable victim!
@@ -133,5 +112,63 @@
     
 }
 
+- (void) hideWeapons
+{
+    // First, hide the .38
+    do
+    {
+        locationOf38 = arc4random_uniform(5);
+        
+        NSString *locationOf38String = [self generateLocationString:locationOf38];
+        
+        NSLog(@"Hiding the .38 at %@", locationOf38String);
+    }
+    while (locationOf38 == murderLocation);
+    
+    
+    // Then, hide the .45
+    do
+    {
+        locationOf45 = arc4random_uniform(5);
+        
+        NSString *locationOf45String = [self generateLocationString:locationOf45];
+        
+        NSLog(@"Hiding the .45 at %@", locationOf45String);
+    }
+    while (locationOf45 == murderLocation || locationOf45 == locationOf38);
+}
+
+
+- (NSString *)generateLocationString: (int)location
+{
+    NSString *outputLocationString;
+    
+    switch (location)
+    {
+        case 0:
+            outputLocationString = @"A - Art Show";
+            break;
+        case 1:
+            outputLocationString = @"B - Box At Theatre";
+            break;
+        case 2:
+            outputLocationString = @"C - Card Party";
+            break;
+        case 3:
+            outputLocationString = @"D - Docks";
+            break;
+        case 4:
+            outputLocationString = @"E - Embassy";
+            break;
+        case 5:
+            outputLocationString = @"F - Factory";
+            break;
+        default:
+            break;
+    };
+    
+    return outputLocationString;
+    
+}
 
 @end

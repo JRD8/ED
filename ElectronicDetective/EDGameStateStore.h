@@ -21,6 +21,8 @@
     int victimNumber;
     int murderLocation;
     int murderWeapon;
+    int locationOf38;
+    int locationOf45;
     
 }
 
@@ -28,5 +30,8 @@
 
 - (void) createMasterSuspectDirectory;
 - (void) killVictim;
+- (void) hideWeapons;
+
+- (NSString *)generateLocationString: (int)location;
 
 @end
