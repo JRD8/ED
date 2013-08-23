@@ -20,6 +20,8 @@
 
 }
 
++ (EDGameStateStore *) sharedStore;  // Class method
+
 - (void) createMasterSuspectDirectory;
 
 @end

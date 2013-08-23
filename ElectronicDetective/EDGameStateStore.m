@@ -12,6 +12,20 @@
 @implementation EDGameStateStore
 
 
+// Class Methods
++ (EDGameStateStore *) sharedStore
+{
+    static EDGameStateStore *sharedStore = nil;
+    if (!sharedStore)
+        sharedStore = [[super allocWithZone:nil] init];
+    return sharedStore;
+}
+
++ (id) allocWithZone:(NSZone *)zone
+{
+    return [self sharedStore];
+}
+
 - (id)init
 {
     self = [super init];

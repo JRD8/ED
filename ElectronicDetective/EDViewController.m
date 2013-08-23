@@ -18,9 +18,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     
-    EDGameStateStore *gameState = [[EDGameStateStore alloc] init];
+    [EDGameStateStore sharedStore]; // Create a new Store or load a saved Store
+
 }
 
 - (void)didReceiveMemoryWarning
