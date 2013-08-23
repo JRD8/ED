@@ -23,7 +23,7 @@
     [self setSuspectArea:nil];
     [self setSuspectSide:nil];
     [self setSuspectLocation:nil];
-    [self setSuspectPrivateQuestionList:nil];
+    [self setSuspectPrivateQuestionList:sQuestionList];
     [self setVictim:NO];
     
     return self;
@@ -31,7 +31,9 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Suspect Number: %d, Name = %@, Occupation = %@, Marital Status = %@, Private Question List = %@, Victim = %@", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, suspectPrivateQuestionList, victim ? @"YES" : @"NO"];
+    NSString *privateQuestionForDescription = [NSString stringWithFormat:@"Questions: %@, %@, %@, %@ & %@", [suspectPrivateQuestionList objectAtIndex:0], [suspectPrivateQuestionList objectAtIndex:1], [suspectPrivateQuestionList objectAtIndex:2], [suspectPrivateQuestionList objectAtIndex:3], [suspectPrivateQuestionList objectAtIndex:4]];
+    
+    return [NSString stringWithFormat:@"Suspect Number: %d, Name = %@, Occupation = %@, Marital Status = %@, Private Question List = %@, Victim = %@", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, privateQuestionForDescription, victim ? @"YES" : @"NO"];
 }
 
 @end

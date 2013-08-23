@@ -17,6 +17,7 @@
     NSArray *suspectNames;
     NSArray *suspectOccupations;
     NSArray *suspectMaritalStatuses;
+    NSArray *suspectPrivateQuestionLists;
 
 }
 
