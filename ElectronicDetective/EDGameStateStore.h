@@ -18,11 +18,15 @@
     NSArray *suspectOccupations;
     NSArray *suspectMaritalStatuses;
     NSArray *suspectPrivateQuestionLists;
-
+    int victimNumber;
+    int murderLocation;
+    int murderWeapon;
+    
 }
 
 + (EDGameStateStore *) sharedStore;  // Class method
 
 - (void) createMasterSuspectDirectory;
+- (void) killVictim;
 
 @end

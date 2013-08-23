@@ -8,6 +8,7 @@
 
 #import "EDGameStateStore.h"
 #import "EDSuspect.h"
+#import <stdlib.h>
 
 @implementation EDGameStateStore
 
@@ -29,7 +30,10 @@
 - (id)init
 {
     self = [super init];
+    
     [self createMasterSuspectDirectory];
+    
+    [self killVictim];
     
     return self;
 }
@@ -74,6 +78,55 @@
     }
     
     NSLog(@"Master Suspect Directory: %@", [masterSuspectDirectory description]);
+    
+}
+
+- (void) killVictim
+{
+    victimNumber = arc4random_uniform(19);
+    murderLocation = arc4random_uniform(5);
+    murderWeapon = arc4random_uniform(100) % 2;
+    
+    NSString *murderLocationString;
+    NSString *murderWeaponString;
+    
+    switch (murderLocation)
+    {
+        case 0:
+            murderLocationString = @"A - Art Show";
+            break;
+        case 1:
+            murderLocationString = @"B - Box At Theatre";
+            break;
+        case 2:
+            murderLocationString = @"C - Card Party";
+            break;
+        case 3:
+            murderLocationString = @"D - Docks";
+            break;
+        case 4:
+            murderLocationString = @"E - Embassy";
+            break;
+        case 5:
+            murderLocationString = @"F - Factory";
+            break;
+        default:
+            break;
+    };
+    
+    switch (murderWeapon) {
+        case 0:
+            murderWeaponString = @".38";
+            break;
+        case 1:
+            murderWeaponString = @".45";
+        default:
+            break;
+    }
+    
+    EDSuspect *victim = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
+    
+    NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], murderLocationString, murderWeaponString);
     
 }
 
