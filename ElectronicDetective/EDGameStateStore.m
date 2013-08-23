@@ -128,6 +128,9 @@
     
     NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], murderLocationString, murderWeaponString);
     
+    // Have to change the Boolean variable victim!
+    [victim setVictim:YES];
+    
 }
 
 
