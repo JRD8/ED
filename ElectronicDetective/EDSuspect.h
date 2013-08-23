@@ -61,6 +61,8 @@ typedef enum
        privateQuestionList: (NSArray *) sQuestionList
                      victim: (BOOL) sVictim;
 
+- (NSString *)description;
+
 
 
 @end

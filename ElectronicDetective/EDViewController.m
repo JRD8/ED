@@ -7,6 +7,7 @@
 //
 
 #import "EDViewController.h"
+#import "EDGameStateStore.h"
 
 @interface EDViewController ()
 
@@ -18,6 +19,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    EDGameStateStore *gameState = [[EDGameStateStore alloc] init];
 }
 
 - (void)didReceiveMemoryWarning

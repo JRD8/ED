@@ -29,4 +29,9 @@
     return self;
 };
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Suspect Number: %d, Name = %@, Occupation = %@, Marital Status = %@, Private Question List = %@, Victim = %@", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, suspectPrivateQuestionList, victim ? @"YES" : @"NO"];
+}
+
 @end

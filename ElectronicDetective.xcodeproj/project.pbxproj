@@ -19,6 +19,7 @@
 		2731298317C6EC450003CFE5 /* EDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2731298217C6EC450003CFE5 /* EDViewController.m */; };
 		2731298617C6EC450003CFE5 /* EDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2731298417C6EC450003CFE5 /* EDViewController.xib */; };
 		2731299117C6ECDC0003CFE5 /* EDSuspect.m in Sources */ = {isa = PBXBuildFile; fileRef = 2731299017C6ECDC0003CFE5 /* EDSuspect.m */; };
+		27CC7F1717C6F545006DF8C2 /* EDGameStateStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CC7F1617C6F545006DF8C2 /* EDGameStateStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,8 @@
 		2731298517C6EC450003CFE5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/EDViewController.xib; sourceTree = "<group>"; };
 		2731298F17C6ECDC0003CFE5 /* EDSuspect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSuspect.h; sourceTree = "<group>"; };
 		2731299017C6ECDC0003CFE5 /* EDSuspect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSuspect.m; sourceTree = "<group>"; };
+		27CC7F1517C6F545006DF8C2 /* EDGameStateStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDGameStateStore.h; sourceTree = "<group>"; };
+		27CC7F1617C6F545006DF8C2 /* EDGameStateStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDGameStateStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +135,8 @@
 			children = (
 				2731298F17C6ECDC0003CFE5 /* EDSuspect.h */,
 				2731299017C6ECDC0003CFE5 /* EDSuspect.m */,
+				27CC7F1517C6F545006DF8C2 /* EDGameStateStore.h */,
+				27CC7F1617C6F545006DF8C2 /* EDGameStateStore.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -207,6 +212,7 @@
 				2731297A17C6EC450003CFE5 /* EDAppDelegate.m in Sources */,
 				2731298317C6EC450003CFE5 /* EDViewController.m in Sources */,
 				2731299117C6ECDC0003CFE5 /* EDSuspect.m in Sources */,
+				27CC7F1717C6F545006DF8C2 /* EDGameStateStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +337,7 @@
 				2731298B17C6EC450003CFE5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
