@@ -101,9 +101,9 @@
 
 - (void) killVictim
 {
-    victimNumber = arc4random_uniform(19);
-    murderLocation = arc4random_uniform(5);
-    murderWeapon = arc4random_uniform(100) % 2;
+    victimNumber = arc4random_uniform(20);
+    murderLocation = arc4random_uniform(6);
+    murderWeapon = arc4random_uniform(2);
 
     // Flag victim on EDSuspect object
     EDSuspect *victim = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
@@ -133,7 +133,7 @@
 {
     do
     {
-        murdererNumber = arc4random_uniform(19);
+        murdererNumber = arc4random_uniform(20);
     }
     while (murdererNumber == victimNumber);
     
@@ -151,7 +151,7 @@
     // First, hide the .38
     do
     {
-        locationOf38 = arc4random_uniform(5);
+        locationOf38 = arc4random_uniform(6);
         
         NSString *locationOf38String = [self generateLocationString:locationOf38];
         
@@ -167,7 +167,7 @@
     // Then, hide the .45
     do
     {
-        locationOf45 = arc4random_uniform(5);
+        locationOf45 = arc4random_uniform(6);
         
         NSString *locationOf45String = [self generateLocationString:locationOf45];
         
@@ -213,7 +213,7 @@
     
 }
 
-- (void) randomizeSuspectsInCity
+/* - (void) randomizeSuspectsInCity
 {
     NSLog(@"Randomizing suspects in city, excluding the murder location at %@\n\n", [self generateLocationString:murderLocation]);
     
@@ -272,8 +272,6 @@
     [threelocation setThreeSuspectLocation:YES];
     
     NSLog(@"3-Suspect Location = %@\n\n", [threelocation description]);
-
-    /* 
      
     // Initialize helper variables
     int testSuspectNumber;
@@ -432,11 +430,50 @@
             };
     }
     while (numberOfSuccessfulTests < 3);
-        
-     */ 
      
     // Then, do the 4 other locations
         
+} */
+
+- (void) randomizeSuspectsInCity
+{
+    NSLog(@"\nRandomizing suspects in city, excluding the murder location at %@\n\n", [self generateLocationString:murderLocation]);
+    
+    // Define helper variables
+    int targetLocationNumber;
+    EDSuspect *targetSuspect;
+    
+    // Iterate through Suspects in the masterSuspectsDirectory
+    for (int i = 0; i < 20; i++)
+    {
+        // Test if targetSuspect = the victim
+        if (i != victimNumber)
+        {
+            targetSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i + 1]];
+            
+            NSLog(@"A target suspect: %d - %@", [targetSuspect suspectNumber], [targetSuspect suspectName]);
+            
+            // Generate a targetLocationNumber and test if murderLocation
+            do
+            {
+                targetLocationNumber = arc4random_uniform(6);
+                
+                NSLog(@"targetLocation: %@", [self generateLocationString:targetLocationNumber]);
+                
+                // Evaluate what kind of suspect it is (eg oddMale)
+                
+                // If that slot is already filled in the test location, repeat
+                
+                // If not, assign to location and move to next suspect.
+                
+            }
+            while (targetLocationNumber == murderLocation);
+        }
+    }
+    
+    // Evaluate the 3-suspect location
 }
+
+
 
 @end

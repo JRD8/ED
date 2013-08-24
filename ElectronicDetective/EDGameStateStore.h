@@ -37,6 +37,7 @@
 - (void) killVictim;
 - (void) assignMurderer;
 - (void) hideWeapons;
+// - (void) randomizeSuspectsInCity [OBSOLETE];
 - (void) randomizeSuspectsInCity;
 
 - (NSString *)generateLocationString: (int)location;
