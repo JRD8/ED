@@ -21,6 +21,7 @@
     NSArray *suspectOccupations;
     NSArray *suspectMaritalStatuses;
     NSArray *suspectPrivateQuestionLists;
+    NSArray *suspectTypes;
     
     int victimNumber;
     int murdererNumber;

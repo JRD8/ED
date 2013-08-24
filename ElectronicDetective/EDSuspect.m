@@ -10,13 +10,14 @@
 
 @implementation EDSuspect
 
-@synthesize  suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, suspectAlibi, suspectSide, suspectArea, suspectLocation, suspectPrivateQuestionList, victim, murderer;
+@synthesize  suspectNumber, suspectType, suspectName, suspectOccupation, suspectMaritalStatus, suspectAlibi, suspectSide, suspectArea, suspectLocation, suspectPrivateQuestionList, victim, murderer;
 
-- (id)initWithInitialValues:(int)sNumber name:(NSString *)sName occupation:(NSString *)sOccupation maritalStatus:(NSString *)sMaritalStatus privateQuestionList:(NSArray *)sQuestionList
+- (id)initWithInitialValues:(int)sNumber suspectType:(type)sType name:(NSString *)sName occupation:(NSString *)sOccupation maritalStatus:(NSString *)sMaritalStatus privateQuestionList:(NSArray *)sQuestionList
 {
     self = [super init];
     
     [self setSuspectNumber:sNumber];
+    [self setSuspectType:sType];
     [self setSuspectName:sName];
     [self setSuspectOccupation:sOccupation];
     [self setSuspectMaritalStatus:sMaritalStatus];
@@ -34,7 +35,7 @@
 {
     NSString *privateQuestionForDescription = [NSString stringWithFormat:@"Questions: %@, %@, %@, %@ & %@", [suspectPrivateQuestionList objectAtIndex:0], [suspectPrivateQuestionList objectAtIndex:1], [suspectPrivateQuestionList objectAtIndex:2], [suspectPrivateQuestionList objectAtIndex:3], [suspectPrivateQuestionList objectAtIndex:4]];
     
-    return [NSString stringWithFormat:@"Suspect Number: %d, Name = %@, Occupation = %@, Marital Status = %@, Private Question List = %@, Victim = %@, Murderer = %@", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"Suspect Number: %d, Suspect Type = %d, Name = %@, Occupation = %@, Marital Status = %@, Private Question List = %@, Victim = %@, Murderer = %@", suspectNumber, suspectType, suspectName, suspectOccupation, suspectMaritalStatus, privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO"];
 }
 
 @end

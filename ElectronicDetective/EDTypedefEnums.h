@@ -16,7 +16,7 @@ typedef enum
     offFemale = 2,
     evenFemale = 3
     
-} suspectType;
+} type;
 
 typedef enum
 {

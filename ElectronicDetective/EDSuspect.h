@@ -15,6 +15,7 @@
 }
 
 @property (nonatomic) int suspectNumber;
+@property (nonatomic) type suspectType;
 @property (nonatomic) NSString *suspectName;
 @property (nonatomic) NSString *suspectOccupation;
 @property (nonatomic) NSString *suspectMaritalStatus;
@@ -27,6 +28,7 @@
 @property (nonatomic) BOOL murderer;
 
 - (id)initWithInitialValues: (int) sNumber
+                suspectType: (type) sType
                        name: (NSString *) sName
                  occupation: (NSString *) sOccupation
               maritalStatus: (NSString *) sMaritalStatus
