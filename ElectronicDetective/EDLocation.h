@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EDTypedefEnums.h"
 
 @class EDSuspect;
 
@@ -20,9 +21,8 @@
 @property (nonatomic) EDSuspect *oddFemaleSuspect;
 @property (nonatomic) EDSuspect *evenFemaleSuspect;
 
-// FIXME: Have to work on tyedefs
-// @property (nonatomic) wide *locationSide;
-// @property (nonatomic) area *locationArea;
+@property (nonatomic) side *locationSide;
+@property (nonatomic) area *locationArea;
 
 @property (nonatomic) BOOL locationOf38;
 @property (nonatomic) BOOL locationOf45;

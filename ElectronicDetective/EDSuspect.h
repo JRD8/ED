@@ -7,36 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-// Side
-typedef enum
-{
-    east = 0,
-    west = 1
-
-} side;
-
-// Area
-typedef enum
-{
-    uptown = 0,
-    midtown = 1,
-    downtown = 2,
-    
-} area;
-
-// Location
-typedef enum
-{
-    art = 0,
-    ballet = 1,
-    cardParty = 2,
-    docks = 3,
-    embassy = 4,
-    factory = 5,
-    
-} location;
-
+#import "EDTypedefEnums.h"
 
 @interface EDSuspect : NSObject
 {

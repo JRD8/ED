@@ -42,6 +42,7 @@
 		2731298517C6EC450003CFE5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/EDViewController.xib; sourceTree = "<group>"; };
 		2731298F17C6ECDC0003CFE5 /* EDSuspect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSuspect.h; sourceTree = "<group>"; };
 		2731299017C6ECDC0003CFE5 /* EDSuspect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSuspect.m; sourceTree = "<group>"; };
+		2747E7D717C8CFA0009FA574 /* EDTypedefEnums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDTypedefEnums.h; sourceTree = "<group>"; };
 		278B463117C7DC1000426C42 /* EDLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDLocation.h; sourceTree = "<group>"; };
 		278B463217C7DC1000426C42 /* EDLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDLocation.m; sourceTree = "<group>"; };
 		27CC7F1517C6F545006DF8C2 /* EDGameStateStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDGameStateStore.h; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 		2731296F17C6EC450003CFE5 /* ElectronicDetective */ = {
 			isa = PBXGroup;
 			children = (
+				2747E7D717C8CFA0009FA574 /* EDTypedefEnums.h */,
 				2731297817C6EC450003CFE5 /* EDAppDelegate.h */,
 				2731297917C6EC450003CFE5 /* EDAppDelegate.m */,
 				2731298E17C6ECA60003CFE5 /* Model */,
