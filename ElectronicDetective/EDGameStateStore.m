@@ -113,19 +113,7 @@
     EDLocation *murderSite = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]];
     [murderSite setMurderLocation:YES];
     
-    NSString *murderWeaponString;
-    switch (murderWeapon)
-    {
-        case 0:
-            murderWeaponString = @".38";
-            break;
-        case 1:
-            murderWeaponString = @".45";
-        default:
-            break;
-    }
-    
-    NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], [self generateLocationString:murderLocation], murderWeaponString);
+    NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], [self generateLocationString:murderLocation], [self generateWeaponString:murderWeapon]);
     
 }
 
@@ -180,39 +168,7 @@
     [siteOf45 setLocationOf45:YES];
 }
 
-
-- (NSString *)generateLocationString: (int)location
-{
-    NSString *outputLocationString;
-    
-    switch (location)
-    {
-        case 0:
-            outputLocationString = @"A - Art Show";
-            break;
-        case 1:
-            outputLocationString = @"B - Box At Theatre";
-            break;
-        case 2:
-            outputLocationString = @"C - Card Party";
-            break;
-        case 3:
-            outputLocationString = @"D - Docks";
-            break;
-        case 4:
-            outputLocationString = @"E - Embassy";
-            break;
-        case 5:
-            outputLocationString = @"F - Factory";
-            break;
-        default:
-            break;
-    };
-    
-    return outputLocationString;
-    
-}
-
+// TODO: Delete Me
 /* - (void) randomizeSuspectsInCity
 {
     NSLog(@"Randomizing suspects in city, excluding the murder location at %@\n\n", [self generateLocationString:murderLocation]);
@@ -440,7 +396,7 @@
     NSLog(@"\nRandomizing suspects in city, excluding the murder location at %@\n\n", [self generateLocationString:murderLocation]);
     
     // Define helper variables
-    int targetLocationNumber;
+    location targetLocation;
     EDSuspect *targetSuspect;
     
     // Iterate through Suspects in the masterSuspectsDirectory
@@ -453,12 +409,12 @@
             
             NSLog(@"A target suspect: %d - %@", [targetSuspect suspectNumber], [targetSuspect suspectName]);
             
-            // Generate a targetLocationNumber and test if murderLocation
+            // Generate targetLocation and test against murderLocation
             do
             {
-                targetLocationNumber = arc4random_uniform(6);
+                targetLocation = arc4random_uniform(6);
                 
-                NSLog(@"targetLocation: %@", [self generateLocationString:targetLocationNumber]);
+                NSLog(@"targetLocation: %@", [self generateLocationString:targetLocation]);
                 
                 // Evaluate what kind of suspect it is (eg oddMale)
                 
@@ -467,13 +423,62 @@
                 // If not, assign to location and move to next suspect.
                 
             }
-            while (targetLocationNumber == murderLocation);
+            while (targetLocation == murderLocation);
         }
     }
     
     // Evaluate the 3-suspect location
 }
 
+- (NSString *)generateLocationString: (location)location
+{
+    NSString *outputLocationString;
+    
+    switch (location)
+    {
+        case 0:
+            outputLocationString = @"A - Art Show";
+            break;
+        case 1:
+            outputLocationString = @"B - Box At Theatre";
+            break;
+        case 2:
+            outputLocationString = @"C - Card Party";
+            break;
+        case 3:
+            outputLocationString = @"D - Docks";
+            break;
+        case 4:
+            outputLocationString = @"E - Embassy";
+            break;
+        case 5:
+            outputLocationString = @"F - Factory";
+            break;
+        default:
+            break;
+    };
+    
+    return outputLocationString;
+    
+}
 
+
+- (NSString *)generateWeaponString: (weapon)weapon
+{
+    NSString *outputWeaponString;
+    
+    switch (weapon)
+    {
+        case 0:
+            outputWeaponString = @".38";
+            break;
+        case 1:
+            outputWeaponString = @".45";
+        default:
+            break;
+    }
+    
+    return outputWeaponString;
+}
 
 @end

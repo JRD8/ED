@@ -24,10 +24,12 @@
     
     int victimNumber;
     int murdererNumber;
-    int murderLocation;
-    int murderWeapon;
-    int locationOf38;
-    int locationOf45;
+    
+    weapon murderWeapon;
+
+    location murderLocation;
+    location locationOf38;
+    location locationOf45;
     
 }
 
@@ -38,9 +40,10 @@
 - (void) killVictim;
 - (void) assignMurderer;
 - (void) hideWeapons;
-// - (void) randomizeSuspectsInCity [OBSOLETE];
 - (void) randomizeSuspectsInCity;
 
-- (NSString *)generateLocationString: (int)location;
+- (NSString *)generateLocationString: (location)location;
+- (NSString *)generateWeaponString: (weapon)weapon;
+
 
 @end

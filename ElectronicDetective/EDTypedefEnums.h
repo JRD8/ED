@@ -44,4 +44,11 @@ typedef enum
     
 } location;
 
+typedef enum
+{
+    handgun38 = 0,
+    handgun45 = 1,
+    
+} weapon;
+
 #endif
