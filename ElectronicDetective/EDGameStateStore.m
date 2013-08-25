@@ -401,36 +401,44 @@
     // Define helper variables
     location targetLocation;
     EDSuspect *targetSuspect;
+    type targetType;
     
-    // Iterate through Suspects in the masterSuspectsDirectory
+    // *A* Iterate through Suspects in the masterSuspectsDirectory
     for (int i = 0; i < 20; i++)
     {
         // Test if targetSuspect = the victim
-        if (i != victimNumber)
+        if (i != victimNumber) // targetSuspect is NOT the victim & proceed
         {
             targetSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i + 1]];
             
             NSLog(@"A target suspect: %d - %@", [targetSuspect suspectNumber], [targetSuspect suspectName]);
             
-            // Generate targetLocation and test against murderLocation
-            do
-            {
-                targetLocation = arc4random_uniform(6);
-                
-                NSLog(@"targetLocation: %@", [self generateLocationString:targetLocation]);
-                
-                // Evaluate what kind of suspect it is (eg oddMale)
-                
-                // If that slot is already filled in the test location, repeat
-                
-                // If not, assign to location and move to next suspect.
-                
-            }
-            while (targetLocation == murderLocation);
+            // *B* 
+            targetLocation = arc4random_uniform(6);
+            NSLog(@"targetLocation: %@", [self generateLocationString:targetLocation]);
+            
+            // Test targetLocation
+            
+            // If targetLocation == murderLocation, return to *B*
+            // If targetLocation != murderLocation, then proceed...
+            
+            // Evaluate the targetSuspect's targetType
+            targetType = [targetSuspect suspectType];
+            NSLog(@"targetType = %d", targetType);
+            
+            // Test if that suspectType is available to be filled at targetLocation
+            
+            // If no, goto *B*
+            // If yes, then assign suspect to targetLocation & goto *A*
+            
+        }
+        else if (i == victimNumber) // targetSuspect IS the victim
+        {
+            // Return to *A*
         }
     }
     
-    // Evaluate the 3-suspect location
+    // Determine and flag the 3-suspect location
 }
 
 - (NSString *)generateLocationString: (location)location
