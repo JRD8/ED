@@ -20,12 +20,15 @@
 @property (nonatomic) NSString *suspectOccupation;
 @property (nonatomic) NSString *suspectMaritalStatus;
 @property (nonatomic) NSString *suspectAlibi;
-@property (nonatomic) area *suspectArea;
-@property (nonatomic) side *suspectSide;
-@property (nonatomic) location *suspectLocation;
 @property (nonatomic) NSArray *suspectPrivateQuestionList;
+
+@property (nonatomic) location suspectLocation;
+@property (nonatomic) side suspectSide;
+@property (nonatomic) area suspectArea;
+
 @property (nonatomic) BOOL victim;
 @property (nonatomic) BOOL murderer;
+@property (nonatomic) BOOL assignedYet;
 
 - (id)initWithInitialValues: (int) sNumber
                 suspectType: (type) sType

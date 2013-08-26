@@ -10,7 +10,7 @@
 
 @implementation EDLocation
 
-@synthesize locationName, locationNumber, oddMaleSuspect, oddFemaleSuspect, evenMaleSuspect, evenFemaleSuspect, locationOf38, locationOf45, threeSuspectLocation, murderLocation; // locationSide, locationArea,
+@synthesize locationName, locationNumber, oddMaleSuspect, oddFemaleSuspect, evenMaleSuspect, evenFemaleSuspect, locationOf38, locationOf45, threeSuspectLocation, murderLocation, locationSide, locationArea, assignedSuspects;
 
 - (id) initWithInitialValues: (int) lnumber
                         name: (NSString *) lname

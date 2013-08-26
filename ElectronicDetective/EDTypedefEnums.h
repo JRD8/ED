@@ -13,7 +13,7 @@ typedef enum
 {
     oddMale = 0,
     evenMale = 1,
-    offFemale = 2,
+    oddFemale = 2,
     evenFemale = 3
     
 } type;
@@ -40,7 +40,9 @@ typedef enum
     cardParty = 2,
     docks = 3,
     embassy = 4,
-    factory = 5
+    factory = 5,
+    
+    morgue = 6 // Equivalent to out of the game for the victim
     
 } location;
 

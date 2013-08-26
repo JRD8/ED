@@ -394,7 +394,7 @@
         
 } */
 
-- (void) randomizeSuspectsInCity
+/*- (void) randomizeSuspectsInCity
 {
     NSLog(@"\nRandomizing suspects in city, excluding the murder location at %@\n\n", [self generateLocationString:murderLocation]);
     
@@ -439,7 +439,64 @@
     }
     
     // Determine and flag the 3-suspect location
+}*/
+
+- (void) randomizeSuspectsInCity
+{
+    // Assign the Victim to the morgue
+    EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
+    [temp setSuspectLocation:6]; // Assign to the morgue
+    [temp setAssignedYet:YES];
+    
+    NSLog(@"Assigned victim to the morgue: %@\n", [temp description]);
+    
+    // Initialize helper variables/objects
+    EDSuspect *candidateSuspect = nil;
+    type candidateType;
+    int candidateSuspectNumber;
+    BOOL candidateAssigned = NO;
+    
+    // Iterate 19x representing the remaining 19 suspects
+    for (int i = 0; i < 19; i++)
+    {
+        
+        do
+        {
+            // Select a random number between 0 - 19
+            candidateSuspectNumber = arc4random_uniform(20);
+            
+            // Test if candidate suspect has been assigned yet
+            candidateSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", candidateSuspectNumber + 1]];
+            candidateAssigned = [candidateSuspect assignedYet];
+        }
+        while (candidateAssigned == YES); // If candidateAssigned == YES, then repeat do/while
+        
+        // If candidateAssigned == NO, proceed...
+        
+        // Evaluate candidateType
+        if (candidateSuspectNumber < 10 && ((candidateSuspectNumber + 1) % 2 != 0))
+            {
+                candidateType = 0; // OddMale
+            }
+        else if (candidateSuspectNumber < 10 && ((candidateSuspectNumber + 1) % 2 == 0))
+        {
+            candidateType = 1; // EvenMale
+        }
+        else if (candidateSuspectNumber >= 10 && ((candidateSuspectNumber + 1) % 2 != 0))
+        {
+            candidateType = 2; // OddFemale
+        }
+        else if (candidateSuspectNumber >= 10 && ((candidateSuspectNumber + 1) % 2 == 0))
+        {
+            candidateType = 3; // EvenFemale
+        }
+        
+        NSLog(@"Loop = %d, Candidate Suspect = %d - %@, Candidate Type = %d", i + 1, [candidateSuspect suspectNumber], [candidateSuspect suspectName], candidateType);
+        [candidateSuspect setAssignedYet:YES];
+    }
+    
 }
+
 
 - (NSString *)generateLocationString: (location)location
 {
