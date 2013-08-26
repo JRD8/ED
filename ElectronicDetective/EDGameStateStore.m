@@ -456,6 +456,10 @@
     int candidateSuspectNumber;
     BOOL candidateAssigned = NO;
     
+    location targetLocationNumber;
+    EDLocation *targetLocation;
+    BOOL successfulAssignment = NO;
+    
     // Iterate 19x representing the remaining 19 suspects
     for (int i = 0; i < 19; i++)
     {
@@ -491,8 +495,29 @@
             candidateType = 3; // EvenFemale
         }
         
-        NSLog(@"Loop = %d, Candidate Suspect = %d - %@, Candidate Type = %d", i + 1, [candidateSuspect suspectNumber], [candidateSuspect suspectName], candidateType);
-        [candidateSuspect setAssignedYet:YES];
+        // Select random targetLocation
+        do
+        {
+            targetLocationNumber = arc4random_uniform(6);
+            
+            targetLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", targetLocationNumber]];
+            
+            if ([[targetLocation assignedSuspects] count] == 0) // No assignedSuspects yet
+            {
+                // Assign Suspect...
+                [[targetLocation assignedSuspects] addObject:candidateSuspect]; // Add to EDLocation assignedSuspects NSArray
+                [candidateSuspect setAssignedYet:YES]; // Flag on the EDSuspect candidateSuspect object
+                successfulAssignment = YES; // Change the successfulAssignment flag to YES
+            }
+            else if ([[targetLocation assignedSuspects] count] > 0) // Some assignedSuspects already
+            {
+                // TODO: Evaluate if targetLocation has room for this candidateType
+
+            }
+        }
+        while (successfulAssignment == NO);
+        
+        NSLog(@"Loop = %d, Candidate Suspect = %d - %@, Candidate Type = %d, Assigned Location = %d", i + 1, [candidateSuspect suspectNumber], [candidateSuspect suspectName], candidateType, targetLocationNumber);
     }
     
 }
