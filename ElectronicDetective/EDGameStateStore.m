@@ -41,6 +41,7 @@
     [self assignMurderer];
     [self hideWeapons];
     [self randomizeSuspectsInCity];
+    [self identify3SuspectLocation];
     
     NSLog(@"Master Suspect Directory: %@", [masterSuspectDirectory description]);
     NSLog(@"Master Location Directory: %@", [masterLocationDirectory description]);
@@ -545,6 +546,19 @@
     
 }
 
+- (void) identify3SuspectLocation
+{
+    for (int i = 1; i < 6; i++)
+    {
+        EDLocation *testLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", i]];
+        
+        if ([[testLocation assignedSuspects] count] == 3)
+        {
+            NSLog(@"Found 3-Suspect Location at %@", [testLocation locationName]);
+            [testLocation setThreeSuspectLocation:YES];
+        }
+    }
+}
 
 - (NSString *)generateLocationString: (location)location
 {
