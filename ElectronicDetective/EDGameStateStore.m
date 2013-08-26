@@ -511,7 +511,30 @@
             }
             else if ([[targetLocation assignedSuspects] count] > 0) // Some assignedSuspects already
             {
-                // TODO: Evaluate if targetLocation has room for this candidateType
+                // Determine how many existing assignedSuspects at targetLocation
+                int numberOfSuspectsAtTargetLocation = [[targetLocation assignedSuspects] count];
+                
+                EDSuspect *testSuspect;
+                type testSuspectType;
+                BOOL assignHere = NO;
+                
+                // Iterate through the number of assignedSuspects at targetLocation and test their suspectType vs. candidateType
+                for (int j = 0; j < numberOfSuspectsAtTargetLocation; j++)
+                {
+                    testSuspect = [[targetLocation assignedSuspects] objectAtIndex:j];
+                    testSuspectType = [testSuspect suspectType];
+                    
+                    // TODO: Fix this loop and finish routine
+                    if (testSuspectType == candidateType)
+                    {
+                        assignHere = NO;
+                    }
+                    else if (testSuspectType != candidateType)
+                    {
+                        assignHere = YES;
+                    }
+                    
+                }
 
             }
         }
