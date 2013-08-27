@@ -30,5 +30,7 @@
                         name: (NSString *) lname;
 
 - (NSString *)description;
+- (NSString *)generateLocationAddressString: (side)side
+                               locationArea: (area)area;
 
 @end

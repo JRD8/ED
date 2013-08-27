@@ -38,6 +38,8 @@
        privateQuestionList: (NSArray *) sQuestionList;
 
 - (NSString *)description;
+- (NSString *)generateTypeString: (type) type;
+- (NSString *)generateLocationString: (location)location;
 
 
 

@@ -36,7 +36,61 @@
 {
     NSString *privateQuestionForDescription = [NSString stringWithFormat:@"Questions: %@, %@, %@, %@ & %@", [suspectPrivateQuestionList objectAtIndex:0], [suspectPrivateQuestionList objectAtIndex:1], [suspectPrivateQuestionList objectAtIndex:2], [suspectPrivateQuestionList objectAtIndex:3], [suspectPrivateQuestionList objectAtIndex:4]];
     
-    return [NSString stringWithFormat:@"Suspect #%d, Name = %@, Occupation = %@, Marital Status = %@, Location = %d, Private Question List = %@, Victim = %@, Murderer = %@, Assigned Yet = %@, Type = %d\r", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, suspectLocation, privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", suspectType];
+    return [NSString stringWithFormat:@"Suspect #%d, Name = %@, Occupation = %@, Marital Status = %@, Location = %d, Private Question List = %@, Victim = %@, Murderer = %@, Assigned Yet = %@, Type = %@\r", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, suspectLocation, privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", [self generateTypeString:suspectType]];
+}
+
+- (NSString *)generateTypeString: (type) type
+{
+    NSString *suspectTypeString;
+    
+    switch (type)
+    {
+        case 0:
+            suspectTypeString = @"0: Odd Male";
+            break;
+        case 1:
+            suspectTypeString = @"1: Even Male";
+            break;
+        case 2:
+            suspectTypeString = @"2: Odd Female";
+            break;
+        case 3:
+            suspectTypeString = @"3: Even Female";
+            break;
+        default:
+            break;
+    }
+    
+    return suspectTypeString;
+}
+
+- (NSString *)generateLocationString: (location)location
+{
+    NSString *outputLocationString;
+    
+    switch (location)
+    {
+        case 0:
+            outputLocationString = @"Art Show";
+            break;
+        case 1:
+            outputLocationString = @"Box At Theatre";
+            break;
+        case 2:
+            outputLocationString = @"Card Party";
+            break;
+        case 3:
+            outputLocationString = @"Docks";
+            break;
+        case 4:
+            outputLocationString = @"Embassy";
+            break;
+        case 5:
+            outputLocationString = @"Factory";
+            break;
+        default:
+            break;
+    };
 }
 
 @end

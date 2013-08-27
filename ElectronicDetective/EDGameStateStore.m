@@ -309,6 +309,7 @@
 {
     BOOL locationAssigned;
     
+    // Iterate through all locations and assign Side/Area values
     for (int i = 0; i < 6; i++)
     {
         locationAssigned = NO;
@@ -320,14 +321,17 @@
             side candidateSide = arc4random_uniform(2);
             area candidateArea = arc4random_uniform(3);
             
-            if (i == 0)
+            if (i == 0) // For the first location
             {
                 [candidate setLocationSide:candidateSide];
                 [candidate setLocationArea:candidateArea];
                 locationAssigned = YES;
             }
-            else if (i > 0)
+            else if (i > 0) // For all subsequent locations
             {
+                locationAssigned = YES;
+                
+                // Iterate through prior locations and see test if Side/Area's match
                 for (int j = 0; j < i; j++)
                 {
                     EDLocation *test = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", j]];
@@ -335,17 +339,21 @@
                     side testSide = [test locationSide];
                     area testArea = [test locationArea];
                     
-                    if ((testSide != candidateSide) && (testArea != candidateArea))
+                    if ((testSide == candidateSide) && (testArea == candidateArea))
                     {
-                        [candidate setLocationSide:candidateSide];
-                        [candidate setLocationArea:candidateArea];
-                        locationAssigned = YES;
+                        locationAssigned = NO; // If there is a match, do NOT assign location
                     }
+                }
+                
+                if (locationAssigned == YES) // If there is no match after testing, assign location
+                {
+                    [candidate setLocationSide:candidateSide];
+                    [candidate setLocationArea:candidateArea];
                 }
             }
         }
         while
-        (locationAssigned == NO);
+        (locationAssigned == NO); // If there had been a match, then repeat look to choose new Side/Area values
     }
 }
 
@@ -359,22 +367,22 @@
     switch (location)
     {
         case 0:
-            outputLocationString = @"A - Art Show";
+            outputLocationString = @"Art Show";
             break;
         case 1:
-            outputLocationString = @"B - Box At Theatre";
+            outputLocationString = @"Box At Theatre";
             break;
         case 2:
-            outputLocationString = @"C - Card Party";
+            outputLocationString = @"Card Party";
             break;
         case 3:
-            outputLocationString = @"D - Docks";
+            outputLocationString = @"Docks";
             break;
         case 4:
-            outputLocationString = @"E - Embassy";
+            outputLocationString = @"Embassy";
             break;
         case 5:
-            outputLocationString = @"F - Factory";
+            outputLocationString = @"Factory";
             break;
         default:
             break;
@@ -423,7 +431,7 @@
         for (int j = 0; j < [[temp assignedSuspects] count]; j++)
         {
             EDSuspect *temp2 = [[temp assignedSuspects] objectAtIndex:j];
-            NSLog(@"Suspect #%d - %@, Type = %d", ([temp2 suspectNumber] + 1), [temp2 suspectName], [temp2 suspectType]);
+            NSLog(@"Suspect #%d - %@, Type = %@", ([temp2 suspectNumber] + 1), [temp2 suspectName], [temp2 generateTypeString:[temp2 suspectType]]);
         }
     }
 }
