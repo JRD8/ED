@@ -25,6 +25,7 @@
 @property (nonatomic) location suspectLocation;
 @property (nonatomic) side suspectSide;
 @property (nonatomic) area suspectArea;
+@property (nonatomic) alibiType assignedAlibiType;
 
 @property (nonatomic) BOOL victim;
 @property (nonatomic) BOOL murderer;

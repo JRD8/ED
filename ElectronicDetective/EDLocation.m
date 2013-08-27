@@ -29,7 +29,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@, Address = %@, Murder Location = %@, Location Of .38 = %@, Location Of .45 = %@, 3-Suspect Location = %@",locationName, [self generateLocationAddressString:locationSide locationArea:locationArea], murderLocation ? @"YES" : @"NO", locationOf38 ? @"YES" : @"NO", locationOf45 ? @"YES" : @"NO", threeSuspectLocation ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"%@, Address: %@, Murder Location: %@, Location Of .38: %@, Location Of .45: %@, 3-Suspect Location: %@",locationName, [self generateLocationAddressString:locationSide locationArea:locationArea], murderLocation ? @"YES" : @"NO", locationOf38 ? @"YES" : @"NO", locationOf45 ? @"YES" : @"NO", threeSuspectLocation ? @"YES" : @"NO"];
 };
 
 - (NSString *)generateLocationAddressString: (side)side

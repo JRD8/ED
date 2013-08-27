@@ -357,6 +357,20 @@
     }
 }
 
+- (void) assignAlibiTypesToSuspects
+{
+    // Start with the 3-Suspect location & randomly assign either 12,8,7 or 12,8,6 values to suspects
+    
+    // Then, randomly select a 2nd unassigned location and randomly assign 1,1,5,4 values to suspects
+    
+    // Then, randomly select a 3rd unassigned location and randomly assign 5,11,2,6 values to suspects
+    
+    // Then, randomize final combo - choose 2 of the following groups: (4,8,10,11), (1,1,6,9) & (2,10,1,3) - to remaining unassigned locations
+    
+    // Lastly, randomly assign values from combo selection to suspects
+    
+}
+
 
 #pragma mark - Helper Methods
 

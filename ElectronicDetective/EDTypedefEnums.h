@@ -53,4 +53,23 @@ typedef enum
     
 } weapon;
 
+typedef enum
+{
+    unassigned = 0,
+    withSuspectAndSuspect = 1,
+    areaOnly = 2,
+    sideOnly = 3,
+    sideArea = 4,
+    atLocation = 5,
+    areaWithSuspect = 6,
+    sideWithSuspect = 7,
+    areaAtLocation = 8,
+    sideAtLocation = 9,
+    atLocationWithSuspect = 10,
+    sideWithSuspectAndSuspect = 11,
+    SideAreaWithSuspect = 12,
+
+} alibiType;
+
+
 #endif

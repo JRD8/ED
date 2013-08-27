@@ -45,6 +45,7 @@
 - (void) randomizeSuspectsInCity;
 - (void) identify3SuspectLocation;
 - (void) assignSideAreaToLocation;
+- (void) assignAlibiTypesToSuspects;
 
 // Helper Methods
 - (NSString *)generateLocationString: (location)location;
