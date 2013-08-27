@@ -46,6 +46,7 @@
 
 - (NSString *)generateLocationString: (location)location;
 - (NSString *)generateWeaponString: (weapon)weapon;
+- (void) printLocationAssignedSuspects;
 
 
 @end

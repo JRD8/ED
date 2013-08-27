@@ -46,6 +46,8 @@
     NSLog(@"Master Suspect Directory: %@", [masterSuspectDirectory description]);
     NSLog(@"Master Location Directory: %@", [masterLocationDirectory description]);
     
+    [self printLocationAssignedSuspects];
+    
     return self;
 }
 
@@ -508,7 +510,9 @@
                 // Assign Suspect...
                 [[targetLocation assignedSuspects] addObject:candidateSuspect]; // Add to EDLocation assignedSuspects NSArray
                 [candidateSuspect setAssignedYet:YES]; // Flag on the EDSuspect candidateSuspect object
+                NSLog(@"Target Location/Assigned Suspects: %@", [[targetLocation assignedSuspects] description]);
                 successfulAssignment = YES; // Change the successfulAssignment flag to YES
+                
             }
             else if ([[targetLocation assignedSuspects] count] > 0) // Some assignedSuspects already
             {
@@ -517,7 +521,7 @@
                 
                 EDSuspect *testSuspect;
                 type testSuspectType;
-                BOOL assignHere = NO;
+                BOOL assignHere = YES; // Defaults as YES prior to testing
                 
                 // Iterate through the number of assignedSuspects at targetLocation and test their suspectType vs. candidateType
                 for (int j = 0; j < numberOfSuspectsAtTargetLocation; j++)
@@ -525,30 +529,33 @@
                     testSuspect = [[targetLocation assignedSuspects] objectAtIndex:j];
                     testSuspectType = [testSuspect suspectType];
                     
-                    // TODO: Fix this loop and finish routine
+                    // If any testSuspectTypes == candidateType, then change assignHere to NO
                     if (testSuspectType == candidateType)
                     {
                         assignHere = NO;
                     }
-                    else if (testSuspectType != candidateType)
-                    {
-                        assignHere = YES;
-                    }
-                    
                 }
-
+                
+                if (assignHere == YES) // If still YES after checking all the assignedSuspects at targetLocation, then assign!
+                {
+                    // Assign Suspect...
+                    [[targetLocation assignedSuspects] addObject:candidateSuspect]; // Add to EDLocation assignedSuspects NSArray
+                    [candidateSuspect setAssignedYet:YES]; // Flag on the EDSuspect candidateSuspect object
+                    NSLog(@"Target Location/Assigned Suspects: %@", [[targetLocation assignedSuspects] description]);
+                    successfulAssignment = YES; // Change the successfulAssignment flag to YES
+                }
             }
         }
         while (successfulAssignment == NO);
         
-        NSLog(@"Loop = %d, Candidate Suspect = %d - %@, Candidate Type = %d, Assigned Location = %d", i + 1, [candidateSuspect suspectNumber], [candidateSuspect suspectName], candidateType, targetLocationNumber);
+       // NSLog(@"Assigned %d - %@ successfully to %@", [candidateSuspect suspectNumber], [candidateSuspect suspectName], [targetLocation locationName]);
     }
     
 }
 
 - (void) identify3SuspectLocation
 {
-    for (int i = 1; i < 6; i++)
+    for (int i = 0; i < 6; i++)
     {
         EDLocation *testLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", i]];
         
@@ -609,6 +616,24 @@
     }
     
     return outputWeaponString;
+}
+
+- (void) printLocationAssignedSuspects
+{
+    NSLog(@"Printing Locations and Assigned Suspects:");
+    
+    for (int i = 0; i < 6; i++)
+    {
+        EDLocation *temp = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", i]];
+        
+        NSLog(@"LOCATION #%d - %@", i, [temp locationName]);
+        
+        for (int j = 0; j < [[temp assignedSuspects] count]; j++)
+        {
+            EDSuspect *temp2 = [[temp assignedSuspects] objectAtIndex:j];
+            NSLog(@"Suspect #%d - %@, Type = %d", ([temp2 suspectNumber] + 1), [temp2 suspectName], [temp2 suspectType]);
+        }
+    }
 }
 
 @end
