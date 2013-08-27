@@ -41,12 +41,15 @@
     [self assignMurderer];
     [self hideWeapons];
     [self randomizeSuspectsInCity];
-    [self identify3SuspectLocation];
-    
-    NSLog(@"Master Suspect Directory: %@", [masterSuspectDirectory description]);
-    NSLog(@"Master Location Directory: %@", [masterLocationDirectory description]);
     
     [self printLocationAssignedSuspects];
+    
+    [self identify3SuspectLocation];
+    
+    NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
+    NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
+    
+    
     
     return self;
 }
@@ -174,275 +177,6 @@
     [siteOf45 setLocationOf45:YES];
 }
 
-// TODO: Delete Me
-/* - (void) randomizeSuspectsInCity
-{
-    NSLog(@"Randomizing suspects in city, excluding the murder location at %@\n\n", [self generateLocationString:murderLocation]);
-    
-    NSMutableArray *oddMalesForUse = [[NSMutableArray alloc] init];
-    NSMutableArray *evenMalesForUse = [[NSMutableArray alloc] init];
-    NSMutableArray *oddFemalesForUse = [[NSMutableArray alloc] init];
-    NSMutableArray *evenFemalesForUse = [[NSMutableArray alloc] init];
-
-    // Males
-    for (int i = 0; i < 10; i = i + 2)
-    {
-        [oddMalesForUse addObject:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i + 1]]];
-        [evenMalesForUse addObject:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i + 2]]];
-    }
-    // Females
-    for (int i = 10; i < 20; i = i + 2)
-    {
-        [oddFemalesForUse addObject:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i + 1]]];
-        [evenFemalesForUse addObject:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i + 2]]];
-    }
-    
-    // Remove the victim (NB: victimNumber starts at 0 index)
-    if ((victimNumber % 2 == 0) && (victimNumber < 10)) // Odd Male
-    {
-        NSLog(@"Remove ODD MALE");
-    }
-    else if ((victimNumber % 2 != 0) && (victimNumber < 10)) // Even Male
-    {
-        NSLog(@"Remove EVEN MALE");
-    }
-    else if ((victimNumber % 2 == 0) && (victimNumber >= 10)) // Odd Female
-    {
-        NSLog(@"Remove ODD FEMALE");
-    }
-    else if ((victimNumber % 2 != 0) && (victimNumber >= 10)) // Even Female
-    {
-        NSLog(@"Remove EVEN FEMALE");
-    }
-
-    
-    NSLog(@"Odd Males: %@", oddMalesForUse);
-    NSLog(@"Even Males: %@", evenMalesForUse);
-    NSLog(@"Odd Females: %@", oddFemalesForUse);
-    NSLog(@"Even Females: %@", evenFemalesForUse);
-    
-    // Start with the 3-Suspect location, exclude murderLocation or location of any weapons
-    int tempLocation;
-    do
-    {
-        tempLocation = arc4random_uniform(5);
-    }
-    while (tempLocation == murderLocation || tempLocation == locationOf38 || tempLocation == locationOf45);
-    
-    // Flag threeSuspectLocation on EDLocation object
-    EDLocation *threelocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocation]];
-    [threelocation setThreeSuspectLocation:YES];
-    
-    NSLog(@"3-Suspect Location = %@\n\n", [threelocation description]);
-     
-    // Initialize helper variables
-    int testSuspectNumber;
-    int numberOfSuccessfulTests = 0;
-    
-    // Create an NSMutableArray of AllocatedSuspectNumbers
-    NSMutableArray *allocatedSuspects = [[NSMutableArray alloc] init];
-    
-    do 
-    {
-            // Generate a random Suspect Number
-            testSuspectNumber = arc4random_uniform(20);
-            
-            // Test if testSuspect equals the victim?
-            if (testSuspectNumber != victimNumber)
-            {
-                NSLog(@"TestSuspect !=  Victim");
-                
-                // Test if already an AllocatedSuspect
-                int i = [allocatedSuspects count];
-                            
-                if (i == 0)
-                {
-                    // First, Allocated Suspects array
-                    [allocatedSuspects addObject:[NSNumber numberWithInt:testSuspectNumber]];
-                    
-                    // Then, Determine Gender...
-                    BOOL male;
-                    if (testSuspectNumber <=10)
-                    {
-                        male = YES;
-                        NSLog(@"TestSuspect is Male");
-                    }
-                    else if (testSuspectNumber > 10 && testSuspectNumber <= 20)
-                    {
-                        male = NO;
-                        NSLog(@"TestSuspect is Female");
-                    }
-                    
-                    // Then, Determine Odd/Even
-                    BOOL odd;
-                    if (testSuspectNumber % 2 != 0)
-                    {
-                        odd = YES;
-                        NSLog(@"TestSuspect is Odd");
-                    }
-                    else if (testSuspectNumber % 2 == 0)
-                    {
-                        odd = NO;
-                        NSLog(@"TestSuspect is Even");
-                    }
-                    
-                    // Then, add to EDLocation object with correct variable flagged
-                    
-                    if (male == YES && odd == YES) // Odd Male
-                    {
-                        [[masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocation]] setOddMaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
-                        NSLog(@"Success!!");
-                    }
-                    else if (male == YES && odd == NO) // Even Male
-                    {
-                        [[masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocation]] setEvenMaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
-                         NSLog(@"Success!!");
-                    }
-                    else if (male == NO && odd == YES) // Odd Female
-                    {
-                        [[masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocation]] setOddFemaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
-                         NSLog(@"Success!!");
-                    }
-                    else if (male == NO && odd == NO) // Even Female
-                    {
-                        [[masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocation]] setEvenFemaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
-                         NSLog(@"Success!!");
-                    }
-                    
-                    // Finally, increment numberOfSuccessfulTests by 1
-                    numberOfSuccessfulTests ++;
-                }
-                else
-                {
-                    for (int j = 0; j < i; j++)
-                    {
-                        NSNumber *allocatedSuspectNumber = [allocatedSuspects objectAtIndex:j];
-                        
-                        // Test if already allocated...
-                        if (testSuspectNumber != [allocatedSuspectNumber intValue])
-                        {
-                            NSLog(@"TestSuspect != Allocated Suspect Number");
-                            
-                            // First, Allocated Suspects array
-                            [allocatedSuspects addObject:[NSNumber numberWithInt:testSuspectNumber]];
-                            
-                            // Then, Determine Gender...
-                            BOOL male;
-                            if (testSuspectNumber <=10)
-                            {
-                                male = YES;
-                                NSLog(@"TestSuspect is Male");
-                            }
-                            else if (testSuspectNumber > 10 && testSuspectNumber <= 20)
-                            {
-                                male = NO;
-                                NSLog(@"TestSuspect is Female");
-                            }
-                            
-                            // Then, Determine Odd/Even
-                            BOOL odd;
-                            if (testSuspectNumber % 2 != 0)
-                            {
-                                odd = YES;
-                                NSLog(@"TestSuspect is Odd");
-                            }
-                            else if (testSuspectNumber % 2 == 0)
-                            {
-                                odd = NO;
-                                NSLog(@"TestSuspect is Even");
-                            }
-                            
-                            // Then, add to EDLocation object with correct variable flagged
-                            
-                            if (male == YES && odd == YES) // Odd Male
-                            {
-                                [[masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocation]] setOddMaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
-                                NSLog(@"Success!!");
-                            }
-                            else if (male == YES && odd == NO) // Even Male
-                            {
-                                [[masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocation]] setEvenMaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
-                                NSLog(@"Success!!");
-                            }
-                            else if (male == NO && odd == YES) // Odd Female
-                            {
-                                [[masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocation]] setOddFemaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
-                                NSLog(@"Success!!");
-                            }
-                            else if (male == NO && odd == NO) // Even Female
-                            {
-                                [[masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocation]] setEvenFemaleSuspect:[masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", testSuspectNumber]]];
-                                NSLog(@"Success!!");
-                            }
-                            
-                            // Finally, increment numberOfSuccessfulTests by 1
-                            numberOfSuccessfulTests ++;
-                            
-                        }
-                        else
-                        {
-                            NSLog(@"TestSuspect = Allocated Suspect Number");
-                        };
-                    }
-                }
-            }
-            else if (testSuspectNumber == victimNumber)
-            {
-                NSLog(@"TestSuspect =  Victim");
-            };
-    }
-    while (numberOfSuccessfulTests < 3);
-     
-    // Then, do the 4 other locations
-        
-} */
-
-/*- (void) randomizeSuspectsInCity
-{
-    NSLog(@"\nRandomizing suspects in city, excluding the murder location at %@\n\n", [self generateLocationString:murderLocation]);
-    
-    // Define helper variables
-    location targetLocation;
-    EDSuspect *targetSuspect;
-    type targetType;
-    
-    // *A* Iterate through Suspects in the masterSuspectsDirectory
-    for (int i = 0; i < 20; i++)
-    {
-        // Test if targetSuspect = the victim
-        if (i != victimNumber) // targetSuspect is NOT the victim & proceed
-        {
-            targetSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i + 1]];
-            
-            NSLog(@"A target suspect: %d - %@", [targetSuspect suspectNumber], [targetSuspect suspectName]);
-            
-            // *B* 
-            targetLocation = arc4random_uniform(6);
-            NSLog(@"targetLocation: %@", [self generateLocationString:targetLocation]);
-            
-            // Test targetLocation
-            
-            // If targetLocation == murderLocation, return to *B*
-            // If targetLocation != murderLocation, then proceed...
-            
-            // Evaluate the targetSuspect's targetType
-            targetType = [targetSuspect suspectType];
-            NSLog(@"targetType = %d", targetType);
-            
-            // Test if that suspectType is available to be filled at targetLocation
-            
-            // If no, goto *B*
-            // If yes, then assign suspect to targetLocation & goto *A*
-            
-        }
-        else if (i == victimNumber) // targetSuspect IS the victim
-        {
-            // Return to *A*
-        }
-    }
-    
-    // Determine and flag the 3-suspect location
-}*/
 
 - (void) randomizeSuspectsInCity
 {
@@ -451,21 +185,20 @@
     [temp setSuspectLocation:6]; // Assign to the morgue
     [temp setAssignedYet:YES];
     
-    NSLog(@"Assigned victim to the morgue: %@\n", [temp description]);
-    
     // Initialize helper variables/objects
-    EDSuspect *candidateSuspect = nil;
+    EDSuspect *candidateSuspect;
     type candidateType;
     int candidateSuspectNumber;
     BOOL candidateAssigned = NO;
     
     location targetLocationNumber;
     EDLocation *targetLocation;
-    BOOL successfulAssignment = NO;
+    BOOL successfulAssignment;
     
     // Iterate 19x representing the remaining 19 suspects
     for (int i = 0; i < 19; i++)
     {
+        successfulAssignment = NO; // Reset successfulAssignment
         
         do
         {
@@ -497,20 +230,26 @@
         {
             candidateType = 3; // EvenFemale
         }
-        
+                                                                                   
         // Select random targetLocation
         do
         {
-            targetLocationNumber = arc4random_uniform(6);
-            
-            targetLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", targetLocationNumber]];
+            // Randomize and select a targetLocation that is NOT the murderLocation
+            do
+            {
+                targetLocationNumber = arc4random_uniform(6);
+                
+                targetLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", targetLocationNumber]];
+                
+            }
+            while (targetLocationNumber == murderLocation); // Keep looping if targetLocation == murderLocation
             
             if ([[targetLocation assignedSuspects] count] == 0) // No assignedSuspects yet
             {
                 // Assign Suspect...
                 [[targetLocation assignedSuspects] addObject:candidateSuspect]; // Add to EDLocation assignedSuspects NSArray
+                [candidateSuspect setSuspectLocation:[targetLocation locationNumber]]; // Set targetLocation # for candidateSuspect
                 [candidateSuspect setAssignedYet:YES]; // Flag on the EDSuspect candidateSuspect object
-                NSLog(@"Target Location/Assigned Suspects: %@", [[targetLocation assignedSuspects] description]);
                 successfulAssignment = YES; // Change the successfulAssignment flag to YES
                 
             }
@@ -540,15 +279,13 @@
                 {
                     // Assign Suspect...
                     [[targetLocation assignedSuspects] addObject:candidateSuspect]; // Add to EDLocation assignedSuspects NSArray
+                    [candidateSuspect setSuspectLocation:[targetLocation locationNumber]]; // Set targetLocation # for candidateSuspect
                     [candidateSuspect setAssignedYet:YES]; // Flag on the EDSuspect candidateSuspect object
-                    NSLog(@"Target Location/Assigned Suspects: %@", [[targetLocation assignedSuspects] description]);
                     successfulAssignment = YES; // Change the successfulAssignment flag to YES
                 }
             }
         }
         while (successfulAssignment == NO);
-        
-       // NSLog(@"Assigned %d - %@ successfully to %@", [candidateSuspect suspectNumber], [candidateSuspect suspectName], [targetLocation locationName]);
     }
     
 }
@@ -561,7 +298,7 @@
         
         if ([[testLocation assignedSuspects] count] == 3)
         {
-            NSLog(@"Found 3-Suspect Location at %@", [testLocation locationName]);
+            NSLog(@"\r\r3-SUSPECT LOCATION #%d - %@\r", [testLocation locationNumber], [testLocation locationName]);
             [testLocation setThreeSuspectLocation:YES];
         }
     }
@@ -620,13 +357,20 @@
 
 - (void) printLocationAssignedSuspects
 {
-    NSLog(@"Printing Locations and Assigned Suspects:");
+    NSLog(@"\r\rLOCATIONS & ASSIGNED SUSPECTS:");
     
     for (int i = 0; i < 6; i++)
     {
         EDLocation *temp = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", i]];
         
-        NSLog(@"LOCATION #%d - %@", i, [temp locationName]);
+        if ([[temp assignedSuspects] count] == 0)
+        {
+            NSLog(@"\rLOCATION #%d - %@ = MURDER LOCATION", i, [temp locationName]);
+        }
+        else
+        {
+            NSLog(@"\rLOCATION #%d - %@", i, [temp locationName]);
+        }
         
         for (int j = 0; j < [[temp assignedSuspects] count]; j++)
         {

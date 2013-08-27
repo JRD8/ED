@@ -36,7 +36,7 @@
 {
     NSString *privateQuestionForDescription = [NSString stringWithFormat:@"Questions: %@, %@, %@, %@ & %@", [suspectPrivateQuestionList objectAtIndex:0], [suspectPrivateQuestionList objectAtIndex:1], [suspectPrivateQuestionList objectAtIndex:2], [suspectPrivateQuestionList objectAtIndex:3], [suspectPrivateQuestionList objectAtIndex:4]];
     
-    return [NSString stringWithFormat:@"Suspect #%d, Name = %@, Occupation = %@, Marital Status = %@, Location = %d, Private Question List = %@, Victim = %@, Murderer = %@, Assigned Yet = %@, Type = %d", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, suspectLocation, privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", suspectType];
+    return [NSString stringWithFormat:@"Suspect #%d, Name = %@, Occupation = %@, Marital Status = %@, Location = %d, Private Question List = %@, Victim = %@, Murderer = %@, Assigned Yet = %@, Type = %d\r", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, suspectLocation, privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", suspectType];
 }
 
 @end
