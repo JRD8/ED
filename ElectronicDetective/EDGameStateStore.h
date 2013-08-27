@@ -36,6 +36,7 @@
 
 + (EDGameStateStore *) sharedStore;  // Class method
 
+// Main Methods
 - (void) createMasterSuspectDirectory;
 - (void) createMasterLocationDirectory;
 - (void) killVictim;
@@ -43,7 +44,9 @@
 - (void) hideWeapons;
 - (void) randomizeSuspectsInCity;
 - (void) identify3SuspectLocation;
+- (void) assignSideAreaToLocation;
 
+// Helper Methods
 - (NSString *)generateLocationString: (location)location;
 - (NSString *)generateWeaponString: (weapon)weapon;
 - (void) printLocationAssignedSuspects;

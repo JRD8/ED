@@ -28,8 +28,6 @@
     return [self sharedStore];
 }
 
-#pragma mark - Init Methods
-
 - (id)init
 {
     self = [super init];
@@ -45,6 +43,7 @@
     [self printLocationAssignedSuspects];
     
     [self identify3SuspectLocation];
+    [self assignSideAreaToLocation];
     
     NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
@@ -53,6 +52,8 @@
     
     return self;
 }
+
+#pragma mark - Main Methods
 
 - (void) createMasterSuspectDirectory
 {
@@ -303,6 +304,53 @@
         }
     }
 }
+
+- (void) assignSideAreaToLocation
+{
+    BOOL locationAssigned;
+    
+    for (int i = 0; i < 6; i++)
+    {
+        locationAssigned = NO;
+        
+        EDLocation *candidate = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", i]];
+        
+        do
+        {
+            side candidateSide = arc4random_uniform(2);
+            area candidateArea = arc4random_uniform(3);
+            
+            if (i == 0)
+            {
+                [candidate setLocationSide:candidateSide];
+                [candidate setLocationArea:candidateArea];
+                locationAssigned = YES;
+            }
+            else if (i > 0)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    EDLocation *test = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", j]];
+                    
+                    side testSide = [test locationSide];
+                    area testArea = [test locationArea];
+                    
+                    if ((testSide != candidateSide) && (testArea != candidateArea))
+                    {
+                        [candidate setLocationSide:candidateSide];
+                        [candidate setLocationArea:candidateArea];
+                        locationAssigned = YES;
+                    }
+                }
+            }
+        }
+        while
+        (locationAssigned == NO);
+    }
+}
+
+
+#pragma mark - Helper Methods
 
 - (NSString *)generateLocationString: (location)location
 {

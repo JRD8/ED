@@ -19,11 +19,6 @@
 @property (nonatomic) side locationSide;
 @property (nonatomic) area locationArea;
 
-/* @property (nonatomic) EDSuspect *oddMaleSuspect;
-@property (nonatomic) EDSuspect *evenMaleSuspect;
-@property (nonatomic) EDSuspect *oddFemaleSuspect;
-@property (nonatomic) EDSuspect *evenFemaleSuspect; */
-
 @property (nonatomic) NSMutableArray *assignedSuspects;
 
 @property (nonatomic) BOOL locationOf38;
