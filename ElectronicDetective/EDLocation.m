@@ -10,7 +10,7 @@
 
 @implementation EDLocation
 
-@synthesize locationName, locationNumber, locationOf38, locationOf45, threeSuspectLocation, murderLocation, locationSide, locationArea, assignedSuspects;
+@synthesize locationName, locationNumber, locationOf38, locationOf45, threeSuspectLocation, murderLocation, locationSide, locationArea, assignedSuspects, initCompleted;
 
 - (id) initWithInitialValues: (int) lnumber
                         name: (NSString *) lname
@@ -22,6 +22,7 @@
     [self setThreeSuspectLocation:NO];
     [self setLocationSide:east];
     [self setLocationArea:uptown];
+    [self setInitCompleted:NO];
     assignedSuspects = [[NSMutableArray alloc] init];
     
     return self;

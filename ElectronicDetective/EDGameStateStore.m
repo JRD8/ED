@@ -70,21 +70,21 @@
     
     
     // Need to wrap ints into NSNumbers for suspectPrivateQuestion & suspectType arrays
-    NSNumber *num0 = [NSNumber numberWithInt:0];
-    NSNumber *num1 = [NSNumber numberWithInt:1];
-    NSNumber *num2 = [NSNumber numberWithInt:2];
-    NSNumber *num3 = [NSNumber numberWithInt:3];
-    NSNumber *num4 = [NSNumber numberWithInt:4];
-    NSNumber *num5 = [NSNumber numberWithInt:5];
-    NSNumber *num6 = [NSNumber numberWithInt:6];
-    NSNumber *num7 = [NSNumber numberWithInt:7];
-    NSNumber *num8 = [NSNumber numberWithInt:8];
-    NSNumber *num9 = [NSNumber numberWithInt:9];
-    NSNumber *num10 = [NSNumber numberWithInt:10];
-    NSNumber *num11= [NSNumber numberWithInt:11];
-    NSNumber *num12 = [NSNumber numberWithInt:12];
-    NSNumber *num13 = [NSNumber numberWithInt:13];
-    NSNumber *num14 = [NSNumber numberWithInt:14];
+    num0 = [NSNumber numberWithInt:0];
+    num1 = [NSNumber numberWithInt:1];
+    num2 = [NSNumber numberWithInt:2];
+    num3 = [NSNumber numberWithInt:3];
+    num4 = [NSNumber numberWithInt:4];
+    num5 = [NSNumber numberWithInt:5];
+    num6 = [NSNumber numberWithInt:6];
+    num7 = [NSNumber numberWithInt:7];
+    num8 = [NSNumber numberWithInt:8];
+    num9 = [NSNumber numberWithInt:9];
+    num10 = [NSNumber numberWithInt:10];
+    num11= [NSNumber numberWithInt:11];
+    num12 = [NSNumber numberWithInt:12];
+    num13 = [NSNumber numberWithInt:13];
+    num14 = [NSNumber numberWithInt:14];
 
     suspectPrivateQuestionLists = [[NSArray alloc] initWithObjects:[[NSArray alloc] initWithObjects:num1, num2, num9, num13, num14, nil], [[NSArray alloc] initWithObjects:num2, num3, num9, num13, num14, nil], [[NSArray alloc] initWithObjects:num1, num2, num9, num13, num14, nil], [[NSArray alloc] initWithObjects:num3, num4, num5, num13, num14, nil], [[NSArray alloc] initWithObjects:num4, num5, num9, num13, num14, nil], [[NSArray alloc] initWithObjects:num1, num4, num9, num13, num14, nil], [[NSArray alloc] initWithObjects:num5, num6, num12, num13, num14, nil], [[NSArray alloc] initWithObjects:num2, num5, num12, num13, num14, nil], [[NSArray alloc] initWithObjects:num3, num5, num12, num13, num14, nil], [[NSArray alloc] initWithObjects:num1, num5, num12, num13, num14, nil], [[NSArray alloc] initWithObjects:num7, num8, num12, num13, num14, nil], [[NSArray alloc] initWithObjects:num6, num7, num11, num13, num14, nil], [[NSArray alloc] initWithObjects:num2, num6, num11, num13, num14, nil], [[NSArray alloc] initWithObjects:num3, num7, num11, num13, num14, nil], [[NSArray alloc] initWithObjects:num1, num6, num11, num13, num14, nil], [[NSArray alloc] initWithObjects:num4, num7, num11, num13, num14, nil], [[NSArray alloc] initWithObjects:num6, num8, num10, num13, num14, nil], [[NSArray alloc] initWithObjects:num2, num7, num10, num13, num14, nil], [[NSArray alloc] initWithObjects:num1, num8, num10, num13, num14, nil], [[NSArray alloc] initWithObjects:num4, num8, num10, num13, num14, nil], nil];
     
@@ -361,7 +361,7 @@
 
 - (void) assignAlibiTypesToSuspects
 {
-    // Start with the 3-Suspect location & randomly assign either 12,8,7 or 12,8,6 values to suspects
+    // Select 3-SUSPECT LOCATION & randomly assign either (12,8,7) or (12,8,6) assignedAlibiType values to suspects
     
     EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", threeSuspectLocation]];
     NSMutableArray *tempAssignedSuspects = [tempLocation assignedSuspects];
@@ -425,8 +425,20 @@
         }
     }
     while (proceed == NO);
+    [tempLocation setInitCompleted:YES]; // Flag the 3-Suspect Location as completed
 
-    // Then, randomly select a 2nd unassigned location and randomly assign 1,1,5,4 values to suspects
+    
+    // Then, randomly select a 2ND UNASSIGNED LOCATION and randomly assign (1,1,5,4) values to suspect
+   
+    NSArray *location2values = [[NSArray alloc] initWithObjects:num1, num1, num5, num4, nil];
+    
+    do
+    {
+        location tempLocationNumber = arc4random_uniform(6);
+        tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
+        
+    }
+    while (([tempLocation murderLocation] == YES) || ([tempLocation initCompleted] == YES));
     
     // Then, randomly select a 3rd unassigned location and randomly assign 5,11,2,6 values to suspects
     
@@ -468,7 +480,6 @@
     };
     
     return outputLocationString;
-    
 }
 
 

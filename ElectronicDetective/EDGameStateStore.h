@@ -33,6 +33,23 @@
     location locationOf45;
     location threeSuspectLocation;
     
+    // Helper variables
+    NSNumber *num0;
+    NSNumber *num1;
+    NSNumber *num2;
+    NSNumber *num3;
+    NSNumber *num4;
+    NSNumber *num5;
+    NSNumber *num6;
+    NSNumber *num7;
+    NSNumber *num8;
+    NSNumber *num9;
+    NSNumber *num10;
+    NSNumber *num11;
+    NSNumber *num12;
+    NSNumber *num13;
+    NSNumber *num14;
+    
 }
 
 + (EDGameStateStore *) sharedStore;  // Class method

@@ -25,6 +25,7 @@
 @property (nonatomic) BOOL locationOf45;
 @property (nonatomic) BOOL threeSuspectLocation;
 @property (nonatomic) BOOL murderLocation;
+@property (nonatomic) BOOL initCompleted;
 
 - (id) initWithInitialValues: (int) lnumber
                         name: (NSString *) lname;
