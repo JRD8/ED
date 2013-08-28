@@ -31,6 +31,7 @@
     location murderLocation;
     location locationOf38;
     location locationOf45;
+    location threeSuspectLocation;
     
 }
 

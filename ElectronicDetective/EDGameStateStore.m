@@ -40,10 +40,11 @@
     [self hideWeapons];
     [self randomizeSuspectsInCity];
     
-    [self printLocationAssignedSuspects];
-    
     [self identify3SuspectLocation];
     [self assignSideAreaToLocation];
+    [self assignAlibiTypesToSuspects];
+    
+    [self printLocationAssignedSuspects];
     
     NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
@@ -301,6 +302,7 @@
         {
             NSLog(@"\r\r3-SUSPECT LOCATION #%d - %@\r", [testLocation locationNumber], [testLocation locationName]);
             [testLocation setThreeSuspectLocation:YES];
+            threeSuspectLocation = i;
         }
     }
 }
@@ -361,6 +363,69 @@
 {
     // Start with the 3-Suspect location & randomly assign either 12,8,7 or 12,8,6 values to suspects
     
+    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", threeSuspectLocation]];
+    NSMutableArray *tempAssignedSuspects = [tempLocation assignedSuspects];
+    BOOL proceed = NO;
+    
+    // 1st value - 12
+    do
+    {
+        int candidate = arc4random_uniform(3);
+        EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:candidate];
+        
+        if ([tempSuspect assignedAlibiType] == 0)
+        {
+            [tempSuspect setAssignedAlibiType:12];
+            proceed = YES;
+        }
+    }
+    while (proceed == NO);
+    
+    // 2nd value - 8
+    proceed = NO; // Reset flag
+    
+    do
+    {
+        int candidate = arc4random_uniform(3);
+        EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:candidate];
+        
+        if ([tempSuspect assignedAlibiType] == 0)
+        {
+            [tempSuspect setAssignedAlibiType:8];
+            proceed = YES;
+        }
+    }
+    while (proceed == NO);
+    
+    // 3rd value - 6 or 7
+    proceed = NO; // Reset flag
+    
+    do
+    {
+        int candidate = arc4random_uniform(3);
+        EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:candidate];
+        
+        if ([tempSuspect assignedAlibiType] == 0)
+        {
+            int sixNotSeven = arc4random_uniform(2);
+            
+            switch (sixNotSeven)
+            {
+                case 0:
+                    [tempSuspect setAssignedAlibiType:6];
+                    proceed = YES;
+                    break;
+                case 1:
+                    [tempSuspect setAssignedAlibiType:7];
+                    proceed = YES;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    while (proceed == NO);
+
     // Then, randomly select a 2nd unassigned location and randomly assign 1,1,5,4 values to suspects
     
     // Then, randomly select a 3rd unassigned location and randomly assign 5,11,2,6 values to suspects
@@ -445,7 +510,7 @@
         for (int j = 0; j < [[temp assignedSuspects] count]; j++)
         {
             EDSuspect *temp2 = [[temp assignedSuspects] objectAtIndex:j];
-            NSLog(@"Suspect #%d - %@, Type = %@", ([temp2 suspectNumber] + 1), [temp2 suspectName], [temp2 generateTypeString:[temp2 suspectType]]);
+            NSLog(@"Suspect #%d - %@, SuspectType: %@, Alibi Type: %d", ([temp2 suspectNumber] + 1), [temp2 suspectName], [temp2 generateTypeString:[temp2 suspectType]], [temp2 assignedAlibiType]);
         }
     }
 }
