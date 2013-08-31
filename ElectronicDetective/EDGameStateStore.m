@@ -44,12 +44,10 @@
     [self assignSideAreaToLocation];
     [self assignAlibiTypesToSuspects];
     
-    [self printLocationAssignedSuspects];
-    
     NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
     
-    
+    [self printLocationAssignedSuspects];
     
     return self;
 }
@@ -300,7 +298,6 @@
         
         if ([[testLocation assignedSuspects] count] == 3)
         {
-            NSLog(@"\r\r3-SUSPECT LOCATION #%d - %@\r", [testLocation locationNumber], [testLocation locationName]);
             [testLocation setThreeSuspectLocation:YES];
             threeSuspectLocation = i;
         }
@@ -361,9 +358,12 @@
 
 - (void) assignAlibiTypesToSuspects
 {
-    // Select 3-SUSPECT LOCATION & randomly assign either (12,8,7) or (12,8,6) assignedAlibiType values to suspects
+    // Set the MURDER LOCATION as Init Completed
+    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]];
+    [tempLocation setInitCompleted:YES];
     
-    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", threeSuspectLocation]];
+    // Then, select 3-SUSPECT LOCATION & randomly assign either (12,8,7) or (12,8,6) assignedAlibiType values to suspects
+    tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", threeSuspectLocation]];
     NSMutableArray *tempAssignedSuspects = [tempLocation assignedSuspects];
     BOOL proceed = NO;
     
@@ -428,79 +428,76 @@
     [tempLocation setInitCompleted:YES]; // Flag the 3-Suspect Location as completed
     
     // Utility setup for all of the various location values
-    NSArray *location2values = [[NSArray alloc] initWithObjects:num1, num1, num5, num4, nil];
-    NSArray *location3values = [[NSArray alloc] initWithObjects:num5, num11, num2, num6, nil];
-    NSArray *location4values = [[NSArray alloc] initWithObjects:num4, num8, num10, num11, nil];
-    NSArray *location5values = [[NSArray alloc] initWithObjects:num1, num1, num6, num9, nil];
-    NSArray *location6values = [[NSArray alloc] initWithObjects:num2, num10, num1, num3, nil];
-    NSArray *masterLocationValues = [[NSArray alloc] initWithObjects:location2values, location3values, location4values, location5values, location6values, nil];
+    
+    NSArray *location2values = [[NSArray alloc] initWithObjects:num1, num1, num5, num4, nil]; // 2ND ASSIGNED LOCATION: (1,1,5,4)
+    NSArray *location3values = [[NSArray alloc] initWithObjects:num5, num11, num2, num6, nil]; // 3RD ASSIGNED LOCATION: (5,11,2,6)
+    NSArray *location4values = [[NSArray alloc] initWithObjects:num4, num8, num10, num11, nil]; // 4TH/5TH LOCATION - A CHOICE (4,8,10,11)
+    NSArray *location5values = [[NSArray alloc] initWithObjects:num1, num1, num6, num9, nil]; // 4TH/5TH LOCATION - A CHOICE (1,1,6,9)
+    NSArray *location6values = [[NSArray alloc] initWithObjects:num2, num10, num1, num3, nil]; // 4TH/5TH LOCATION - A CHOICE (2,10,1,3)
+    NSArray *masterLocationValues = [[NSArray alloc] initWithObjects:location2values, location3values, location4values, location5values, location6values, nil]; // Master container for all location alibiType values
+    NSArray *tempValues = [[NSArray alloc] init]; // A temp container for routine below
 
-    // Then, randomly select a 2ND UNASSIGNED LOCATION and randomly assign (1,1,5,4) values to suspect
+    // Utility setup for 4TH AND 5TH location variables
     
+    int fourthLocation, fifthLocation;
+    fourthLocation = arc4random_uniform(3) + 2; // Select a random int between 2 - 4 for the fourthLocation choice
     do
     {
-        location tempLocationNumber = arc4random_uniform(6);
-        
-        tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
-        
+        fifthLocation = arc4random_uniform(3) + 2; // Select a random int between 2 - 4 for the fifthLocation choice
     }
-    while (([tempLocation murderLocation] == YES) || ([tempLocation initCompleted] == YES));
+    while
+    (fifthLocation == fourthLocation); //...as long as it does NOT equal the fourthLocation choice
     
-    for (int i = 0; i < 4; i++)
+    
+    // Then, randomly randomly assign AlibiTypeValues to Suspect for each remaining assigned location (2 - 5)
+    
+    for (int locationCounter = 0; locationCounter < 4; locationCounter ++)
     {
-        proceed = NO;// Reset flag
         
         do
         {
-            int candidate = arc4random_uniform(4);
-            tempAssignedSuspects = [tempLocation assignedSuspects];
-            EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:candidate];
-                
-            if ([tempSuspect assignedAlibiType] == 0)
-            {
-                [tempSuspect setAssignedAlibiType:[[location2values objectAtIndex:i] intValue]];
-                proceed = YES;
-            }
-        }
-        while (proceed == NO);
-    }
-    
-    // Then, randomly select a 3rd unassigned location and randomly assign 5,11,2,6 values to suspects
-    
-    do
-    {
-        location tempLocationNumber = arc4random_uniform(6);
-        
-        tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
-        
-    }
-    while (([tempLocation murderLocation] == YES) || ([tempLocation initCompleted] == YES));
-    
-    for (int i = 0; i < 4; i++)
-    {
-        proceed = NO;// Reset flag
-        
-        do
-        {
-            int candidate = arc4random_uniform(4);
-            tempAssignedSuspects = [tempLocation assignedSuspects];
-            EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:candidate];
+            location tempLocationNumber = arc4random_uniform(6);
             
-            if ([tempSuspect assignedAlibiType] == 0)
-            {
-                [tempSuspect setAssignedAlibiType:[[location3values objectAtIndex:i] intValue]];
-                proceed = YES;
-            }
+            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
+            
         }
-        while (proceed == NO);
+        while ([tempLocation initCompleted] == YES);
+        
+        for (int i = 0; i < 4; i++)
+        {
+            proceed = NO;// Reset flag
+            
+            do
+            {
+                int candidate = arc4random_uniform(4);
+                tempAssignedSuspects = [tempLocation assignedSuspects];
+                EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:candidate];
+                    
+                if ([tempSuspect assignedAlibiType] == 0)
+                {
+                    
+                    if (locationCounter == 2) // Processing the 4TH LOCATION
+                    {
+                        tempValues = [masterLocationValues objectAtIndex:fourthLocation];
+                        [tempSuspect setAssignedAlibiType:[[tempValues objectAtIndex:i] intValue]];
+                    }
+                    else if (locationCounter == 3) // Processing the 5TH LOCATION
+                    {
+                        tempValues = [masterLocationValues objectAtIndex:fifthLocation];
+                        [tempSuspect setAssignedAlibiType:[[tempValues objectAtIndex:i] intValue]];
+                    }
+                    else
+                    {
+                        tempValues = [masterLocationValues objectAtIndex:locationCounter];
+                        [tempSuspect setAssignedAlibiType:[[tempValues objectAtIndex:i] intValue]];   
+                    }
+                    proceed = YES;
+                }
+            }
+            while (proceed == NO);
+            [tempLocation setInitCompleted:YES]; // Flag the Location as completed
+        }
     }
-    
-    /* 
-    
-    // Then, randomize final combo - choose 2 of the following groups: (4,8,10,11), (1,1,6,9) & (2,10,1,3) - to remaining unassigned locations
-    
-    // Lastly, randomly assign values from combo selection to suspects */
-    
 }
 
 
