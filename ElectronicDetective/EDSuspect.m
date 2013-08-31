@@ -96,4 +96,10 @@
     return outputLocationString;
 }
 
+// TODO: generate AlibiString
+/* - (NSString *)generateAlibiString: (alibiType) alibiType
+{
+    
+}*/
+
 @end

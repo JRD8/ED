@@ -41,7 +41,7 @@
 - (NSString *)description;
 - (NSString *)generateTypeString: (type) type;
 - (NSString *)generateLocationString: (location)location;
-
+// - (NSString *)generateAlibiString: (alibiType) alibiType;
 
 
 @end
