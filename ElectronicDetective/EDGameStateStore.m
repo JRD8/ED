@@ -49,8 +49,6 @@
     
     [self printLocationAssignedSuspects];
     
-    EDSuspect *test = [masterSuspectDirectory objectForKey:@"suspect8"];
-    
     return self;
 }
 

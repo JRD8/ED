@@ -96,6 +96,7 @@
     return outputLocationString;
 }
 
+// TODO: Finish Method
 - (NSString *)generateAlibiString
 {
     NSString *outputAlibiString;
@@ -106,6 +107,10 @@
         case 0: // Unassigned
             outputAlibiString = @"UNASSIGNED";
             break;
+            
+        /*case 1: // w/SuspectAndSuspect
+            outputAlibiString = @"UNASSIGNED";
+            break; */
             
         case 2: // areaOnly
             switch (suspectArea)
@@ -141,7 +146,34 @@
             break;
             
         case 4: // sideArea
-            outputAlibiString = @"UNASSIGNED";
+            // Process Side
+            switch (suspectSide)
+            {
+                case 0:
+                    insertString1 = @"EAST";
+                    break;
+                case 1:
+                    insertString1 = @"WEST";
+                    break;
+                default:
+                    break;
+            }
+            // Process Area
+            switch (suspectArea)
+            {
+                case 0:
+                    insertString2 = @"UPTOWN";
+                    break;
+                case 1:
+                    insertString2 = @"MIDTOWN";
+                    break;
+                case 2:
+                    insertString2 = @"DOWNTOWN";
+                    break;
+                default:
+                    break;
+            }
+            outputAlibiString = [NSString stringWithFormat:@"I was %@, %@", insertString1, insertString2];
             break;
             
         case 5: // atLocation
@@ -168,10 +200,37 @@
             default:
                 break;
             }
-            outputAlibiString = [NSString stringWithFormat:@"I was %@", insertString1];
+            outputAlibiString = [NSString stringWithFormat:@"I was at %@", insertString1];
             break;
-
             
+        /*case 6: // areaWithSuspect
+         outputAlibiString = @"UNASSIGNED";
+         break; */
+        
+        /*case 7: // sideWithSuspect
+         outputAlibiString = @"UNASSIGNED";
+         break; */
+        
+        /*case 8: // areaAtLocation
+         outputAlibiString = @"UNASSIGNED";
+         break; */
+        
+        /*case 9: // sideAtLocation
+         outputAlibiString = @"UNASSIGNED";
+         break; */
+        
+        /*case 10: // atLocationWithSuspect
+         outputAlibiString = @"UNASSIGNED";
+         break; */
+        
+        /*case 11: // sideWithSuspectAndSuspect
+         outputAlibiString = @"UNASSIGNED";
+         break; */
+        
+        /*case 12: // sideAreaWithSuspect
+         outputAlibiString = @"UNASSIGNED";
+         break; */
+
         default:
             break;
         

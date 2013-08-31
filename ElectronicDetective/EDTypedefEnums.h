@@ -67,7 +67,7 @@ typedef enum
     sideAtLocation = 9,
     atLocationWithSuspect = 10,
     sideWithSuspectAndSuspect = 11,
-    SideAreaWithSuspect = 12,
+    sideAreaWithSuspect = 12,
 
 } alibiType;
 
