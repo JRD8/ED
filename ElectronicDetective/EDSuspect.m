@@ -34,7 +34,7 @@
 {
     NSString *privateQuestionForDescription = [NSString stringWithFormat:@"%@, %@, %@, %@ & %@", [suspectPrivateQuestionList objectAtIndex:0], [suspectPrivateQuestionList objectAtIndex:1], [suspectPrivateQuestionList objectAtIndex:2], [suspectPrivateQuestionList objectAtIndex:3], [suspectPrivateQuestionList objectAtIndex:4]];
     
-    return [NSString stringWithFormat:@"Suspect #%d, Name: %@, Occupation: %@, Marital Status: %@, Location: %@, Private Question List: %@, AlibiType: %d, Victim: %@, Murderer: %@, Assigned Yet: %@, SuspectType: %@\r", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, [self generateLocationString:suspectLocation], privateQuestionForDescription, assignedAlibiType, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", [self generateTypeString:suspectType]];
+    return [NSString stringWithFormat:@"Suspect #%d, Name: %@, Occupation: %@, Marital Status: %@, Location: %@, Side: %d, Area: %d, Private Question List: %@, AlibiType: %d, Victim: %@, Murderer: %@, Assigned Yet: %@, SuspectType: %@\r", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, [self generateLocationString:suspectLocation], suspectSide, suspectArea, privateQuestionForDescription, assignedAlibiType, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", [self generateTypeString:suspectType]];
 }
 
 - (NSString *)generateTypeString: (type) type
@@ -96,10 +96,90 @@
     return outputLocationString;
 }
 
-// TODO: generate AlibiString
-/* - (NSString *)generateAlibiString: (alibiType) alibiType
+- (NSString *)generateAlibiString
 {
+    NSString *outputAlibiString;
+    NSString *insertString1, *insertString2;
     
-}*/
+    switch (assignedAlibiType)
+    {
+        case 0: // Unassigned
+            outputAlibiString = @"UNASSIGNED";
+            break;
+            
+        case 2: // areaOnly
+            switch (suspectArea)
+            {
+                case 0:
+                    insertString1 = @"UPTOWN";
+                    break;
+                case 1:
+                    insertString1 = @"MIDTOWN";
+                    break;
+                case 2:
+                    insertString1 = @"DOWNTOWN";
+                    break;
+                default:
+                    break;
+            }
+            outputAlibiString = [NSString stringWithFormat:@"I was %@", insertString1];
+            break;
+        
+        case 3: // sideOnly
+            switch (suspectSide)
+            {
+            case 0:
+                insertString1 = @"EAST";
+                break;
+            case 1:
+                insertString1 = @"WEST";
+                break;
+            default:
+                break;
+            }
+            outputAlibiString = [NSString stringWithFormat:@"I was %@", insertString1];
+            break;
+            
+        case 4: // sideArea
+            outputAlibiString = @"UNASSIGNED";
+            break;
+            
+        case 5: // atLocation
+            switch (suspectLocation)
+            {
+            case 0:
+                insertString1 = @"A - ART SHOW";
+                break;
+            case 1:
+                insertString1 = @"B - BOX AT THEATRE";
+                break;
+            case 2:
+                insertString1 = @"C - CARD PARTY";
+                break;
+            case 3:
+                insertString1 = @"D - DOCKS";
+                break;
+            case 4:
+                insertString1 = @"E - EMBASSY";
+                break;
+            case 5:
+                insertString1 = @"F - FACTORY";
+                break;
+            default:
+                break;
+            }
+            outputAlibiString = [NSString stringWithFormat:@"I was %@", insertString1];
+            break;
+
+            
+        default:
+            break;
+        
+    };
+    
+    NSLog(@"OUTPUT ALIBI STRING: %@", outputAlibiString);
+    
+    return outputAlibiString;
+}
 
 @end

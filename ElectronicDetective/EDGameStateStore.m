@@ -49,6 +49,8 @@
     
     [self printLocationAssignedSuspects];
     
+    EDSuspect *test = [masterSuspectDirectory objectForKey:@"suspect8"];
+    
     return self;
 }
 
@@ -354,6 +356,19 @@
         while
         (locationAssigned == NO); // If there had been a match, then repeat look to choose new Side/Area values
     }
+    
+    // Register the Side/Area values to the Suspect objects
+    EDSuspect *tempSuspect = [[EDSuspect alloc] init];
+    EDLocation *tempLocation = [[EDLocation alloc] init];
+  
+    // Iterate through the 20 suspects and assisn values
+    for (int i = 0; i < 20; i++)
+    {
+        tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i]];
+        tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", [tempSuspect suspectLocation]]];
+        [tempSuspect setSuspectSide:[tempLocation locationSide]]; // Register Side
+        [tempSuspect setSuspectArea:[tempLocation locationArea]]; // Register Area
+    }
 }
 
 - (void) assignAlibiTypesToSuspects
@@ -542,7 +557,7 @@
         for (int j = 0; j < [[temp assignedSuspects] count]; j++)
         {
             EDSuspect *temp2 = [[temp assignedSuspects] objectAtIndex:j];
-            NSLog(@"Suspect #%d - %@, SuspectType: %@, Alibi Type: %d", ([temp2 suspectNumber] + 1), [temp2 suspectName], [temp2 generateTypeString:[temp2 suspectType]], [temp2 assignedAlibiType]);
+            NSLog(@"Suspect #%d - %@, SuspectType: %@, Alibi Type: %d", ([temp2 suspectNumber]), [temp2 suspectName], [temp2 generateTypeString:[temp2 suspectType]], [temp2 assignedAlibiType]);
         }
     }
 }
