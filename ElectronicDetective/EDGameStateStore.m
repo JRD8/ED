@@ -369,7 +369,7 @@
     }
 }
 
-- (void) assignAlibiTypesToSuspects
+- (void) assignAlibiTypesToSuspects // Original Method
 {
     
     // Utility setup for all of the various location values
@@ -482,6 +482,42 @@
     }
 }
 
+/*
+- (void) assignAlibiTypesToSuspects2
+{
+    
+    // First, set the MURDER LOCATION as Init Completed
+
+    // Then, select the 3-SUSPECT LOCATION & randomly assign either (12,8,7) or (12,8,6) assignedAlibiType values to suspects
+
+    // Select one of the remaining location as the (1,1,4,5) cluster
+    // Assign Type 1 to Odd Female
+    // Assign Type 1 to Even Female
+    // Handle 4,5 assignments
+
+    // Select one of the remaining location as the (5,11,2,6) cluster
+    // Assign Type 11 to Even Male
+    // Assign Type 6 to Even Female
+    // Handle 5,2 assignments
+
+    // Randomly select 2 of the remaining 3 cluster sequences (1,1,6,9), (2,10,1,3) or (4,8,10,11)
+
+     // IF one of the remaining location is the (1,1,6,9) cluster
+     // Assign Type 1 to Odd Female
+     // Assign Type 1 to Even Female
+     // Handle 6,9 assignments
+ 
+     // IF one of the remaining location is the (2,10,1,3) cluster
+     // Assign Type 1 to Odd Male
+     // Assign Type 10 to Even Male
+     // Handle 2,3 assignments
+ 
+     // IF one of the remaining location is the (4,8,10,11) cluster
+     // Assign Type 10 to Even Male
+     // Assign Type 11 to Odd Female
+     // Handle 4,8 assignments
+ 
+}*/
 
 #pragma mark - Helper Methods
 

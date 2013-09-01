@@ -17,7 +17,7 @@
 		2731297C17C6EC450003CFE5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2731297B17C6EC450003CFE5 /* Default.png */; };
 		2731297E17C6EC450003CFE5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2731297D17C6EC450003CFE5 /* Default@2x.png */; };
 		2731298017C6EC450003CFE5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2731297F17C6EC450003CFE5 /* Default-568h@2x.png */; };
-		2731298317C6EC450003CFE5 /* EDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2731298217C6EC450003CFE5 /* EDViewController.m */; };
+		2731298317C6EC450003CFE5 /* EDMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2731298217C6EC450003CFE5 /* EDMainViewController.m */; };
 		2731299117C6ECDC0003CFE5 /* EDSuspect.m in Sources */ = {isa = PBXBuildFile; fileRef = 2731299017C6ECDC0003CFE5 /* EDSuspect.m */; };
 		278B463317C7DC1000426C42 /* EDLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B463217C7DC1000426C42 /* EDLocation.m */; };
 		27CC7F1717C6F545006DF8C2 /* EDGameStateStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CC7F1617C6F545006DF8C2 /* EDGameStateStore.m */; };
@@ -38,8 +38,8 @@
 		2731297B17C6EC450003CFE5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2731297D17C6EC450003CFE5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2731297F17C6EC450003CFE5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		2731298117C6EC450003CFE5 /* EDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDViewController.h; sourceTree = "<group>"; };
-		2731298217C6EC450003CFE5 /* EDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EDViewController.m; sourceTree = "<group>"; };
+		2731298117C6EC450003CFE5 /* EDMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDMainViewController.h; sourceTree = "<group>"; };
+		2731298217C6EC450003CFE5 /* EDMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EDMainViewController.m; sourceTree = "<group>"; };
 		2731298F17C6ECDC0003CFE5 /* EDSuspect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSuspect.h; sourceTree = "<group>"; };
 		2731299017C6ECDC0003CFE5 /* EDSuspect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSuspect.m; sourceTree = "<group>"; };
 		2747E7D717C8CFA0009FA574 /* EDTypedefEnums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDTypedefEnums.h; sourceTree = "<group>"; };
@@ -129,8 +129,8 @@
 		2731298D17C6EC860003CFE5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				2731298117C6EC450003CFE5 /* EDViewController.h */,
-				2731298217C6EC450003CFE5 /* EDViewController.m */,
+				2731298117C6EC450003CFE5 /* EDMainViewController.h */,
+				2731298217C6EC450003CFE5 /* EDMainViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -217,7 +217,7 @@
 			files = (
 				2731297617C6EC450003CFE5 /* main.m in Sources */,
 				2731297A17C6EC450003CFE5 /* EDAppDelegate.m in Sources */,
-				2731298317C6EC450003CFE5 /* EDViewController.m in Sources */,
+				2731298317C6EC450003CFE5 /* EDMainViewController.m in Sources */,
 				2731299117C6ECDC0003CFE5 /* EDSuspect.m in Sources */,
 				27CC7F1717C6F545006DF8C2 /* EDGameStateStore.m in Sources */,
 				278B463317C7DC1000426C42 /* EDLocation.m in Sources */,

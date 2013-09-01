@@ -8,7 +8,7 @@
 
 #import "EDAppDelegate.h"
 
-#import "EDViewController.h"
+#import "EDMainViewController.h"
 
 @implementation EDAppDelegate
 
@@ -16,7 +16,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.viewController = [[EDViewController alloc] initWithNibName:@"EDViewController" bundle:nil];
+    self.viewController = [[EDMainViewController alloc] initWithNibName:@"EDMainView" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;

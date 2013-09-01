@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EDViewController : UIViewController
+@interface EDMainViewController : UIViewController
 
 @end
