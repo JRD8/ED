@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class EDMainViewController;
+@class EDViewController;
 
 @interface EDAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) EDMainViewController *viewController;
+@property (strong, nonatomic) EDViewController *viewController;
 
 @end

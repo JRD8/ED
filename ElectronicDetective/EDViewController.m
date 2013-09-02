@@ -6,14 +6,14 @@
 //  Copyright (c) 2013 James Diener. All rights reserved.
 //
 
-#import "EDMainViewController.h"
+#import "EDViewController.h"
 #import "EDGameStateStore.h"
 
-@interface EDMainViewController ()
+@interface EDViewController ()
 
 @end
 
-@implementation EDMainViewController
+@implementation EDViewController
 
 - (void)viewDidLoad
 {

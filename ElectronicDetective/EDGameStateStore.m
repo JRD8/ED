@@ -42,7 +42,7 @@
     
     [self identify3SuspectLocation];
     [self assignSideAreaToLocation];
-    [self assignAlibiTypesToSuspects];
+    [self assignAlibiTypesToSuspects2];
     
     NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
@@ -369,7 +369,7 @@
     }
 }
 
-- (void) assignAlibiTypesToSuspects // Original Method
+/*- (void) assignAlibiTypesToSuspects // Original Method
 {
     
     // Utility setup for all of the various location values
@@ -480,16 +480,60 @@
             [tempLocation setInitCompleted:YES]; // Flag the Location as completed
         }
     }
-}
+} */
 
-/*
+
 - (void) assignAlibiTypesToSuspects2
 {
+    // Utility setup for all of the various location values
+    NSArray *location2values = [[NSArray alloc] initWithObjects:num1, num1, num5, num4, nil]; // 2ND ASSIGNED LOCATION: (1,1,5,4)
+    NSArray *location3values = [[NSArray alloc] initWithObjects:num5, num11, num2, num6, nil]; // 3RD ASSIGNED LOCATION: (5,11,2,6)
+    NSArray *location4values = [[NSArray alloc] initWithObjects:num4, num8, num10, num11, nil]; // 4TH/5TH LOCATION - A CHOICE (4,8,10,11)
+    NSArray *location5values = [[NSArray alloc] initWithObjects:num1, num1, num6, num9, nil]; // 4TH/5TH LOCATION - A CHOICE (1,1,6,9)
+    NSArray *location6values = [[NSArray alloc] initWithObjects:num2, num10, num1, num3, nil]; // 4TH/5TH LOCATION - A CHOICE (2,10,1,3)
+    NSArray *threeSuspectOption1Values = [[NSArray alloc] initWithObjects:num12, num8, num7, nil]; // 3 SUSPECT LOCATION - 1ST CHOICE (12,8,7)
+    NSArray *threeSuspectOption2Values = [[NSArray alloc] initWithObjects:num12, num8, num6, nil]; // 3 SUSPECT LOCATION - 2ND CHOICE (12,8,6)
+    
+    NSArray *masterLocationValues = [[NSArray alloc] initWithObjects:location2values, location3values, location4values, location5values, location6values, threeSuspectOption1Values, threeSuspectOption2Values, nil]; // Master container for all location alibiType values
+    NSArray *tempValues = [[NSArray alloc] init]; // A temp container for routine below
+    
+    BOOL proceed; // Loop flag
+    
     
     // First, set the MURDER LOCATION as Init Completed
+    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]];
+    [tempLocation setInitCompleted:YES];
 
+    
     // Then, select the 3-SUSPECT LOCATION & randomly assign either (12,8,7) or (12,8,6) assignedAlibiType values to suspects
+    tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", threeSuspectLocation]];
+    NSMutableArray *tempAssignedSuspects = [tempLocation assignedSuspects];
+    
+    // Utility setup for the 3 SUSPECT LOCATION Option
+    int threeSuspectChoice = arc4random_uniform(2) + 5; // Either Option 1 or Option 2 in the masterLocationValues array
+     
+    for (int i = 0; i < 3; i++)
+    {
+        proceed = NO;// Reset flag
+     
+        do
+         {
+             int candidate = arc4random_uniform(3);
+             tempAssignedSuspects = [tempLocation assignedSuspects];
+             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:candidate];
+         
+             if ([tempSuspect assignedAlibiType] == 0)
+             {
+                 tempValues = [masterLocationValues objectAtIndex:threeSuspectChoice]; // Option 1 or Option 2
+                 [tempSuspect setAssignedAlibiType:[[tempValues objectAtIndex:i] intValue]];
+                 proceed = YES;
+             }
+        }
+        while (proceed == NO);
+     
+    [tempLocation setInitCompleted:YES]; // Flag the Location as completed
 
+    /* 
     // Select one of the remaining location as the (1,1,4,5) cluster
     // Assign Type 1 to Odd Female
     // Assign Type 1 to Even Female
@@ -515,9 +559,10 @@
      // IF one of the remaining location is the (4,8,10,11) cluster
      // Assign Type 10 to Even Male
      // Assign Type 11 to Odd Female
-     // Handle 4,8 assignments
- 
-}*/
+     // Handle 4,8 assignments */
+        
+    }
+}
 
 #pragma mark - Helper Methods
 
@@ -547,7 +592,7 @@
             break;
         default:
             break;
-    };
+    }
     
     return outputLocationString;
 }
