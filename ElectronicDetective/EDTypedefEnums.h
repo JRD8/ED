@@ -72,4 +72,23 @@ typedef enum
 } alibiType;
 
 
+typedef enum
+{
+    didMurdererGoEast = 0,
+    isMaleMurderer = 1,
+    whatAreaWasMurderer = 2,
+    isMurderWeapon38 = 3,
+    locationOf38 = 4,
+    locationOf45 = 5,
+    whereIsThreeSuspectLocation = 6,
+    isMurdererAtABC = 7,
+    wereYouEast = 8,
+    whatWasYourArea = 9,
+    wereYouAtABC = 10,
+    wereYouInAWeaponLocation = 11,
+    areOddPrintsOn38 = 12,
+    areOddPrintsOn45 = 13,
+    
+} privateQuestions;
+
 #endif
