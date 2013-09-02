@@ -42,7 +42,7 @@
     
     [self identify3SuspectLocation];
     [self assignSideAreaToLocation];
-    [self assignAlibiTypesToSuspects2];
+    [self assignAlibiTypesToSuspects];
     
     NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
@@ -369,140 +369,19 @@
     }
 }
 
-/*- (void) assignAlibiTypesToSuspects // Original Method
+
+- (void) assignAlibiTypesToSuspects
 {
+    // Utility setup
     
-    // Utility setup for all of the various location values
-    NSArray *location2values = [[NSArray alloc] initWithObjects:num1, num1, num5, num4, nil]; // 2ND ASSIGNED LOCATION: (1,1,5,4)
-    NSArray *location3values = [[NSArray alloc] initWithObjects:num5, num11, num2, num6, nil]; // 3RD ASSIGNED LOCATION: (5,11,2,6)
-    NSArray *location4values = [[NSArray alloc] initWithObjects:num4, num8, num10, num11, nil]; // 4TH/5TH LOCATION - A CHOICE (4,8,10,11)
-    NSArray *location5values = [[NSArray alloc] initWithObjects:num1, num1, num6, num9, nil]; // 4TH/5TH LOCATION - A CHOICE (1,1,6,9)
-    NSArray *location6values = [[NSArray alloc] initWithObjects:num2, num10, num1, num3, nil]; // 4TH/5TH LOCATION - A CHOICE (2,10,1,3)
-    NSArray *threeSuspectOption1Values = [[NSArray alloc] initWithObjects:num12, num8, num7, nil]; // 3 SUSPECT LOCATION - 1ST CHOICE (12,8,7)
-    NSArray *threeSuspectOption2Values = [[NSArray alloc] initWithObjects:num12, num8, num6, nil]; // 3 SUSPECT LOCATION - 2ND CHOICE (12,8,6)
-    
-    NSArray *masterLocationValues = [[NSArray alloc] initWithObjects:location2values, location3values, location4values, location5values, location6values, threeSuspectOption1Values, threeSuspectOption2Values, nil]; // Master container for all location alibiType values
-    NSArray *tempValues = [[NSArray alloc] init]; // A temp container for routine below
-    
-    BOOL proceed; // Loop flag
-    
-    // Utility setup for the 3 SUSPECT LOCATION Option
-    int threeSuspectChoice = arc4random_uniform(2) + 5; // Either Option 1 or Option 2 in the masterLocationValues array
-    
-    // Utility setup for 4TH AND 5TH location variables
-    int fourthLocationChoice, fifthLocationChoice;
-    fourthLocationChoice = arc4random_uniform(3) + 2; // Select a random int between 2 - 4 for the fourthLocationChoice
-    do
-    {
-        fifthLocationChoice = arc4random_uniform(3) + 2; // Select a random int between 2 - 4 for the fifthLocationChoice
-    }
-    while
-        (fifthLocationChoice == fourthLocationChoice); //...as long as it does NOT equal the fourthLocationChoice
-    
-   
-    // First, set the MURDER LOCATION as Init Completed
-    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]];
-    [tempLocation setInitCompleted:YES];
-   
-    
-    // Then, select the 3-SUSPECT LOCATION & randomly assign either (12,8,7) or (12,8,6) assignedAlibiType values to suspects
-    tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", threeSuspectLocation]];
-    NSMutableArray *tempAssignedSuspects = [tempLocation assignedSuspects];
-    
-    for (int i = 0; i < 3; i++)
-    {
-        proceed = NO;// Reset flag
-        
-        do
-        {
-            int candidate = arc4random_uniform(3);
-            tempAssignedSuspects = [tempLocation assignedSuspects];
-            EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:candidate];
-            
-            if ([tempSuspect assignedAlibiType] == 0)
-            {
-                tempValues = [masterLocationValues objectAtIndex:threeSuspectChoice]; // Option 1 or Option 2
-                [tempSuspect setAssignedAlibiType:[[tempValues objectAtIndex:i] intValue]];
-                proceed = YES;
-            }
-        }
-        while (proceed == NO);
-        
-        [tempLocation setInitCompleted:YES]; // Flag the Location as completed
-    }
-
-    
-    // Lastly, randomly assign AlibiTypeValues to Suspect for each remaining assigned location (2 - 5)
-    
-    for (int locationCounter = 0; locationCounter < 4; locationCounter ++)
-    {
-        do
-        {
-            location tempLocationNumber = arc4random_uniform(6);
-            
-            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
-            
-        }
-        while ([tempLocation initCompleted] == YES);
-        
-        for (int i = 0; i < 4; i++)
-        {
-            proceed = NO;// Reset flag
-            
-            do
-            {
-                int candidate = arc4random_uniform(4);
-                tempAssignedSuspects = [tempLocation assignedSuspects];
-                EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:candidate];
-                    
-                if ([tempSuspect assignedAlibiType] == 0)
-                {
-                    
-                    if (locationCounter == 2) // Processing the 4TH LOCATION
-                    {
-                        tempValues = [masterLocationValues objectAtIndex:fourthLocationChoice];
-                        [tempSuspect setAssignedAlibiType:[[tempValues objectAtIndex:i] intValue]];
-                    }
-                    else if (locationCounter == 3) // Processing the 5TH LOCATION
-                    {
-                        tempValues = [masterLocationValues objectAtIndex:fifthLocationChoice];
-                        [tempSuspect setAssignedAlibiType:[[tempValues objectAtIndex:i] intValue]];
-                    }
-                    else
-                    {
-                        tempValues = [masterLocationValues objectAtIndex:locationCounter];
-                        [tempSuspect setAssignedAlibiType:[[tempValues objectAtIndex:i] intValue]];   
-                    }
-                    proceed = YES;
-                }
-            }
-            while (proceed == NO);
-            [tempLocation setInitCompleted:YES]; // Flag the Location as completed
-        }
-    }
-} */
-
-
-- (void) assignAlibiTypesToSuspects2
-{
-    // Utility setup for all of the various location values
-    NSArray *location2values = [[NSArray alloc] initWithObjects:num1, num1, num5, num4, nil]; // 2ND ASSIGNED LOCATION: (1,1,5,4)
-    NSArray *location3values = [[NSArray alloc] initWithObjects:num5, num11, num2, num6, nil]; // 3RD ASSIGNED LOCATION: (5,11,2,6)
-    NSArray *location4values = [[NSArray alloc] initWithObjects:num4, num8, num10, num11, nil]; // 4TH/5TH LOCATION - A CHOICE (4,8,10,11)
-    NSArray *location5values = [[NSArray alloc] initWithObjects:num1, num1, num6, num9, nil]; // 4TH/5TH LOCATION - A CHOICE (1,1,6,9)
-    NSArray *location6values = [[NSArray alloc] initWithObjects:num2, num10, num1, num3, nil]; // 4TH/5TH LOCATION - A CHOICE (2,10,1,3)
-    NSArray *threeSuspectOption1Values = [[NSArray alloc] initWithObjects:num12, num8, num7, nil]; // 3 SUSPECT LOCATION - 1ST CHOICE (12,8,7)
-    NSArray *threeSuspectOption2Values = [[NSArray alloc] initWithObjects:num12, num8, num6, nil]; // 3 SUSPECT LOCATION - 2ND CHOICE (12,8,6)
-    
-    NSArray *masterLocationValues = [[NSArray alloc] initWithObjects:location2values, location3values, location4values, location5values, location6values, threeSuspectOption1Values, threeSuspectOption2Values, nil]; // Master container for all location alibiType values
-    NSArray *tempValues = [[NSArray alloc] init]; // A temp container for routine below
-    
+    NSArray *tempValues = [[NSArray alloc] init]; // A temp container for routines below
     BOOL proceed; // Loop flag
     
     
     // First, set the MURDER LOCATION as Init Completed
+    
     EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]];
-    [tempLocation setInitCompleted:YES];
+    [tempLocation setInitCompleted:YES]; // Flag the Location as completed
 
     
     // Then, select the 3-SUSPECT LOCATION & randomly assign either (12,8,7) or (12,8,6) assignedAlibiType values to suspects
@@ -510,7 +389,11 @@
     NSMutableArray *tempAssignedSuspects = [tempLocation assignedSuspects];
     
     // Utility setup for the 3 SUSPECT LOCATION Option
-    int threeSuspectChoice = arc4random_uniform(2) + 5; // Either Option 1 or Option 2 in the masterLocationValues array
+    NSArray *threeSuspectOption1Values = [[NSArray alloc] initWithObjects:num12, num8, num7, nil]; // 3 SUSPECT LOCATION - 1ST CHOICE (12,8,7)
+    NSArray *threeSuspectOption2Values = [[NSArray alloc] initWithObjects:num12, num8, num6, nil]; // 3 SUSPECT LOCATION - 2ND CHOICE (12,8,6)
+    NSArray *masterLocationValues = [[NSArray alloc] initWithObjects:threeSuspectOption1Values, threeSuspectOption2Values, nil]; // Master container for 3 SUSPECT LOCATION values
+    
+    int threeSuspectChoice = arc4random_uniform(2); // Either Option 1 or Option 2 in the masterLocationValues array
      
     for (int i = 0; i < 3; i++)
     {
@@ -524,7 +407,7 @@
          
              if ([tempSuspect assignedAlibiType] == 0)
              {
-                 tempValues = [masterLocationValues objectAtIndex:threeSuspectChoice]; // Option 1 or Option 2
+                 tempValues = [masterLocationValues objectAtIndex:threeSuspectChoice]; // Revert to either Option 1 or Option 2
                  [tempSuspect setAssignedAlibiType:[[tempValues objectAtIndex:i] intValue]];
                  proceed = YES;
              }
@@ -534,6 +417,7 @@
         
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
 
+    
     // Select one of the remaining location as the (1,1,4,5) cluster
     do
     {
@@ -601,7 +485,6 @@
     }
     
     proceed = NO;
-    
     for (int i = 0; i < 4; i++)
     {
         if (proceed == YES)
@@ -631,9 +514,7 @@
     }
     while ([tempLocation initCompleted] == YES);
     
-    NSLog(@"5,11,2,6 cluster is: %@", [tempLocation locationName]);
-    
-    /*
+    tempAssignedSuspects = [tempLocation assignedSuspects]; // Load the assignedSuspects array
 
     // Assign Type 11 to Even Male
     for (int i = 0; i < 4; i++)
@@ -688,7 +569,6 @@
     }
     
     proceed = NO;
-    
     for (int i = 0; i < 4; i++)
     {
         if (proceed == YES)
@@ -705,22 +585,282 @@
         }
     }
     
+    [tempLocation setInitCompleted:YES]; // Flag the Location as completed
+    
+    
     // Randomly select 2 of the remaining 3 cluster sequences (1,1,6,9), (2,10,1,3) or (4,8,10,11)
 
-     // IF one of the remaining location is the (1,1,6,9) cluster
-     // Assign Type 1 to Odd Female
-     // Assign Type 1 to Even Female
-     // Handle 6,9 assignments
- 
-     // IF one of the remaining location is the (2,10,1,3) cluster
-     // Assign Type 1 to Odd Male
-     // Assign Type 10 to Even Male
-     // Handle 2,3 assignments
- 
-     // IF one of the remaining location is the (4,8,10,11) cluster
-     // Assign Type 10 to Even Male
-     // Assign Type 11 to Odd Female
-     // Handle 4,8 assignments */
+    // Select 2 random cluster numbers
+    int clusterSelect1, clusterSelect2;
+    do
+    {
+        clusterSelect1 = arc4random_uniform(3);
+        clusterSelect2 = arc4random_uniform(3);
+    }
+    while (clusterSelect1 == clusterSelect2);
+    
+    
+    // Process the chosen 2 cluster numebers
+    if ((clusterSelect1 == 0) || (clusterSelect2 == 0)) // The (1,1,6,9) cluster
+    {
+        do
+        {
+            location tempLocationNumber = arc4random_uniform(6);
+            
+            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
+            
+        }
+        while ([tempLocation initCompleted] == YES);
+        
+        tempAssignedSuspects = [tempLocation assignedSuspects]; // Load the assignedSuspects array
+        
+        // Assign Type 1 to Odd Female
+        for (int i = 0; i < 4; i++)
+        {
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate suspectType] == 2) // Located Odd Female
+            {
+                [candidate setAssignedAlibiType:1];
+            }
+        }
+        // Assign Type 1 to Even Female
+        for (int i = 0; i < 4; i++)
+        {
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate suspectType] == 3) // Located Even Female
+            {
+                [candidate setAssignedAlibiType:1];
+            }
+        }
+        // Handle 6,9 assignments
+        alibiType unusedAlibiType;
+        
+        proceed = NO;
+        for (int i = 0; i < 4; i++)
+        {
+            if (proceed == YES)
+            {
+                continue;
+            }
+            
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate assignedAlibiType] == 0) // Located an unassigned
+            {
+                int randomRemainingAlibi = arc4random_uniform(2);
+                
+                switch (randomRemainingAlibi)
+                {
+                    case 0:
+                        [candidate setAssignedAlibiType:6];
+                        unusedAlibiType = 9;
+                        proceed = YES;
+                        break;
+                    case 1:
+                        [candidate setAssignedAlibiType:9];
+                        unusedAlibiType = 6;
+                        proceed = YES;
+                    default:
+                        break;
+                }
+            }
+        }
+        
+        proceed = NO;
+        for (int i = 0; i < 4; i++)
+        {
+            if (proceed == YES)
+            {
+                continue;
+            }
+            
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate assignedAlibiType] == 0) // Located final unassigned
+            {
+                [candidate setAssignedAlibiType:unusedAlibiType];
+                proceed = YES;
+            }
+        }
+        
+        [tempLocation setInitCompleted:YES]; // Flag the Location as completed
+    }
+    
+    if ((clusterSelect1 == 1) || (clusterSelect2 == 1)) // the (2,10,1,3) cluster
+    {
+        do
+        {
+            location tempLocationNumber = arc4random_uniform(6);
+            
+            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
+            
+        }
+        while ([tempLocation initCompleted] == YES);
+        
+        tempAssignedSuspects = [tempLocation assignedSuspects]; // Load the assignedSuspects array
+        
+        // Assign Type 1 to Odd Male
+        for (int i = 0; i < 4; i++)
+        {
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate suspectType] == 0) // Located Odd Male
+            {
+                [candidate setAssignedAlibiType:1];
+            }
+        }
+        // Assign Type 10 to Even Male
+        for (int i = 0; i < 4; i++)
+        {
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate suspectType] == 1) // Located Even Male
+            {
+                [candidate setAssignedAlibiType:10];
+            }
+        }
+        // Handle 2,3 assignments
+        alibiType unusedAlibiType;
+        
+        proceed = NO;
+        for (int i = 0; i < 4; i++)
+        {
+            if (proceed == YES)
+            {
+                continue;
+            }
+            
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate assignedAlibiType] == 0) // Located an unassigned
+            {
+                int randomRemainingAlibi = arc4random_uniform(2);
+                
+                switch (randomRemainingAlibi)
+                {
+                    case 0:
+                        [candidate setAssignedAlibiType:2];
+                        unusedAlibiType = 3;
+                        proceed = YES;
+                        break;
+                    case 1:
+                        [candidate setAssignedAlibiType:3];
+                        unusedAlibiType = 2;
+                        proceed = YES;
+                    default:
+                        break;
+                }
+            }
+        }
+        proceed = NO;
+        
+        for (int i = 0; i < 4; i++)
+        {
+            if (proceed == YES)
+            {
+                continue;
+            }
+            
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate assignedAlibiType] == 0) // Located final unassigned
+            {
+                [candidate setAssignedAlibiType:unusedAlibiType];
+                proceed = YES;
+            }
+        }
+        
+        [tempLocation setInitCompleted:YES]; // Flag the Location as completed
+    }
+    
+    if ((clusterSelect1 == 2) || (clusterSelect2 == 2)) // the (4,8,10,11) cluster
+    {
+        do
+        {
+            location tempLocationNumber = arc4random_uniform(6);
+            
+            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
+            
+        }
+        while ([tempLocation initCompleted] == YES);
+        
+        tempAssignedSuspects = [tempLocation assignedSuspects]; // Load the assignedSuspects array
+        
+        // Assign Type 10 to Even Male
+        for (int i = 0; i < 4; i++)
+        {
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate suspectType] == 1) // Located Even Male
+            {
+                [candidate setAssignedAlibiType:10];
+            }
+        }
+        // Assign Type 11 to Odd Female
+        for (int i = 0; i < 4; i++)
+        {
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate suspectType] == 2) // Located Odd Female
+            {
+                [candidate setAssignedAlibiType:11];
+            }
+        }
+        // Handle 4,8 assignments
+        alibiType unusedAlibiType;
+        
+        proceed = NO;
+        for (int i = 0; i < 4; i++)
+        {
+            if (proceed == YES)
+            {
+                continue;
+            }
+            
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate assignedAlibiType] == 0) // Located an unassigned
+            {
+                int randomRemainingAlibi = arc4random_uniform(2);
+                
+                switch (randomRemainingAlibi)
+                {
+                    case 0:
+                        [candidate setAssignedAlibiType:4];
+                        unusedAlibiType = 8;
+                        proceed = YES;
+                        break;
+                    case 1:
+                        [candidate setAssignedAlibiType:8];
+                        unusedAlibiType = 4;
+                        proceed = YES;
+                    default:
+                        break;
+                }
+            }
+        }
+        
+        proceed = NO;
+        for (int i = 0; i < 4; i++)
+        {
+            if (proceed == YES)
+            {
+                continue;
+            }
+            
+            EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
+            
+            if ([candidate assignedAlibiType] == 0) // Located final unassigned
+            {
+                [candidate setAssignedAlibiType:unusedAlibiType];
+                proceed = YES;
+            }
+        }
+        
+        [tempLocation setInitCompleted:YES]; // Flag the Location as completed
+    }
 }
 
 #pragma mark - Helper Methods
