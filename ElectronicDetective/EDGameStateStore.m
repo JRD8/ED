@@ -44,6 +44,7 @@
     [self assignSideAreaToLocation];
     [self assignAlibiTypesToSuspects];
     
+    // TODO: Sort Suspect Directory by Suspect Number
     NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
     
@@ -414,7 +415,14 @@
         }
         while (proceed == NO);
     }
-        
+    
+    // Generate Alibi Statements
+    for (int i = 0; i < 3; i++)
+    {
+        EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
+        [tempSuspect generateAlibiString:0 suspect:0];
+    }
+    
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
 
     
@@ -501,6 +509,14 @@
         }
     }
     
+    // Generate Alibi Statements
+    for (int i = 0; i < 4; i++)
+    {
+        EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
+        [tempSuspect generateAlibiString:0 suspect:0];
+    }
+
+    
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
 
     
@@ -583,6 +599,13 @@
             [candidate setAssignedAlibiType:unusedAlibiType];
             proceed = YES;
         }
+    }
+    
+    // Generate Alibi Statements
+    for (int i = 0; i < 4; i++)
+    {
+        EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
+        [tempSuspect generateAlibiString:0 suspect:0];
     }
     
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
@@ -685,6 +708,13 @@
             }
         }
         
+        // Generate Alibi Statements
+        for (int i = 0; i < 4; i++)
+        {
+            EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
+            [tempSuspect generateAlibiString:0 suspect:0];
+        }
+        
         [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     }
     
@@ -772,6 +802,13 @@
             }
         }
         
+        // Generate Alibi Statements
+        for (int i = 0; i < 4; i++)
+        {
+            EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
+            [tempSuspect generateAlibiString:0 suspect:0];
+        }
+        
         [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     }
     
@@ -857,6 +894,13 @@
                 [candidate setAssignedAlibiType:unusedAlibiType];
                 proceed = YES;
             }
+        }
+        
+        // Generate Alibi Statements
+        for (int i = 0; i < 4; i++)
+        {
+            EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
+            [tempSuspect generateAlibiString:0 suspect:0];
         }
         
         [tempLocation setInitCompleted:YES]; // Flag the Location as completed

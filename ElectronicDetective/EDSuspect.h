@@ -41,7 +41,8 @@
 - (NSString *)description;
 - (NSString *)generateTypeString: (type) type;
 - (NSString *)generateLocationString: (location)location;
-- (NSString *)generateAlibiString;
 
+- (void)generateAlibiString: (int) accompanyingSuspect1
+                    suspect: (int) accompanyingSuspect2;
 
 @end

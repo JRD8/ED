@@ -34,7 +34,7 @@
 {
     NSString *privateQuestionForDescription = [NSString stringWithFormat:@"%@, %@, %@, %@ & %@", [suspectPrivateQuestionList objectAtIndex:0], [suspectPrivateQuestionList objectAtIndex:1], [suspectPrivateQuestionList objectAtIndex:2], [suspectPrivateQuestionList objectAtIndex:3], [suspectPrivateQuestionList objectAtIndex:4]];
     
-    return [NSString stringWithFormat:@"Suspect #%d, Name: %@, Occupation: %@, Marital Status: %@, Location: %@, Side: %d, Area: %d, Private Question List: %@, AlibiType: %d, Victim: %@, Murderer: %@, Assigned Yet: %@, SuspectType: %@\r", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, [self generateLocationString:suspectLocation], suspectSide, suspectArea, privateQuestionForDescription, assignedAlibiType, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", [self generateTypeString:suspectType]];
+    return [NSString stringWithFormat:@"\rSuspect #%d \rName: %@ \rOccupation: %@ \rMarital Status: %@ \rLocation: %@ \rSide: %d \rArea: %d \rPrivate Question List: %@ \rVictim: %@, Murderer: %@ \rAssigned Yet: %@ \rSuspectType: %@ \rAlibiType: %d \rAlibi: %@\r", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, [self generateLocationString:suspectLocation], suspectSide, suspectArea, privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", [self generateTypeString:suspectType], assignedAlibiType, suspectAlibi];
 }
 
 - (NSString *)generateTypeString: (type) type
@@ -96,11 +96,10 @@
     return outputLocationString;
 }
 
-// TODO: Finish Method
-- (NSString *)generateAlibiString
+
+- (void)generateAlibiString:(int)accompanyingSuspect1 suspect:(int)accompanyingSuspect2
 {
-    NSString *outputAlibiString;
-    NSString *insertString1, *insertString2;
+    NSString *insertString1, *insertString2, *outputAlibiString; // Setup helper variables
     
     switch (assignedAlibiType)
     {
@@ -110,9 +109,9 @@
             break;
         
         // w/SuspectAndSuspect
-        /*case 1: 
-            outputAlibiString = @"UNASSIGNED";
-            break; */
+        case 1:
+            outputAlibiString = [NSString stringWithFormat:@"I was with %d and %d", accompanyingSuspect1, accompanyingSuspect2];
+            break;
         
         // areaOnly
         case 2: 
@@ -137,14 +136,14 @@
         case 3: 
             switch (suspectSide)
             {
-            case 0:
-                insertString1 = @"EAST";
-                break;
-            case 1:
-                insertString1 = @"WEST";
-                break;
-            default:
-                break;
+                case 0:
+                    insertString1 = @"EAST";
+                    break;
+                case 1:
+                    insertString1 = @"WEST";
+                    break;
+                default:
+                    break;
             }
             outputAlibiString = [NSString stringWithFormat:@"I was %@", insertString1];
             break;
@@ -178,173 +177,245 @@
                 default:
                     break;
             }
-            outputAlibiString = [NSString stringWithFormat:@"I was %@, %@", insertString1, insertString2];
+            outputAlibiString = [NSString stringWithFormat:@"I was %@ %@", insertString1, insertString2];
             break;
         
         // atLocation
         case 5: 
             switch (suspectLocation)
             {
-            case 0:
-                insertString1 = @"A - ART SHOW";
-                break;
-            case 1:
-                insertString1 = @"B - BOX AT THEATRE";
-                break;
-            case 2:
-                insertString1 = @"C - CARD PARTY";
-                break;
-            case 3:
-                insertString1 = @"D - DOCKS";
-                break;
-            case 4:
-                insertString1 = @"E - EMBASSY";
-                break;
-            case 5:
-                insertString1 = @"F - FACTORY";
-                break;
-            default:
-                break;
+                case 0:
+                    insertString1 = @"A - ART SHOW";
+                    break;
+                case 1:
+                    insertString1 = @"B - BOX AT THEATRE";
+                    break;
+                case 2:
+                    insertString1 = @"C - CARD PARTY";
+                    break;
+                case 3:
+                    insertString1 = @"D - DOCKS";
+                    break;
+                case 4:
+                    insertString1 = @"E - EMBASSY";
+                    break;
+                case 5:
+                    insertString1 = @"F - FACTORY";
+                    break;
+                default:
+                    break;
             }
             outputAlibiString = [NSString stringWithFormat:@"I was at %@", insertString1];
             break;
         
         // areaWithSuspect
-        /*case 6: 
-         
-         // Process Area
-         switch (suspectArea)
-         {
-             case 0:
-                insertString1 = @"UPTOWN";
-                break;
-             case 1:
-                insertString1 = @"MIDTOWN";
-                break;
-             case 2:
-                insertString1 = @"DOWNTOWN";
-                break;
-             default:
-                break;
-         }
-         
-         outputAlibiString = @"UNASSIGNED";
-         break; */
+        case 6: 
+            // Process Area
+            switch (suspectArea)
+             {
+                 case 0:
+                    insertString1 = @"UPTOWN";
+                    break;
+                 case 1:
+                    insertString1 = @"MIDTOWN";
+                    break;
+                 case 2:
+                    insertString1 = @"DOWNTOWN";
+                    break;
+                 default:
+                    break;
+            }
+            outputAlibiString = [NSString stringWithFormat: @"I was %@ with %d", insertString1, accompanyingSuspect1];
+            break;
 
         // sideWithSuspect
-        /*case 7: 
-         outputAlibiString = @"UNASSIGNED";
-         break; */
+        case 7:
+            // Process Side
+            switch (suspectSide)
+            {
+                case 0:
+                    insertString1 = @"EAST";
+                    break;
+                case 1:
+                    insertString1 = @"WEST";
+                    break;
+                default:
+                    break;
+            }
+            outputAlibiString = [NSString stringWithFormat: @"I was %@ with %d", insertString1, accompanyingSuspect1];;
+            break;
         
         // areaAtLocation
         case 8: 
-         // Process Area
-         switch (suspectArea)
-         {
-            case 0:
-                insertString1 = @"UPTOWN";
-                break;
-            case 1:
-                insertString1 = @"MIDTOWN";
-                break;
-            case 2:
-                insertString1 = @"DOWNTOWN";
-                break;
-            default:
-                break;
-         }
-         // Process Location
-         switch (suspectLocation)
-         {
-            case 0:
-                insertString2 = @"A - ART SHOW";
-                break;
-            case 1:
-                insertString2 = @"B - BOX AT THEATRE";
-                break;
-            case 2:
-                insertString2 = @"C - CARD PARTY";
-                break;
-            case 3:
-                insertString2 = @"D - DOCKS";
-                break;
-            case 4:
-                insertString2 = @"E - EMBASSY";
-                break;
-            case 5:
-                insertString2 = @"F - FACTORY";
-                break;
-            default:
-                break;
-         }
-        
-         outputAlibiString = [NSString stringWithFormat:@"I was %@ at %@", insertString1, insertString2];
-         break;
+             // Process Area
+             switch (suspectArea)
+             {
+                case 0:
+                    insertString1 = @"UPTOWN";
+                    break;
+                case 1:
+                    insertString1 = @"MIDTOWN";
+                    break;
+                case 2:
+                    insertString1 = @"DOWNTOWN";
+                    break;
+                default:
+                    break;
+             }
+             // Process Location
+             switch (suspectLocation)
+             {
+                case 0:
+                    insertString2 = @"A - ART SHOW";
+                    break;
+                case 1:
+                    insertString2 = @"B - BOX AT THEATRE";
+                    break;
+                case 2:
+                    insertString2 = @"C - CARD PARTY";
+                    break;
+                case 3:
+                    insertString2 = @"D - DOCKS";
+                    break;
+                case 4:
+                    insertString2 = @"E - EMBASSY";
+                    break;
+                case 5:
+                    insertString2 = @"F - FACTORY";
+                    break;
+                default:
+                    break;
+             }
+             outputAlibiString = [NSString stringWithFormat:@"I was %@ at %@", insertString1, insertString2];
+             break;
         
         // sideAtLocation
         case 9: 
-         // Process Side
-         switch (suspectSide)
-         {
-            case 0:
-                insertString1 = @"EAST";
-                break;
-            case 1:
-                insertString1 = @"WEST";
-                break;
-            default:
-                break;
-         }
-        // Process Location
-        switch (suspectLocation)
-        {
-            case 0:
-                insertString2 = @"A - ART SHOW";
-                break;
-            case 1:
-                insertString2 = @"B - BOX AT THEATRE";
-                break;
-            case 2:
-                insertString2 = @"C - CARD PARTY";
-                break;
-            case 3:
-                insertString2 = @"D - DOCKS";
-                break;
-            case 4:
-                insertString2 = @"E - EMBASSY";
-                break;
-            case 5:
-                insertString2 = @"F - FACTORY";
-                break;
-            default:
-                break;
-        }
-        outputAlibiString = [NSString stringWithFormat:@"I was %@ at %@", insertString1, insertString2];
-        break;
+             // Process Side
+             switch (suspectSide)
+             {
+                case 0:
+                    insertString1 = @"EAST";
+                    break;
+                case 1:
+                    insertString1 = @"WEST";
+                    break;
+                default:
+                    break;
+             }
+            // Process Location
+            switch (suspectLocation)
+            {
+                case 0:
+                    insertString2 = @"A - ART SHOW";
+                    break;
+                case 1:
+                    insertString2 = @"B - BOX AT THEATRE";
+                    break;
+                case 2:
+                    insertString2 = @"C - CARD PARTY";
+                    break;
+                case 3:
+                    insertString2 = @"D - DOCKS";
+                    break;
+                case 4:
+                    insertString2 = @"E - EMBASSY";
+                    break;
+                case 5:
+                    insertString2 = @"F - FACTORY";
+                    break;
+                default:
+                    break;
+            }
+            outputAlibiString = [NSString stringWithFormat:@"I was %@ at %@", insertString1, insertString2];
+            break;
         
         // atLocationWithSuspect
-        /*case 10: 
-         outputAlibiString = @"UNASSIGNED";
-         break; */
+        case 10:
+            // Process Location
+            switch (suspectLocation)
+            {
+                case 0:
+                    insertString1 = @"A - ART SHOW";
+                    break;
+                case 1:
+                    insertString1 = @"B - BOX AT THEATRE";
+                    break;
+                case 2:
+                    insertString1 = @"C - CARD PARTY";
+                    break;
+                case 3:
+                    insertString1 = @"D - DOCKS";
+                    break;
+                case 4:
+                    insertString1 = @"E - EMBASSY";
+                    break;
+                case 5:
+                    insertString1 = @"F - FACTORY";
+                    break;
+                default:
+                    break;
+            }
+            outputAlibiString = [NSString stringWithFormat:@"I was %@ with %d", insertString1, accompanyingSuspect1];
+            break;
         
         // sideWithSuspectAndSuspect
-        /*case 11: 
-         outputAlibiString = @"UNASSIGNED";
-         break; */
+        case 11:
+            // Process Side
+            switch (suspectSide)
+            {
+                case 0:
+                    insertString1 = @"EAST";
+                    break;
+                case 1:
+                    insertString1 = @"WEST";
+                    break;
+                default:
+                    break;
+            }
+            outputAlibiString = [NSString stringWithFormat:@"I was %@ with %d and %d", insertString1, accompanyingSuspect1, accompanyingSuspect2];
+            break;
         
         // sideAreaWithSuspect
-        /*case 12: 
-         outputAlibiString = @"UNASSIGNED";
-         break; */
+        case 12:
+            // Process Side
+            switch (suspectSide)
+            {
+                case 0:
+                    insertString1 = @"EAST";
+                    break;
+                case 1:
+                    insertString1 = @"WEST";
+                    break;
+                default:
+                    break;
+            }
+            // Process Area
+            switch (suspectArea)
+            {
+                case 0:
+                    insertString2 = @"UPTOWN";
+                    break;
+                case 1:
+                    insertString2 = @"MIDTOWN";
+                    break;
+                case 2:
+                    insertString2 = @"DOWNTOWN";
+                    break;
+                default:
+                    break;
+            }
+            outputAlibiString = [NSString stringWithFormat:@"I was %@, %@ with %d", insertString1, insertString2, accompanyingSuspect1];
+            break;
 
         default:
             break;
         
     };
     
-    NSLog(@"OUTPUT ALIBI STRING: %@", outputAlibiString);
+    [self setSuspectAlibi:outputAlibiString];  // Set the output string variable in the suspect object
     
-    return outputAlibiString;
+    NSLog(@"SUSPECT #%d: %@ - Type: %d, Alibi: %@", suspectNumber, suspectName, assignedAlibiType, outputAlibiString);
 }
 
 @end
