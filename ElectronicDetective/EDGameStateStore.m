@@ -37,10 +37,9 @@
     
     [self killVictim];
     [self assignMurderer];
-    [self hideWeapons];
     [self randomizeSuspectsInCity];
+    [self hideWeapons];
     
-    [self identify3SuspectLocation];
     [self assignSideAreaToLocation];
     [self assignAlibiTypesToSuspects];
     
@@ -121,7 +120,7 @@
     
     // Flag location on EDLocation object
     EDLocation *murderSite = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]];
-    [murderSite setMurderLocation:YES];
+    [murderSite setSceneOfTheCrime:YES];
     
     NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], [self generateLocationString:murderLocation], [self generateWeaponString:murderWeapon]);
     
@@ -155,7 +154,7 @@
         
         NSLog(@"Hiding the .38 at %@\n", locationOf38String);
     }
-    while (locationOf38 == murderLocation);
+    while (locationOf38 == murderLocation || locationOf38 == guiltySuspectLocation || locationOf38 == threeSuspectLocation); // Can't hide weapon either at SceneOfCrime or guiltySuspectLocation or 3-Suspect Location
     
     // Flag location of .38 on EDLocation object
     EDLocation *siteOf38 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", locationOf38]];
@@ -171,7 +170,7 @@
         
         NSLog(@"Hiding the .45 at %@\n", locationOf45String);
     }
-    while (locationOf45 == murderLocation || locationOf45 == locationOf38);
+    while (locationOf45 == murderLocation || locationOf45 == locationOf38 || locationOf45 == guiltySuspectLocation || locationOf45 == threeSuspectLocation); // Same as above, buy also can't hide where the .38 is hidden
     
     // Flag location of .45 on EDLocation object
     EDLocation *siteOf45 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", locationOf45]];
@@ -291,13 +290,19 @@
         while (successfulAssignment == NO);
     }
     
-    // FIXME: Murder is assigning to locations with weapons AND this routine isn't producing accurate results
-    // Set guiltySuspectLocation
-    EDSuspect *guiltySuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", murdererNumber]];
+    // Register the guiltySuspectLocation and flag MurderLocation variable in EDLocation object
+    EDSuspect *guiltySuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", murdererNumber + 1]];
     guiltySuspectLocation = [guiltySuspect suspectLocation];
     
-    NSLog(@"Guilty Suspect Location = %d", guiltySuspectLocation);
+    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", guiltySuspectLocation]];
+    [tempLocation setMurdererLocation:YES];
     
+    NSLog(@"Guilty Suspect Location = %@", [self generateLocationString:guiltySuspectLocation]);
+    
+    // Register the threeSuspectLocation
+    [self identify3SuspectLocation];
+    
+    NSLog(@"Three Suspect Location = %@", [self generateLocationString:threeSuspectLocation]);
 }
 
 - (void) identify3SuspectLocation
@@ -1060,7 +1065,7 @@
         
         if ([[temp assignedSuspects] count] == 0)
         {
-            NSLog(@"\rLOCATION #%d - %@ = MURDER LOCATION", i, [temp locationName]);
+            NSLog(@"\rLOCATION #%d - %@ = SCENE OF THE CRIME", i, [temp locationName]);
         }
         else
         {

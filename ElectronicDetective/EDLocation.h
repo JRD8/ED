@@ -24,7 +24,8 @@
 @property (nonatomic) BOOL locationOf38;
 @property (nonatomic) BOOL locationOf45;
 @property (nonatomic) BOOL threeSuspectLocation;
-@property (nonatomic) BOOL murderLocation;
+@property (nonatomic) BOOL sceneOfTheCrime;
+@property (nonatomic) BOOL murdererLocation;
 @property (nonatomic) BOOL initCompleted;
 
 - (id) initWithInitialValues: (int) lnumber

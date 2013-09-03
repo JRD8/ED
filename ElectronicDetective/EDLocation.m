@@ -10,7 +10,7 @@
 
 @implementation EDLocation
 
-@synthesize locationName, locationNumber, locationOf38, locationOf45, threeSuspectLocation, murderLocation, locationSide, locationArea, assignedSuspects, initCompleted;
+@synthesize locationName, locationNumber, locationOf38, locationOf45, threeSuspectLocation, sceneOfTheCrime, locationSide, locationArea, assignedSuspects, murdererLocation,initCompleted;
 
 - (id) initWithInitialValues: (int) lnumber
                         name: (NSString *) lname
@@ -22,6 +22,7 @@
     [self setThreeSuspectLocation:NO];
     [self setLocationSide:east];
     [self setLocationArea:uptown];
+    [self setMurdererLocation:NO];
     [self setInitCompleted:NO];
     assignedSuspects = [[NSMutableArray alloc] init];
     
@@ -30,7 +31,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@, Address: %@, Murder Location: %@, Location Of .38: %@, Location Of .45: %@, 3-Suspect Location: %@, Init Completed: %@",locationName, [self generateLocationAddressString:locationSide locationArea:locationArea], murderLocation ? @"YES" : @"NO", locationOf38 ? @"YES" : @"NO", locationOf45 ? @"YES" : @"NO", threeSuspectLocation ? @"YES" : @"NO", initCompleted ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"\r%@ \rAddress: %@ \rScene Of The Crime: %@ \rMurderer Location: %@ \rLocation Of .38: %@ \rLocation Of .45: %@ \r3-Suspect Location: %@\r", locationName, [self generateLocationAddressString:locationSide locationArea:locationArea], sceneOfTheCrime ? @"YES" : @"NO", murdererLocation ? @"YES" : @"NO", locationOf38 ? @"YES" : @"NO", locationOf45 ? @"YES" : @"NO", threeSuspectLocation ? @"YES" : @"NO"];
 };
 
 - (NSString *)generateLocationAddressString: (side)side
