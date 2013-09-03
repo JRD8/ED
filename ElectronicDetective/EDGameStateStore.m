@@ -181,12 +181,8 @@
 
 - (void) randomizeSuspectsInCity
 {
-    // Assign the Victim to the morgue
-    EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
-    [temp setSuspectLocation:6]; // Assign to the morgue
-    [temp setAssignedYet:YES];
     
-    // Initialize helper variables/objects
+    // Method variables/objects
     EDSuspect *candidateSuspect;
     type candidateType;
     int candidateSuspectNumber;
@@ -195,6 +191,12 @@
     location targetLocationNumber;
     EDLocation *targetLocation;
     BOOL successfulAssignment;
+
+    
+    // Assign the Victim to the morgue
+    EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
+    [temp setSuspectLocation:6]; // Assign to the morgue
+    [temp setAssignedYet:YES];
     
     // Iterate 19x representing the remaining 19 suspects
     for (int i = 0; i < 19; i++)
@@ -307,6 +309,7 @@
 
 - (void) assignSideAreaToLocation
 {
+    // Method variables
     BOOL locationAssigned;
     
     // Iterate through all locations and assign Side/Area values
@@ -370,10 +373,10 @@
     }
 }
 
-
+// TODO: finish accompanying suspect routine
 - (void) assignAlibiTypesToSuspects
 {
-    // Utility setup
+    // Method Variables
     
     NSArray *tempValues = [[NSArray alloc] init]; // A temp container for routines below
     BOOL proceed; // Loop flag
@@ -905,6 +908,41 @@
         
         [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     }
+}
+
+- (NSString *) askPrivateQuestion: (privateQuestion)questionNumber
+                        toSuspect: (int) suspectNumber
+{
+    // Method Variables
+    NSString *answerString;
+    NSArray *tempQuestionList;
+    BOOL eligibleQuestion = NO;
+    
+    // Load suspectNumber's PrivateQuestionList
+    EDSuspect *tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", suspectNumber]];
+    tempQuestionList = [tempSuspect suspectPrivateQuestionList];
+    
+    // Iterate through suspect's PrivateQuestionList testing if requested question is eligible
+    for (int i = 0; i < [tempQuestionList count]; i++)
+    {
+        if ([[tempQuestionList objectAtIndex:i] intValue] == questionNumber)
+        {
+            eligibleQuestion = YES; // Identified the requested question as a match & eligible
+        }
+    }
+    
+    // If not, return error
+    if (eligibleQuestion == NO)
+    {
+        answerString = @"EEE";
+    }
+    // If yes, return answer string
+    else if (eligibleQuestion == YES)
+    {
+        
+    }
+    
+    return answerString;
 }
 
 #pragma mark - Helper Methods

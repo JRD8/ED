@@ -64,6 +64,8 @@
 - (void) identify3SuspectLocation;
 - (void) assignSideAreaToLocation;
 - (void) assignAlibiTypesToSuspects;
+- (NSString *) askPrivateQuestion: (privateQuestion)questionNumber
+                        toSuspect: (int) suspectNumber;
 
 // Helper Methods
 - (NSString *)generateLocationString: (location)location;

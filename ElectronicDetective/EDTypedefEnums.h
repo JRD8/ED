@@ -89,6 +89,6 @@ typedef enum
     areOddPrintsOn38 = 12,
     areOddPrintsOn45 = 13,
     
-} privateQuestions;
+} privateQuestion;
 
 #endif
