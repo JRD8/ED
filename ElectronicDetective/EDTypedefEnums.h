@@ -55,7 +55,7 @@ typedef enum
 
 typedef enum
 {
-    unassigned = 0,
+    unassignedAlibiType = 0,
     withSuspectAndSuspect = 1,
     areaOnly = 2,
     sideOnly = 3,
@@ -74,20 +74,21 @@ typedef enum
 
 typedef enum
 {
-    didMurdererGoEast = 0,
-    isMaleMurderer = 1,
-    whatAreaWasMurderer = 2,
-    isMurderWeapon38 = 3,
-    locationOf38 = 4,
-    locationOf45 = 5,
-    whereIsThreeSuspectLocation = 6,
-    isMurdererAtABC = 7,
-    wereYouEast = 8,
-    whatWasYourArea = 9,
-    wereYouAtABC = 10,
-    wereYouInAWeaponLocation = 11,
-    areOddPrintsOn38 = 12,
-    areOddPrintsOn45 = 13,
+    unassignedQuestion = 0,
+    didMurdererGoEast = 1,
+    isMaleMurderer = 2,
+    whatAreaWasMurderer = 3,
+    isMurderWeapon38 = 4,
+    locationOf38 = 5,
+    locationOf45 = 6,
+    whereIsThreeSuspectLocation = 7,
+    isMurdererAtABC = 8,
+    wereYouEast = 9,
+    whatWasYourArea = 10,
+    wereYouAtABC = 11,
+    wereYouInAWeaponLocation = 12,
+    areOddPrintsOn38 = 13,
+    areOddPrintsOn45 = 14,
     
 } privateQuestion;
 

@@ -32,6 +32,7 @@
     location locationOf38;
     location locationOf45;
     location threeSuspectLocation;
+    location guiltySuspectLocation;
     
     // Helper variables
     NSNumber *num0;

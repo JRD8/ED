@@ -22,7 +22,7 @@
     [self setSuspectOccupation:sOccupation];
     [self setSuspectMaritalStatus:sMaritalStatus];
     [self setSuspectPrivateQuestionList:sQuestionList];
-    [self setAssignedAlibiType:unassigned];
+    [self setAssignedAlibiType:unassignedAlibiType];
     [self setVictim:NO];
     [self setMurderer:NO];
     [self setAssignedYet:NO];
@@ -103,7 +103,7 @@
     
     switch (assignedAlibiType)
     {
-        // Unassigned    
+        // UnassignedAlibiType    
         case 0: 
             outputAlibiString = @"UNASSIGNED";
             break;

@@ -291,6 +291,13 @@
         while (successfulAssignment == NO);
     }
     
+    // FIXME: Murder is assigning to locations with weapons AND this routine isn't producing accurate results
+    // Set guiltySuspectLocation
+    EDSuspect *guiltySuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", murdererNumber]];
+    guiltySuspectLocation = [guiltySuspect suspectLocation];
+    
+    NSLog(@"Guilty Suspect Location = %d", guiltySuspectLocation);
+    
 }
 
 - (void) identify3SuspectLocation
@@ -917,6 +924,7 @@
     NSString *answerString;
     NSArray *tempQuestionList;
     BOOL eligibleQuestion = NO;
+    EDLocation *tempLocation = [[EDLocation alloc] init];
     
     // Load suspectNumber's PrivateQuestionList
     EDSuspect *tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", suspectNumber]];
@@ -939,7 +947,52 @@
     // If yes, return answer string
     else if (eligibleQuestion == YES)
     {
-        
+        switch (questionNumber)
+        {
+            case 1: // didMurdererGoEast
+                break;
+                
+            case 2: // isMaleMurderer
+                if (murdererNumber < 10)
+                {
+                    answerString = @"YES"; 
+                }
+                else if (murdererNumber >= 10)
+                {
+                    answerString = @"NO";
+                }
+                break;
+                
+            case 3: // whatAreaWasMurderer
+                break;
+                
+            case 4: // isMurderWeapon38
+                if (murderWeapon == 0)
+                {
+                    answerString = @"YES";
+                }
+                else if (murderWeapon == 1)
+                {
+                    answerString = @"NO";
+                }
+                break;
+                
+            case 5: // locationOf38
+                answerString = [self generateLocationString:locationOf38];
+                break;
+                
+            case 6: // locationOf45
+                answerString = [self generateLocationString:locationOf45];
+                break;
+                
+            case 7: // whereIsThreeSuspectLocation
+                answerString = [self generateLocationString:threeSuspectLocation];
+                break;
+
+                
+            default:
+                break;
+        }
     }
     
     return answerString;
