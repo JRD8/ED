@@ -111,7 +111,7 @@
 - (void) killVictim
 {
     victimNumber = arc4random_uniform(20);
-    murderLocation = arc4random_uniform(6);
+    sceneOfTheCrime = arc4random_uniform(6);
     murderWeapon = arc4random_uniform(2);
 
     // Flag victim on EDSuspect object
@@ -119,10 +119,10 @@
     [victim setVictim:YES];
     
     // Flag location on EDLocation object
-    EDLocation *murderSite = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]];
+    EDLocation *murderSite = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", sceneOfTheCrime]];
     [murderSite setSceneOfTheCrime:YES];
     
-    NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], [self generateLocationString:murderLocation], [self generateWeaponString:murderWeapon]);
+    NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], [self generateLocationString:sceneOfTheCrime], [self generateWeaponString:murderWeapon]);
     
 }
 
@@ -154,7 +154,7 @@
         
         NSLog(@"Hiding the .38 at %@\n", locationOf38String);
     }
-    while (locationOf38 == murderLocation || locationOf38 == guiltySuspectLocation || locationOf38 == threeSuspectLocation); // Can't hide weapon either at SceneOfCrime or guiltySuspectLocation or 3-Suspect Location
+    while (locationOf38 == sceneOfTheCrime || locationOf38 == murdererLocation || locationOf38 == threeSuspectLocation); // Can't hide weapon either at SceneOfCrime or guiltySuspectLocation or 3-Suspect Location
     
     // Flag location of .38 on EDLocation object
     EDLocation *siteOf38 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", locationOf38]];
@@ -170,7 +170,7 @@
         
         NSLog(@"Hiding the .45 at %@\n", locationOf45String);
     }
-    while (locationOf45 == murderLocation || locationOf45 == locationOf38 || locationOf45 == guiltySuspectLocation || locationOf45 == threeSuspectLocation); // Same as above, buy also can't hide where the .38 is hidden
+    while (locationOf45 == sceneOfTheCrime || locationOf45 == locationOf38 || locationOf45 == murdererLocation || locationOf45 == threeSuspectLocation); // Same as above, buy also can't hide where the .38 is hidden
     
     // Flag location of .45 on EDLocation object
     EDLocation *siteOf45 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", locationOf45]];
@@ -244,7 +244,7 @@
                 targetLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", targetLocationNumber]];
                 
             }
-            while (targetLocationNumber == murderLocation); // Keep looping if targetLocation == murderLocation
+            while (targetLocationNumber == sceneOfTheCrime); // Keep looping if targetLocation == murderLocation
             
             if ([[targetLocation assignedSuspects] count] == 0) // No assignedSuspects yet
             {
@@ -292,12 +292,12 @@
     
     // Register the guiltySuspectLocation and flag MurderLocation variable in EDLocation object
     EDSuspect *guiltySuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", murdererNumber + 1]];
-    guiltySuspectLocation = [guiltySuspect suspectLocation];
+    murdererLocation = [guiltySuspect suspectLocation];
     
-    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", guiltySuspectLocation]];
+    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murdererLocation]];
     [tempLocation setMurdererLocation:YES];
     
-    NSLog(@"Guilty Suspect Location = %@", [self generateLocationString:guiltySuspectLocation]);
+    NSLog(@"Guilty Suspect Location = %@", [self generateLocationString:murdererLocation]);
     
     // Register the threeSuspectLocation
     [self identify3SuspectLocation];
@@ -396,7 +396,7 @@
     
     // First, set the MURDER LOCATION as Init Completed
     
-    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murderLocation]];
+    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", sceneOfTheCrime]];
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
 
     
@@ -949,12 +949,21 @@
     {
         answerString = @"EEE";
     }
-    // If yes, return answer string
+    // If yes, process & return answerString
     else if (eligibleQuestion == YES)
     {
         switch (questionNumber)
         {
             case 1: // didMurdererGoEast
+                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murdererLocation]];
+                if ([tempLocation locationSide] == 0)
+                {
+                    answerString = @"YES";
+                }
+                else if ([tempLocation locationSide] == 1)
+                {
+                    answerString = @"NO";
+                }
                 break;
                 
             case 2: // isMaleMurderer
@@ -969,6 +978,19 @@
                 break;
                 
             case 3: // whatAreaWasMurderer
+                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murdererLocation]];
+                if ([tempLocation locationArea] == 0)
+                {
+                    answerString = @"UPTOWN";
+                }
+                else if ([tempLocation locationArea] == 1)
+                {
+                    answerString = @"MIDTOWN";
+                }
+                else if ([tempLocation locationArea] == 2)
+                {
+                    answerString = @"DOWNTOWN";
+                }
                 break;
                 
             case 4: // isMurderWeapon38
@@ -993,7 +1015,43 @@
             case 7: // whereIsThreeSuspectLocation
                 answerString = [self generateLocationString:threeSuspectLocation];
                 break;
-
+            
+            // TODO: case 8
+            // isMurdererAtABC = 8,
+                
+            case 9: // wereYouEast
+                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", [tempSuspect suspectLocation]]];
+                if ([tempLocation locationSide] == 0)
+                {
+                    answerString = @"YES";
+                }
+                else if ([tempLocation locationSide] == 1)
+                {
+                    answerString = @"NO";
+                }
+                break;
+                
+            case 10: // whatWasYourArea
+                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", [tempSuspect suspectLocation]]];
+                if ([tempLocation locationArea] == 0)
+                {
+                    answerString = @"UPTOWN";
+                }
+                else if ([tempLocation locationArea] == 1)
+                {
+                    answerString = @"MIDTOWN";
+                }
+                else if ([tempLocation locationArea] == 2)
+                {
+                    answerString = @"DOWNTOWN";
+                }
+                break;
+                
+            // TODO: case 11-14
+            /* wereYouAtABC = 11,
+                 wereYouInAWeaponLocation = 12,
+                 areOddPrintsOn38 = 13,
+                 areOddPrintsOn45 = 14,*/
                 
             default:
                 break;

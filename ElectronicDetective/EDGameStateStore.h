@@ -28,11 +28,11 @@
     
     weapon murderWeapon;
 
-    location murderLocation;
+    location sceneOfTheCrime;
     location locationOf38;
     location locationOf45;
     location threeSuspectLocation;
-    location guiltySuspectLocation;
+    location murdererLocation;
     
     // Helper variables
     NSNumber *num0;
