@@ -73,6 +73,7 @@
 - (NSString *)generateWeaponString: (weapon)weapon;
 
 - (void) printLocationAssignedSuspects;
+- (void) privateQuestionTestRoutine;
 
 
 @end

@@ -48,6 +48,7 @@
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
     
     [self printLocationAssignedSuspects];
+    [self privateQuestionTestRoutine];
     
     return self;
 }
@@ -944,6 +945,12 @@
         }
     }
     
+    // However, no matter what - if attempting to speak to victim, then must return an error
+    if (suspectNumber == victimNumber)
+    {
+        eligibleQuestion = NO; // Reset to ineligible
+    }
+    
     // If not, return error
     if (eligibleQuestion == NO)
     {
@@ -1187,6 +1194,21 @@
         {
             EDSuspect *temp2 = [[temp assignedSuspects] objectAtIndex:j];
             NSLog(@"Suspect #%d - %@, SuspectType: %@, Alibi Type: %d", ([temp2 suspectNumber]), [temp2 suspectName], [temp2 generateTypeString:[temp2 suspectType]], [temp2 assignedAlibiType]);
+        }
+    }
+}
+
+- (void) privateQuestionTestRoutine
+{
+    NSString *answer;
+    
+    for (int i = 0; i < 20; i++)
+    {
+        for (int j = 0; j < 15; j++)
+        {
+            answer = [self askPrivateQuestion:j toSuspect:i];
+            
+            NSLog(@"SUSPECT #%d, PQ #%d, ANSWER = %@", i + 1, j, answer);
         }
     }
 }
