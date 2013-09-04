@@ -929,7 +929,7 @@
     NSString *answerString;
     NSArray *tempQuestionList;
     BOOL eligibleQuestion = NO;
-    EDLocation *tempLocation = [[EDLocation alloc] init];
+    EDLocation *tempLocation = [[EDLocation alloc]init];
     
     // Load suspectNumber's PrivateQuestionList
     EDSuspect *tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", suspectNumber]];
@@ -1016,9 +1016,17 @@
                 answerString = [self generateLocationString:threeSuspectLocation];
                 break;
             
-            // TODO: case 8
-            // isMurdererAtABC = 8,
-                
+            case 8: // isMurdererAtABC = 8
+                if (sceneOfTheCrime < 3)
+                {
+                    answerString = @"YES";
+                }
+                else if (sceneOfTheCrime >= 3)
+                {
+                    answerString = @"NO";
+                }
+                break;
+
             case 9: // wereYouEast
                 tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", [tempSuspect suspectLocation]]];
                 if ([tempLocation locationSide] == 0)
@@ -1047,12 +1055,57 @@
                 }
                 break;
                 
-            // TODO: case 11-14
-            /* wereYouAtABC = 11,
-                 wereYouInAWeaponLocation = 12,
-                 areOddPrintsOn38 = 13,
-                 areOddPrintsOn45 = 14,*/
+            case 11: // wereYouAtABC
+                if ([tempSuspect suspectLocation] < 3)
+                {
+                    answerString = @"YES";
+                }
+                else if ([tempSuspect suspectLocation] >= 3)
+                {
+                    answerString = @"NO";
+                }
+                break;
                 
+            case 12: // wereYouInAWeaponLocation
+                if (([tempSuspect suspectLocation] == locationOf38) || ([tempSuspect suspectLocation] == locationOf45))
+                {
+                    answerString = @"YES";
+                }
+                else
+                {
+                    answerString = @"NO";
+                }
+                break;
+            
+            // TODO: Finish correct fingerprint routines
+            case 13: // areOddPrintsOn38
+                {
+                    int guess = arc4random_uniform(2);
+                    if (guess == 0)
+                    {
+                        answerString = @"YES";
+                    }
+                    else if (guess == 1)
+                    {
+                        answerString = @"NO";
+                    }
+                }
+                break;
+            
+            case 14: // areOddPrintsOn45
+                {
+                    int guess = arc4random_uniform(2);
+                    if (guess == 0)
+                    {
+                        answerString = @"YES";
+                    }
+                    else if (guess == 1)
+                    {
+                        answerString = @"NO";
+                    }
+                }
+                break;
+
             default:
                 break;
         }
