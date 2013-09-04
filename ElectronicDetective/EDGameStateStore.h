@@ -71,6 +71,7 @@
 // Helper Methods
 - (NSString *)generateLocationString: (location)location;
 - (NSString *)generateWeaponString: (weapon)weapon;
+- (NSString *)generatePrivateQuestionString: (privateQuestion)question;
 
 - (void) printLocationAssignedSuspects;
 - (void) privateQuestionTestRoutine;

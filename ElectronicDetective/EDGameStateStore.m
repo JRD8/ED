@@ -1173,6 +1173,65 @@
     return outputWeaponString;
 }
 
+- (NSString *)generatePrivateQuestionString: (privateQuestion)question
+{
+    NSString *outputQuestionString;
+    
+    switch (question)
+    {
+        case 0:
+            outputQuestionString = @"Unassigned";
+            break;
+        case 1:
+            outputQuestionString = @"Did Murderer go the EAST SIDE?";
+            break;
+        case 2:
+            outputQuestionString = @"Did a MALE do it?";
+            break;
+        case 3:
+            outputQuestionString = @"What AREA did the Murderer go to?";
+            break;
+        case 4:
+            outputQuestionString = @"Was the MURDER WEAPON a .38?";
+            break;
+        case 5:
+            outputQuestionString = @"Where was the .38 hidden?";
+            break;
+        case 6:
+            outputQuestionString = @"Where was the .45 hidden?";
+            break;
+        case 7:
+            outputQuestionString = @"Which PLACE contained only 3 suspects?";
+            break;
+        case 8:
+            outputQuestionString = @"Did the murderer go to PLACE A, B or C?";
+            break;
+        case 9:
+            outputQuestionString = @"Were you on the EAST SIDE?";
+            break;
+        case 10:
+            outputQuestionString = @"What AREA were you in?";
+            break;
+        case 11:
+            outputQuestionString = @"Were you at PLACE A,B or C?";
+            break;
+        case 12:
+            outputQuestionString = @"Were you where a WEAPON was hidden?";
+            break;
+        case 13:
+            outputQuestionString = @"Are an odd-numbered suspect's PRINTS on the .38?";
+            break;
+        case 14:
+            outputQuestionString = @"Are an odd-numbered suspect's PRINTS on the .45?";
+            break;
+        default:
+            break;
+    }
+    
+    return outputQuestionString;
+}
+
+
 - (void) printLocationAssignedSuspects
 {
     NSLog(@"\r\rLOCATIONS & ASSIGNED SUSPECTS:");
@@ -1202,13 +1261,20 @@
 {
     NSString *answer;
     
-    for (int i = 0; i < 20; i++)
+    for (int i = 1; i < 21; i++)
     {
-        for (int j = 0; j < 15; j++)
+        NSLog(@"\r\r");
+        
+        for (int j = 1; j < 15; j++)
         {
             answer = [self askPrivateQuestion:j toSuspect:i];
             
-            NSLog(@"SUSPECT #%d, PQ #%d, ANSWER = %@", i + 1, j, answer);
+            EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i]];
+            
+            if (![answer isEqualToString:@"EEE"])
+            {
+                NSLog(@"SUSPECT #%d - %@, PQ #%d - %@ %@", [temp suspectNumber], [temp suspectName], j,[self generatePrivateQuestionString:j], answer);
+            }
         }
     }
 }
