@@ -44,9 +44,9 @@
     [self assignSideAreaToLocation];
     [self assignAlibiTypesToSuspects];
     
-    NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
-    
+    NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
+       
     [self printLocationAssignedSuspects];
     [self privateQuestionTestRoutine];
     
@@ -123,7 +123,7 @@
     EDLocation *murderSite = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", sceneOfTheCrime]];
     [murderSite setSceneOfTheCrime:YES];
     
-    NSLog(@"The Victim Was #%d - %@\nThe body was found at %@\nThe murder weapon was a %@\n\n", [victim suspectNumber], [victim suspectName], [self generateLocationString:sceneOfTheCrime], [self generateWeaponString:murderWeapon]);
+    NSLog(@"\rThe Victim was #%d - %@\rThe body was found at %@\rThe murder weapon was a %@\r\r", [victim suspectNumber], [victim suspectName], [self generateLocationString:sceneOfTheCrime], [self generateWeaponString:murderWeapon]);
     
 }
 
@@ -139,7 +139,7 @@
     EDSuspect *murderer = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", murdererNumber + 1]];
     [murderer setMurderer:YES];
     
-    NSLog(@"The Murderer is #%d - %@\n", [murderer suspectNumber], [murderer suspectName]);
+    NSLog(@"The Murderer is #%d - %@\r", [murderer suspectNumber], [murderer suspectName]);
 
 }
 
@@ -153,7 +153,7 @@
         
         NSString *locationOf38String = [self generateLocationString:locationOf38];
         
-        NSLog(@"Hiding the .38 at %@\n", locationOf38String);
+        NSLog(@"Hiding the .38 at %@\r", locationOf38String);
     }
     while (locationOf38 == sceneOfTheCrime || locationOf38 == murdererLocation || locationOf38 == threeSuspectLocation); // Can't hide weapon either at SceneOfCrime or guiltySuspectLocation or 3-Suspect Location
     
@@ -297,12 +297,12 @@
     EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murdererLocation]];
     [tempLocation setMurdererLocation:YES];
     
-    NSLog(@"Guilty Suspect Location = %@", [self generateLocationString:murdererLocation]);
+    NSLog(@"Murderer Location = %@", [self generateLocationString:murdererLocation]);
     
     // Register the threeSuspectLocation
     [self identify3SuspectLocation];
     
-    NSLog(@"Three Suspect Location = %@", [self generateLocationString:threeSuspectLocation]);
+    NSLog(@"3 Suspect Location = %@\r", [self generateLocationString:threeSuspectLocation]);
 }
 
 - (void) identify3SuspectLocation
