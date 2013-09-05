@@ -33,6 +33,7 @@
     self = [super init];
     
     [self createMasterSuspectDirectory];
+    // [self sortSuspectDirectory];
     [self createMasterLocationDirectory];
     
     [self killVictim];
@@ -43,7 +44,6 @@
     [self assignSideAreaToLocation];
     [self assignAlibiTypesToSuspects];
     
-    // TODO: Sort Suspect Directory by Suspect Number
     NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
     
@@ -177,7 +177,6 @@
     EDLocation *siteOf45 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", locationOf45]];
     [siteOf45 setLocationOf45:YES];
 }
-
 
 - (void) randomizeSuspectsInCity
 {
@@ -1229,6 +1228,26 @@
     }
     
     return outputQuestionString;
+}
+
+// TODO: Sort Suspect Directory by Suspect Number
+- (void)sortSuspectDirectory;
+{
+    NSLog(@"BEFORE SORT: %@", [masterSuspectDirectory allKeys]);
+    
+    NSArray *abcArray =
+    [[masterSuspectDirectory allKeys]
+     sortedArrayUsingSelector:
+     @selector(caseInsensitiveCompare:)];
+    
+     NSLog(@"AFTER SORT: %@", abcArray);
+    
+    
+    /*
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"suspectNumber"
+                                                 ascending:NO];
+    NSMutableDictionary *sortedResult = [suspectDirectory keysSortedByValueUsingSelector:@selector(ascending)];*/
 }
 
 
