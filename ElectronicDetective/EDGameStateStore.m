@@ -1083,31 +1083,188 @@
                 }
                 break;
             
-            // TODO: Finish correct fingerprint routines
             case 13: // areOddPrintsOn38
                 {
-                    int guess = arc4random_uniform(2);
-                    if (guess == 0)
+                    if (!([tempSuspect suspectLocation] == locationOf38) || ([tempSuspect suspectLocation] == locationOf45))
                     {
-                        answerString = @"YES";
+                        answerString = @"I DON'T KNOW"; // Response if suspect is NOT in ANY weapon location
                     }
-                    else if (guess == 1)
+                    else if (([tempSuspect suspectLocation] == locationOf38) || ([tempSuspect suspectLocation] == locationOf45))
                     {
-                        answerString = @"NO";
+                        
+                        // Evaluate and register the correctLocation of the murderWeapon
+                        location correctLocation = 0;
+                        if (murderWeapon == 0)
+                        {
+                            correctLocation = locationOf38;
+                        }
+                        else if (murderWeapon == 1)
+                        {
+                            correctLocation = locationOf45;
+                        }
+                        
+                        // If suspect is NOT in the correct location of murderWeapon, but is location of OTHER weapon, then GUESS randomly
+                        if ([tempSuspect suspectLocation] != correctLocation)
+                        {
+                            int guess = arc4random_uniform(2);
+                            if (guess == 0)
+                            {
+                                answerString = @"YES";
+                            }
+                            else if (guess == 1)
+                            {
+                                answerString = @"NO";
+                            }
+                        }
+                        else if ([tempSuspect suspectLocation] == correctLocation) // If suspect IS in correctLocation with murderWeapon, then process further...
+                        {
+                            
+                            // First, evaluate murderer gender
+                            BOOL murdererIsMale = '\0';
+                            
+                            if (murdererNumber < 11)
+                            {
+                                murdererIsMale = YES;
+                            }
+                            else if (murdererNumber >= 11)
+                            {
+                                murdererIsMale = NO;
+                            }
+                            
+                            // Then, evaluate suspect gender
+                            BOOL suspectIsMale = '\0';
+                            
+                            if ([tempSuspect suspectNumber] < 11)
+                            {
+                                suspectIsMale = YES;
+                            }
+                            else if ([tempSuspect suspectNumber] >= 11)
+                            {
+                                suspectIsMale = NO;
+                            }
+                            
+                            // Process result
+                            if (suspectIsMale != murdererIsMale) // NON-MATCHING genders, then GUESS randomly
+                            {
+                                int guess = arc4random_uniform(2);
+                                if (guess == 0)
+                                {
+                                    answerString = @"YES";
+                                }
+                                else if (guess == 1)
+                                {
+                                    answerString = @"NO";
+                                }
+                            }
+                            else if (suspectIsMale == murdererIsMale) // MATCHING genders, then generate TRUE/ACCURATE response
+                            {
+                                if (murdererNumber == 1)
+                                {
+                                    answerString = @"YES"; // Murderer #1 is odd
+                                }
+                                else if (murdererNumber % 2 == 0)
+                                {
+                                    answerString = @"NO"; // Murderer is even
+                                }
+                                else if (murdererNumber % 2 != 0)
+                                {
+                                    answerString = @"YES"; // Murderer is odd
+                                }
+                            }
+                        }
                     }
                 }
                 break;
             
             case 14: // areOddPrintsOn45
                 {
-                    int guess = arc4random_uniform(2);
-                    if (guess == 0)
+                    if (!([tempSuspect suspectLocation] == locationOf38) || ([tempSuspect suspectLocation] == locationOf45))
                     {
-                        answerString = @"YES";
+                        answerString = @"I DON'T KNOW"; // Response if suspect is NOT in ANY weapon location
                     }
-                    else if (guess == 1)
+                    else if (([tempSuspect suspectLocation] == locationOf38) || ([tempSuspect suspectLocation] == locationOf45))
                     {
-                        answerString = @"NO";
+                        
+                        // Evaluate and register the correctLocation of the murderWeapon
+                        location correctLocation = 0;
+                        if (murderWeapon == 0)
+                        {
+                            correctLocation = locationOf38;
+                        }
+                        else if (murderWeapon == 1)
+                        {
+                            correctLocation = locationOf45;
+                        }
+                        
+                        // If suspect is NOT in the correct location of murderWeapon, but is location of OTHER weapon, then GUESS randomly
+                        if ([tempSuspect suspectLocation] != correctLocation)
+                        {
+                            int guess = arc4random_uniform(2);
+                            if (guess == 0)
+                            {
+                                answerString = @"YES";
+                            }
+                            else if (guess == 1)
+                            {
+                                answerString = @"NO";
+                            }
+                        }
+                        else if ([tempSuspect suspectLocation] == correctLocation) // If suspect IS in correctLocation with murderWeapon, then process further...
+                        {
+                            
+                            // First, evaluate murderer gender
+                            BOOL murdererIsMale = '\0';
+                            
+                            if (murdererNumber < 11)
+                            {
+                                murdererIsMale = YES;
+                            }
+                            else if (murdererNumber >= 11)
+                            {
+                                murdererIsMale = NO;
+                            }
+                            
+                            // Then, evaluate suspect gender
+                            BOOL suspectIsMale = '\0';
+                            
+                            if ([tempSuspect suspectNumber] < 11)
+                            {
+                                suspectIsMale = YES;
+                            }
+                            else if ([tempSuspect suspectNumber] >= 11)
+                            {
+                                suspectIsMale = NO;
+                            }
+                            
+                            // Process result
+                            if (suspectIsMale != murdererIsMale) // NON-MATCHING genders, then GUESS randomly
+                            {
+                                int guess = arc4random_uniform(2);
+                                if (guess == 0)
+                                {
+                                    answerString = @"YES";
+                                }
+                                else if (guess == 1)
+                                {
+                                    answerString = @"NO";
+                                }
+                            }
+                            else if (suspectIsMale == murdererIsMale) // MATCHING genders, then generate TRUE/ACCURATE response
+                            {
+                                if (murdererNumber == 1)
+                                {
+                                    answerString = @"YES"; // Murderer #1 is odd
+                                }
+                                else if (murdererNumber % 2 == 0)
+                                {
+                                    answerString = @"NO"; // Murderer is even
+                                }
+                                else if (murdererNumber % 2 != 0)
+                                {
+                                    answerString = @"YES"; // Murderer is odd
+                                }
+                            }
+                        }
                     }
                 }
                 break;
@@ -1278,6 +1435,8 @@
 
 - (void) privateQuestionTestRoutine
 {
+    NSLog(@"PRIVATE QUESTION TEST");
+    
     NSString *answer;
     
     for (int i = 1; i < 21; i++)
