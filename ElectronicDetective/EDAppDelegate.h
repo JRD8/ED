@@ -16,4 +16,6 @@
 
 @property (strong, nonatomic) EDViewController *viewController;
 
+- (void) redirectConsoleLogToDocumentFolder;
+
 @end

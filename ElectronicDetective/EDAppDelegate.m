@@ -15,10 +15,24 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    // [self redirectConsoleLogToDocumentFolder]; UNCOMMENT TO REDIRECT TO CONSOLE.LOG FILE
+
     self.viewController = [[EDViewController alloc] initWithNibName:@"EDViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    
+        
     return YES;
+}
+
+- (void) redirectConsoleLogToDocumentFolder
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"console.log"];
+    freopen([logPath fileSystemRepresentation],"a+",stderr);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
