@@ -46,7 +46,7 @@
 		278B463117C7DC1000426C42 /* EDLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDLocation.h; sourceTree = "<group>"; };
 		278B463217C7DC1000426C42 /* EDLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDLocation.m; sourceTree = "<group>"; };
 		27CC7F1517C6F545006DF8C2 /* EDGameStateStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDGameStateStore.h; sourceTree = "<group>"; };
-		27CC7F1617C6F545006DF8C2 /* EDGameStateStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDGameStateStore.m; sourceTree = "<group>"; };
+		27CC7F1617C6F545006DF8C2 /* EDGameStateStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EDGameStateStore.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

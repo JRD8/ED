@@ -72,10 +72,10 @@
 - (NSString *)generateLocationString: (location)location;
 - (NSString *)generateWeaponString: (weapon)weapon;
 - (NSString *)generatePrivateQuestionString: (privateQuestion)question;
-- (void)sortSuspectDirectory;
 
 - (void) printLocationAssignedSuspects;
 - (void) privateQuestionTestRoutine;
+- (void) printMasterSuspectDirectory;
 
 
 @end

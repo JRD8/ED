@@ -414,8 +414,7 @@
     };
     
     [self setSuspectAlibi:outputAlibiString];  // Set the output string variable in the suspect object
-    
-    // NSLog(@"SUSPECT #%d: %@ - ALIBI: %d, %@", suspectNumber, suspectName, assignedAlibiType, outputAlibiString);
+
 }
 
 @end

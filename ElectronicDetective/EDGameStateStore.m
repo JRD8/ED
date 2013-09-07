@@ -33,7 +33,6 @@
     self = [super init];
     
     [self createMasterSuspectDirectory];
-    // [self sortSuspectDirectory];
     [self createMasterLocationDirectory];
     
     [self killVictim];
@@ -45,7 +44,7 @@
     [self assignAlibiTypesToSuspects];
     
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
-    NSLog(@"\rMASTER SUSPECT DIRECTORY: %@\r", [masterSuspectDirectory description]);
+    [self printMasterSuspectDirectory];
        
     [self printLocationAssignedSuspects];
     [self privateQuestionTestRoutine];
@@ -93,7 +92,7 @@
     // Create 20 EDSuspect objects and set them into masterSuspectList
     for (int i = 0; i < 20; i++)
     {
-        [masterSuspectDirectory setObject:[[EDSuspect alloc] initWithInitialValues:i + 1 suspectType:[[suspectTypes objectAtIndex:i] intValue] name:[suspectNames objectAtIndex:i] occupation:[suspectOccupations objectAtIndex:i] maritalStatus:[suspectMaritalStatuses objectAtIndex:i] privateQuestionList:[suspectPrivateQuestionLists objectAtIndex:i]] forKey:[NSString stringWithFormat:@"suspect%d", i + 1]];
+        [masterSuspectDirectory setObject:[[EDSuspect alloc] initWithInitialValues:i + 1 suspectType:[[suspectTypes objectAtIndex:i] intValue] name:[suspectNames objectAtIndex:i] occupation:[suspectOccupations objectAtIndex:i] maritalStatus:[suspectMaritalStatuses objectAtIndex:i] privateQuestionList:[suspectPrivateQuestionLists objectAtIndex:i]] forKey:[NSString stringWithFormat:@"%d", i + 1]];
     }
 }
 
@@ -116,7 +115,7 @@
     murderWeapon = arc4random_uniform(2);
 
     // Flag victim on EDSuspect object
-    EDSuspect *victim = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
+    EDSuspect *victim = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", victimNumber + 1]];
     [victim setVictim:YES];
     
     // Flag location on EDLocation object
@@ -136,7 +135,7 @@
     while (murdererNumber == victimNumber);
     
     // Flag murderer on EDSuspect object
-    EDSuspect *murderer = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", murdererNumber + 1]];
+    EDSuspect *murderer = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", murdererNumber + 1]];
     [murderer setMurderer:YES];
     
     NSLog(@"The Murderer is #%d - %@\r", [murderer suspectNumber], [murderer suspectName]);
@@ -193,7 +192,7 @@
 
     
     // Assign the Victim to the morgue
-    EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", victimNumber + 1]];
+    EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", victimNumber + 1]];
     [temp setSuspectLocation:6]; // Assign to the morgue
     [temp setAssignedYet:YES];
     
@@ -208,7 +207,7 @@
             candidateSuspectNumber = arc4random_uniform(20);
             
             // Test if candidate suspect has been assigned yet
-            candidateSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", candidateSuspectNumber + 1]];
+            candidateSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", candidateSuspectNumber + 1]];
             candidateAssigned = [candidateSuspect assignedYet];
         }
         while (candidateAssigned == YES); // If candidateAssigned == YES, then repeat do/while
@@ -291,7 +290,7 @@
     }
     
     // Register the guiltySuspectLocation and flag MurderLocation variable in EDLocation object
-    EDSuspect *guiltySuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", murdererNumber + 1]];
+    EDSuspect *guiltySuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", murdererNumber + 1]];
     murdererLocation = [guiltySuspect suspectLocation];
     
     EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murdererLocation]];
@@ -378,7 +377,7 @@
     // Iterate through the 20 suspects and assisn values
     for (int i = 0; i < 20; i++)
     {
-        tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i]];
+        tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", i]];
         tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", [tempSuspect suspectLocation]]];
         [tempSuspect setSuspectSide:[tempLocation locationSide]]; // Register Side
         [tempSuspect setSuspectArea:[tempLocation locationArea]]; // Register Area
@@ -932,7 +931,7 @@
     EDLocation *tempLocation = [[EDLocation alloc]init];
     
     // Load suspectNumber's PrivateQuestionList
-    EDSuspect *tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", suspectNumber]];
+    EDSuspect *tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", suspectNumber]];
     tempQuestionList = [tempSuspect suspectPrivateQuestionList];
     
     // Iterate through suspect's PrivateQuestionList testing if requested question is eligible
@@ -1387,27 +1386,6 @@
     return outputQuestionString;
 }
 
-// TODO: Sort Suspect Directory by Suspect Number
-- (void)sortSuspectDirectory;
-{
-    NSLog(@"BEFORE SORT: %@", [masterSuspectDirectory allKeys]);
-    
-    NSArray *abcArray =
-    [[masterSuspectDirectory allKeys]
-     sortedArrayUsingSelector:
-     @selector(caseInsensitiveCompare:)];
-    
-     NSLog(@"AFTER SORT: %@", abcArray);
-    
-    
-    /*
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"suspectNumber"
-                                                 ascending:NO];
-    NSMutableDictionary *sortedResult = [suspectDirectory keysSortedByValueUsingSelector:@selector(ascending)];*/
-}
-
-
 - (void) printLocationAssignedSuspects
 {
     NSLog(@"\r\rLOCATIONS & ASSIGNED SUSPECTS:");
@@ -1418,11 +1396,11 @@
         
         if ([[temp assignedSuspects] count] == 0)
         {
-            NSLog(@"\rLOCATION #%d - %@ = SCENE OF THE CRIME", i, [temp locationName]);
+            NSLog(@"\r\rLOCATION #%d - %@ = SCENE OF THE CRIME", i, [temp locationName]);
         }
         else
         {
-            NSLog(@"\rLOCATION #%d - %@", i, [temp locationName]);
+            NSLog(@"\r\rLOCATION #%d - %@", i, [temp locationName]);
         }
         
         for (int j = 0; j < [[temp assignedSuspects] count]; j++)
@@ -1447,13 +1425,25 @@
         {
             answer = [self askPrivateQuestion:j toSuspect:i];
             
-            EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"suspect%d", i]];
+            EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", i]];
             
             if (![answer isEqualToString:@"EEE"])
             {
                 NSLog(@"SUSPECT #%d - %@, PQ #%d - %@ %@", [temp suspectNumber], [temp suspectName], j,[self generatePrivateQuestionString:j], answer);
             }
         }
+    }
+}
+
+- (void) printMasterSuspectDirectory
+{
+    NSLog(@"PRINTING MASTER SUSPECT DIRECTORY");
+    
+    for (int i = 1; i < 21; i++)
+    {
+        EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", i]];
+        
+        NSLog(@"%@\r", [temp description]);
     }
 }
 
