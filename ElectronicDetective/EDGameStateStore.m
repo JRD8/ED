@@ -110,12 +110,12 @@
 
 - (void) killVictim
 {
-    victimNumber = arc4random_uniform(20);
+    victimNumber = arc4random_uniform(20) + 1;
     sceneOfTheCrime = arc4random_uniform(6);
     murderWeapon = arc4random_uniform(2);
 
     // Flag victim on EDSuspect object
-    EDSuspect *victim = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", victimNumber + 1]];
+    EDSuspect *victim = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", victimNumber]];
     [victim setVictim:YES];
     
     // Flag location on EDLocation object
@@ -942,6 +942,7 @@
             eligibleQuestion = YES; // Identified the requested question as a match & eligible
         }
     }
+    
     
     // However, no matter what - if attempting to speak to victim, then must return an error
     if (suspectNumber == victimNumber)
