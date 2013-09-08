@@ -1333,12 +1333,14 @@
             break;
         case 1:
             outputWeaponString = @".45";
+            break;
         default:
             break;
     }
     
     return outputWeaponString;
 }
+
 
 - (NSString *)generatePrivateQuestionString: (privateQuestion)question
 {
@@ -1412,7 +1414,7 @@
         }
         else
         {
-            NSLog(@"\r\rLOCATION #%d - %@", i, [temp locationName]);
+            NSLog(@"\r\rLOCATION #%d - %@, %@", i, [temp locationName], [temp generateComboString:[temp alibiCombo]]);
         }
         
         for (int j = 0; j < [[temp assignedSuspects] count]; j++)
@@ -1425,7 +1427,7 @@
 
 - (void) privateQuestionTestRoutine
 {
-    NSLog(@"PRIVATE QUESTION TEST");
+    NSLog(@"\r\rPRIVATE QUESTION TEST");
     
     NSString *answer;
     
