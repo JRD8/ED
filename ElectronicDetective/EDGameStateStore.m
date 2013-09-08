@@ -130,12 +130,12 @@
 {
     do
     {
-        murdererNumber = arc4random_uniform(20);
+        murdererNumber = arc4random_uniform(20) + 1;
     }
     while (murdererNumber == victimNumber);
     
     // Flag murderer on EDSuspect object
-    EDSuspect *murderer = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", murdererNumber + 1]];
+    EDSuspect *murderer = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", murdererNumber]];
     [murderer setMurderer:YES];
     
     NSLog(@"The Murderer is #%d - %@\r", [murderer suspectNumber], [murderer suspectName]);
@@ -192,7 +192,7 @@
 
     
     // Assign the Victim to the morgue
-    EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", victimNumber + 1]];
+    EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", victimNumber]];
     [temp setSuspectLocation:6]; // Assign to the morgue
     [temp setAssignedYet:YES];
     
@@ -1082,29 +1082,25 @@
                     answerString = @"NO";
                 }
                 break;
-            
+                
             case 13: // areOddPrintsOn38
                 {
-                    if (!([tempSuspect suspectLocation] == locationOf38) || ([tempSuspect suspectLocation] == locationOf45))
+                    if (!([tempSuspect suspectLocation] == locationOf38))
                     {
-                        answerString = @"I DON'T KNOW"; // Response if suspect is NOT in ANY weapon location
+                        answerString = @"I DON'T KNOW"; // Response if suspect is NOT in .38 weapon location
                     }
-                    else if (([tempSuspect suspectLocation] == locationOf38) || ([tempSuspect suspectLocation] == locationOf45))
+                    else if ([tempSuspect suspectLocation] == locationOf38) // If suspect IS in .38 location, process further
                     {
+                        // Evaluate and flag correctLocation if the murderWeapon IS .38
+                        BOOL correctLocation = NO;
                         
-                        // Evaluate and register the correctLocation of the murderWeapon
-                        location correctLocation = 0;
-                        if (murderWeapon == 0)
+                        if (murderWeapon == 0) // A .38!
                         {
-                            correctLocation = locationOf38;
-                        }
-                        else if (murderWeapon == 1)
-                        {
-                            correctLocation = locationOf45;
+                            correctLocation = YES;
                         }
                         
-                        // If suspect is NOT in the correct location of murderWeapon, but is location of OTHER weapon, then GUESS randomly
-                        if ([tempSuspect suspectLocation] != correctLocation)
+                        // If correctLocation = NO, then generate a random response
+                        if (correctLocation == NO)
                         {
                             int guess = arc4random_uniform(2);
                             if (guess == 0)
@@ -1116,9 +1112,9 @@
                                 answerString = @"NO";
                             }
                         }
-                        else if ([tempSuspect suspectLocation] == correctLocation) // If suspect IS in correctLocation with murderWeapon, then process further...
+                        else if (correctLocation == YES) // If suspect IS in correctLocation with murderWeapon, then process further...
                         {
-                            
+                        
                             // First, evaluate murderer gender
                             BOOL murdererIsMale = '\0';
                             
@@ -1158,15 +1154,12 @@
                             }
                             else if (suspectIsMale == murdererIsMale) // MATCHING genders, then generate TRUE/ACCURATE response
                             {
-                                if (murdererNumber == 1)
-                                {
-                                    answerString = @"YES"; // Murderer #1 is odd
-                                }
-                                else if (murdererNumber % 2 == 0)
+                                if ((murdererNumber + 2) % 2 == 0) // Add 2 to correctly handle 0 or 1 murdererNumber values
                                 {
                                     answerString = @"NO"; // Murderer is even
                                 }
-                                else if (murdererNumber % 2 != 0)
+                                else if ((murdererNumber + 2) % 2 != 0) // Add 2 to correctly handle 0 or 1 murdererNumber values
+
                                 {
                                     answerString = @"YES"; // Murderer is odd
                                 }
@@ -1178,26 +1171,23 @@
             
             case 14: // areOddPrintsOn45
                 {
-                    if (!([tempSuspect suspectLocation] == locationOf38) || ([tempSuspect suspectLocation] == locationOf45))
+                    if (!([tempSuspect suspectLocation] == locationOf45))
                     {
-                        answerString = @"I DON'T KNOW"; // Response if suspect is NOT in ANY weapon location
+                        answerString = @"I DON'T KNOW"; // Response if suspect is NOT in .45 weapon location
                     }
-                    else if (([tempSuspect suspectLocation] == locationOf38) || ([tempSuspect suspectLocation] == locationOf45))
+                    else if ([tempSuspect suspectLocation] == locationOf45)
                     {
+                                                
+                        // Evaluate and flag correctLocation if the murderWeapon IS .45
+                        BOOL correctLocation = NO;
                         
-                        // Evaluate and register the correctLocation of the murderWeapon
-                        location correctLocation = 0;
-                        if (murderWeapon == 0)
+                        if (murderWeapon == 1) // A .45!
                         {
-                            correctLocation = locationOf38;
-                        }
-                        else if (murderWeapon == 1)
-                        {
-                            correctLocation = locationOf45;
+                            correctLocation = YES;
                         }
                         
-                        // If suspect is NOT in the correct location of murderWeapon, but is location of OTHER weapon, then GUESS randomly
-                        if ([tempSuspect suspectLocation] != correctLocation)
+                        // If correctLocation = NO, then generate a random response
+                        if (correctLocation == NO)
                         {
                             int guess = arc4random_uniform(2);
                             if (guess == 0)
@@ -1211,7 +1201,7 @@
                         }
                         else if ([tempSuspect suspectLocation] == correctLocation) // If suspect IS in correctLocation with murderWeapon, then process further...
                         {
-                            
+
                             // First, evaluate murderer gender
                             BOOL murdererIsMale = '\0';
                             
@@ -1251,15 +1241,12 @@
                             }
                             else if (suspectIsMale == murdererIsMale) // MATCHING genders, then generate TRUE/ACCURATE response
                             {
-                                if (murdererNumber == 1)
-                                {
-                                    answerString = @"YES"; // Murderer #1 is odd
-                                }
-                                else if (murdererNumber % 2 == 0)
+                                if ((murdererNumber + 2) % 2 == 0) // Add 2 to correctly handle 0 or 1 murdererNumber values
                                 {
                                     answerString = @"NO"; // Murderer is even
                                 }
-                                else if (murdererNumber % 2 != 0)
+                                else if ((murdererNumber + 2) % 2 != 0) // Add 2 to correctly handle 0 or 1 murdererNumber values
+                                    
                                 {
                                     answerString = @"YES"; // Murderer is odd
                                 }
@@ -1448,4 +1435,4 @@
     }
 }
 
-@end
+@end 
