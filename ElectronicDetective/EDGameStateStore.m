@@ -437,10 +437,20 @@
         [tempSuspect generateAlibiString:0 suspect:0];
     }
     
+    // Register alibiCombo at location
+    if (threeSuspectChoice == 0)
+    {
+        [tempLocation setAlibiCombo:combo_12_8_7];
+    }
+    else if (threeSuspectChoice == 1)
+    {
+        [tempLocation setAlibiCombo:combo_12_8_6];
+    }
+    
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
 
     
-    // Select one of the remaining location as the (1,1,4,5) cluster
+    // Select one of the remaining location as the (1,1,5,4) cluster
     do
     {
         location tempLocationNumber = arc4random_uniform(6);
@@ -530,6 +540,8 @@
         [tempSuspect generateAlibiString:0 suspect:0];
     }
 
+    // Register alibiCombo at location
+    [tempLocation setAlibiCombo:combo_1_1_5_4];
     
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
 
@@ -621,6 +633,9 @@
         EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
         [tempSuspect generateAlibiString:0 suspect:0];
     }
+    
+    // Register alibiCombo at location
+    [tempLocation setAlibiCombo:combo_5_11_2_6];
     
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     
@@ -729,6 +744,9 @@
             [tempSuspect generateAlibiString:0 suspect:0];
         }
         
+        // Register alibiCombo at location
+        [tempLocation setAlibiCombo:combo_1_1_6_9];
+        
         [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     }
     
@@ -823,6 +841,9 @@
             [tempSuspect generateAlibiString:0 suspect:0];
         }
         
+        // Register alibiCombo at location
+        [tempLocation setAlibiCombo:combo_2_10_1_3];
+        
         [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     }
     
@@ -916,6 +937,9 @@
             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
             [tempSuspect generateAlibiString:0 suspect:0];
         }
+        
+        // Register alibiCombo at location
+        [tempLocation setAlibiCombo:combo_4_8_10_11];
         
         [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     }

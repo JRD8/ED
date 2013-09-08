@@ -92,4 +92,18 @@ typedef enum
     
 } privateQuestion;
 
+typedef enum
+{
+    unassignedCombo = 0,
+    combo_12_8_7 = 1,
+    combo_12_8_6 = 2,
+    combo_1_1_5_4 = 3,
+    combo_5_11_2_6 = 4,
+    combo_4_8_10_11 = 5,
+    combo_1_1_6_9 = 6,
+    combo_2_10_1_3 = 7,
+    
+} comboType;
+
+
 #endif

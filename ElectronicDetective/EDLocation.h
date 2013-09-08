@@ -21,6 +21,8 @@
 
 @property (nonatomic) NSMutableArray *assignedSuspects;
 
+@property (nonatomic) comboType alibiCombo;
+
 @property (nonatomic) BOOL locationOf38;
 @property (nonatomic) BOOL locationOf45;
 @property (nonatomic) BOOL threeSuspectLocation;
