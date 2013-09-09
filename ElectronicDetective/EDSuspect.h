@@ -43,6 +43,6 @@
 - (NSString *)generateLocationString: (location)location;
 
 - (void)generateAlibiString: (int) accompanyingSuspect1
-                    suspect: (int) accompanyingSuspect2;
+                   suspect2: (int) accompanyingSuspect2;
 
 @end

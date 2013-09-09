@@ -434,9 +434,50 @@
     for (int i = 0; i < 3; i++)
     {
         EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
-        [tempSuspect generateAlibiString:0 suspect:0];
-    }
+        
+        if ([tempSuspect assignedAlibiType] == 8)
+        {
+            [tempSuspect generateAlibiString:0 suspect2:0];
+        }
+        
+        int passingValue;
+        
+        if ([tempSuspect assignedAlibiType] == 7)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                EDSuspect *suspectForSearch = [tempAssignedSuspects objectAtIndex:j];
+                
+                if ([suspectForSearch assignedAlibiType] == 8)
+                {
+                     [tempSuspect generateAlibiString:[suspectForSearch suspectNumber] suspect2:0];
+                }
+            }
+            
+            passingValue = [tempSuspect suspectNumber];
+        }
     
+        if ([tempSuspect assignedAlibiType] == 6)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                EDSuspect *suspectForSearch = [tempAssignedSuspects objectAtIndex:j];
+                
+                if ([suspectForSearch assignedAlibiType] == 8)
+                {
+                    [tempSuspect generateAlibiString:[suspectForSearch suspectNumber] suspect2:0];
+                }
+            }
+            
+            passingValue = [tempSuspect suspectNumber];
+        }
+    
+        if ([tempSuspect assignedAlibiType] == 12)
+        {
+            [tempSuspect generateAlibiString:passingValue suspect2:0];
+        }
+    }
+
     // Register alibiCombo at location
     if (threeSuspectChoice == 0)
     {
@@ -537,7 +578,7 @@
     for (int i = 0; i < 4; i++)
     {
         EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
-        [tempSuspect generateAlibiString:0 suspect:0];
+        [tempSuspect generateAlibiString:0 suspect2:0];
     }
 
     // Register alibiCombo at location
@@ -631,7 +672,7 @@
     for (int i = 0; i < 4; i++)
     {
         EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
-        [tempSuspect generateAlibiString:0 suspect:0];
+        [tempSuspect generateAlibiString:0 suspect2:0];
     }
     
     // Register alibiCombo at location
@@ -741,7 +782,7 @@
         for (int i = 0; i < 4; i++)
         {
             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
-            [tempSuspect generateAlibiString:0 suspect:0];
+            [tempSuspect generateAlibiString:0 suspect2:0];
         }
         
         // Register alibiCombo at location
@@ -838,7 +879,7 @@
         for (int i = 0; i < 4; i++)
         {
             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
-            [tempSuspect generateAlibiString:0 suspect:0];
+            [tempSuspect generateAlibiString:0 suspect2:0];
         }
         
         // Register alibiCombo at location
@@ -935,7 +976,7 @@
         for (int i = 0; i < 4; i++)
         {
             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
-            [tempSuspect generateAlibiString:0 suspect:0];
+            [tempSuspect generateAlibiString:0 suspect2:0];
         }
         
         // Register alibiCombo at location

@@ -96,8 +96,8 @@
     return outputLocationString;
 }
 
-
-- (void)generateAlibiString:(int)accompanyingSuspect1 suspect:(int)accompanyingSuspect2
+- (void)generateAlibiString: (int) accompanyingSuspect1
+                   suspect2: (int) accompanyingSuspect2;
 {
     NSString *insertString1, *insertString2, *outputAlibiString; // Setup helper variables
     
