@@ -520,6 +520,7 @@
         if ([candidate suspectType] == 2) // Located Odd Female
         {
             [candidate setAssignedAlibiType:1];
+            
             oddFemale = [candidate suspectNumber];
         }
     }
@@ -531,6 +532,7 @@
         if ([candidate suspectType] == 3) // Located Even Female
         {
             [candidate setAssignedAlibiType:1];
+            
             evenFemale = [candidate suspectNumber];
         }
     }
@@ -591,7 +593,6 @@
         if ([candidate assignedAlibiType] == 0) // Located final unassigned
         {
             [candidate setAssignedAlibiType:unusedAlibiType];
-            proceed = YES;
             
             // Record the current candidate's type
             if (([candidate suspectNumber] +2) % 2 == 0)
@@ -602,6 +603,8 @@
             {
                 oddMale = [candidate suspectNumber];
             }
+            
+            proceed = YES;
         }
     }
     
@@ -620,17 +623,18 @@
             [tempSuspect generateAlibiString:0 suspect2:0];
         }
 
-        // Deteremine if odd or even
-        if (([tempSuspect suspectNumber] + 2) % 2 == 0) // Even (female)
+        if ([tempSuspect assignedAlibiType] == 1)
         {
-            // Get the odd male and odd female
-            [tempSuspect generateAlibiString:oddMale suspect2:oddFemale];
-        }
-        
-        if (([tempSuspect suspectNumber] + 2) % 2 != 0) // Odd (female)
-        {
-            // Get the even male and even female
-            [tempSuspect generateAlibiString:evenMale suspect2:evenFemale];
+            // Deteremine if odd or even
+            if (([tempSuspect suspectNumber] + 2) % 2 == 0) // Even (female)
+            {
+                [tempSuspect generateAlibiString:oddMale suspect2:oddFemale];
+            }
+            
+            if (([tempSuspect suspectNumber] + 2) % 2 != 0) // Odd (female)
+            {
+                [tempSuspect generateAlibiString:evenMale suspect2:evenFemale];
+            }
         }
     }
 
@@ -782,8 +786,6 @@
     
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     
-    // TODO: finish accompanying suspect routine for last 3 clusters
-    
     // Randomly select 2 of the remaining 3 cluster sequences (1,1,6,9), (2,10,1,3) or (4,8,10,11)
 
     // Select 2 random cluster numbers
@@ -799,6 +801,12 @@
     // Process the chosen 2 cluster numebers
     if ((clusterSelect1 == 0) || (clusterSelect2 == 0)) // The (1,1,6,9) cluster
     {
+        // Reset these counters
+        oddMale = 0;
+        evenMale = 0;
+        oddFemale = 0;
+        evenFemale = 0;
+        
         do
         {
             location tempLocationNumber = arc4random_uniform(6);
@@ -818,6 +826,8 @@
             if ([candidate suspectType] == 2) // Located Odd Female
             {
                 [candidate setAssignedAlibiType:1];
+                
+                oddFemale = [candidate suspectNumber];
             }
         }
         // Assign Type 1 to Even Female
@@ -828,6 +838,8 @@
             if ([candidate suspectType] == 3) // Located Even Female
             {
                 [candidate setAssignedAlibiType:1];
+                
+                evenFemale = [candidate suspectNumber];
             }
         }
         // Handle 6,9 assignments
@@ -861,6 +873,16 @@
                     default:
                         break;
                 }
+            
+                // Record the current candidate's type
+                if (([candidate suspectNumber] +2) % 2 == 0)
+                {
+                    evenMale = [candidate suspectNumber];
+                }
+                else if (([candidate suspectNumber] +2) % 2 != 0)
+                {
+                    oddMale = [candidate suspectNumber];
+                }
             }
         }
         
@@ -877,6 +899,17 @@
             if ([candidate assignedAlibiType] == 0) // Located final unassigned
             {
                 [candidate setAssignedAlibiType:unusedAlibiType];
+                
+                // Record the current candidate's type
+                if (([candidate suspectNumber] +2) % 2 == 0)
+                {
+                    evenMale = [candidate suspectNumber];
+                }
+                else if (([candidate suspectNumber] +2) % 2 != 0)
+                {
+                    oddMale = [candidate suspectNumber];
+                }
+                
                 proceed = YES;
             }
         }
@@ -885,7 +918,32 @@
         for (int i = 0; i < 4; i++)
         {
             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
-            [tempSuspect generateAlibiString:0 suspect2:0];
+            
+            if ([tempSuspect assignedAlibiType] == 6)
+            {
+                [tempSuspect generateAlibiString:evenMale suspect2:0];
+            }
+            
+            if ([tempSuspect assignedAlibiType] == 9)
+            {
+                [tempSuspect generateAlibiString:0 suspect2:0];
+            }
+            
+            if ([tempSuspect assignedAlibiType] == 1)
+            {
+                // Deteremine if odd or even
+                if (([tempSuspect suspectNumber] + 2) % 2 == 0) // Even (female)
+                {
+                    // Get the odd male and odd female
+                    [tempSuspect generateAlibiString:evenMale suspect2:oddMale];
+                }
+                
+                if (([tempSuspect suspectNumber] + 2) % 2 != 0) // Odd (female)
+                {
+                    // Get the even male and even female
+                    [tempSuspect generateAlibiString:oddMale suspect2:evenFemale];
+                }
+            }
         }
         
         // Register alibiCombo at location
@@ -896,6 +954,12 @@
     
     if ((clusterSelect1 == 1) || (clusterSelect2 == 1)) // the (2,10,1,3) cluster
     {
+        // Reset these counters
+        oddMale = 0;
+        evenMale = 0;
+        oddFemale = 0;
+        evenFemale = 0;
+        
         do
         {
             location tempLocationNumber = arc4random_uniform(6);
@@ -915,6 +979,8 @@
             if ([candidate suspectType] == 0) // Located Odd Male
             {
                 [candidate setAssignedAlibiType:1];
+                
+                oddMale = [candidate suspectNumber];
             }
         }
         // Assign Type 10 to Even Male
@@ -925,6 +991,8 @@
             if ([candidate suspectType] == 1) // Located Even Male
             {
                 [candidate setAssignedAlibiType:10];
+                
+                evenMale = [candidate suspectNumber];
             }
         }
         // Handle 2,3 assignments
@@ -958,6 +1026,16 @@
                     default:
                         break;
                 }
+                
+                // Record the current candidate's type
+                if (([candidate suspectNumber] +2) % 2 == 0)
+                {
+                    evenFemale = [candidate suspectNumber];
+                }
+                else if (([candidate suspectNumber] +2) % 2 != 0)
+                {
+                    oddFemale = [candidate suspectNumber];
+                }
             }
         }
         proceed = NO;
@@ -974,6 +1052,17 @@
             if ([candidate assignedAlibiType] == 0) // Located final unassigned
             {
                 [candidate setAssignedAlibiType:unusedAlibiType];
+                
+                // Record the current candidate's type
+                if (([candidate suspectNumber] +2) % 2 == 0)
+                {
+                    evenFemale = [candidate suspectNumber];
+                }
+                else if (([candidate suspectNumber] +2) % 2 != 0)
+                {
+                    oddFemale = [candidate suspectNumber];
+                }
+                
                 proceed = YES;
             }
         }
@@ -982,7 +1071,26 @@
         for (int i = 0; i < 4; i++)
         {
             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
-            [tempSuspect generateAlibiString:0 suspect2:0];
+            
+            if ([tempSuspect assignedAlibiType] == 2)
+            {
+                [tempSuspect generateAlibiString:0 suspect2:0];
+            }
+            
+            if ([tempSuspect assignedAlibiType] == 3)
+            {
+                [tempSuspect generateAlibiString:0 suspect2:0];
+            }
+            
+            if ([tempSuspect assignedAlibiType] == 10)
+            {
+                [tempSuspect generateAlibiString:oddMale suspect2:0];
+            }
+            
+            if ([tempSuspect assignedAlibiType] == 1)
+            {
+                [tempSuspect generateAlibiString:evenFemale suspect2:oddFemale];
+            }
         }
         
         // Register alibiCombo at location
@@ -993,6 +1101,12 @@
     
     if ((clusterSelect1 == 2) || (clusterSelect2 == 2)) // the (4,8,10,11) cluster
     {
+        // Reset these counters
+        oddMale = 0;
+        evenMale = 0;
+        oddFemale = 0;
+        evenFemale = 0;
+        
         do
         {
             location tempLocationNumber = arc4random_uniform(6);
@@ -1012,6 +1126,8 @@
             if ([candidate suspectType] == 1) // Located Even Male
             {
                 [candidate setAssignedAlibiType:10];
+                
+                evenMale = [candidate suspectNumber];
             }
         }
         // Assign Type 11 to Odd Female
@@ -1022,6 +1138,8 @@
             if ([candidate suspectType] == 2) // Located Odd Female
             {
                 [candidate setAssignedAlibiType:11];
+                
+                oddFemale = [candidate suspectNumber];
             }
         }
         // Handle 4,8 assignments
@@ -1055,6 +1173,16 @@
                     default:
                         break;
                 }
+                
+                // Record the current candidate's type
+                if (([candidate suspectNumber] +2) % 2 == 0)
+                {
+                    evenFemale = [candidate suspectNumber];
+                }
+                else if (([candidate suspectNumber] +2) % 2 != 0)
+                {
+                    oddMale = [candidate suspectNumber];
+                }
             }
         }
         
@@ -1071,6 +1199,17 @@
             if ([candidate assignedAlibiType] == 0) // Located final unassigned
             {
                 [candidate setAssignedAlibiType:unusedAlibiType];
+                
+                // Record the current candidate's type
+                if (([candidate suspectNumber] +2) % 2 == 0)
+                {
+                    evenFemale = [candidate suspectNumber];
+                }
+                else if (([candidate suspectNumber] +2) % 2 != 0)
+                {
+                    oddMale = [candidate suspectNumber];
+                }
+                
                 proceed = YES;
             }
         }
@@ -1079,7 +1218,26 @@
         for (int i = 0; i < 4; i++)
         {
             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
-            [tempSuspect generateAlibiString:0 suspect2:0];
+            
+            if ([tempSuspect assignedAlibiType] == 4)
+            {
+                [tempSuspect generateAlibiString:0 suspect2:0];
+            }
+            
+            if ([tempSuspect assignedAlibiType] == 8)
+            {
+                [tempSuspect generateAlibiString:0 suspect2:0];
+            }
+            
+            if ([tempSuspect assignedAlibiType] == 10)
+            {
+                [tempSuspect generateAlibiString:oddFemale suspect2:0];
+            }
+            
+            if ([tempSuspect assignedAlibiType] == 11)
+            {
+                [tempSuspect generateAlibiString:oddMale suspect2:evenFemale];
+            }
         }
         
         // Register alibiCombo at location
