@@ -44,9 +44,10 @@
     [self assignAlibiTypesToSuspects];
     
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
-    [self printMasterSuspectDirectory];
-       
+   
+    // Additional log routines
     [self printLocationAssignedSuspects];
+    [self printMasterSuspectDirectory];
     [self privateQuestionTestRoutine];
     
     return self;
@@ -433,8 +434,10 @@
     }
     
     // Generate Alibi Statements
+    // FIXME: Still debugging 3 suspect location statement alibi (and possibly assignment rules)
     for (int i = 0; i < 3; i++)
     {
+        
         EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
         
         if ([tempSuspect assignedAlibiType] == 8)
@@ -442,7 +445,7 @@
             [tempSuspect generateAlibiString:0 suspect2:0];
         }
         
-        int passingValue;
+        int passingValue = 0;
         
         if ([tempSuspect assignedAlibiType] == 7)
         {
@@ -1349,11 +1352,11 @@
                 break;
             
             case 8: // isMurdererAtABC = 8
-                if (sceneOfTheCrime < 3)
+                if (murdererLocation < 3)
                 {
                     answerString = @"YES";
                 }
-                else if (sceneOfTheCrime >= 3)
+                else if (murdererLocation >= 3)
                 {
                     answerString = @"NO";
                 }
@@ -1501,7 +1504,7 @@
                     {
                         answerString = @"I DON'T KNOW"; // Response if suspect is NOT in .45 weapon location
                     }
-                    else if ([tempSuspect suspectLocation] == locationOf45)
+                    else if ([tempSuspect suspectLocation] == locationOf45)  // If suspect IS in .45 location, process further
                     {
                                                 
                         // Evaluate and flag correctLocation if the murderWeapon IS .45
@@ -1525,7 +1528,7 @@
                                 answerString = @"NO";
                             }
                         }
-                        else if ([tempSuspect suspectLocation] == correctLocation) // If suspect IS in correctLocation with murderWeapon, then process further...
+                        else if (correctLocation == YES) // If suspect IS in correctLocation with murderWeapon, then process further...
                         {
 
                             // First, evaluate murderer gender
