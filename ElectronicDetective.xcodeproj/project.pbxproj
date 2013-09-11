@@ -19,6 +19,7 @@
 		2731298017C6EC450003CFE5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2731297F17C6EC450003CFE5 /* Default-568h@2x.png */; };
 		2731298317C6EC450003CFE5 /* EDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2731298217C6EC450003CFE5 /* EDViewController.m */; };
 		2731299117C6ECDC0003CFE5 /* EDSuspect.m in Sources */ = {isa = PBXBuildFile; fileRef = 2731299017C6ECDC0003CFE5 /* EDSuspect.m */; };
+		2738493717E078660027AB51 /* EDMainConsole.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2738493617E078660027AB51 /* EDMainConsole.xib */; };
 		278B463317C7DC1000426C42 /* EDLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 278B463217C7DC1000426C42 /* EDLocation.m */; };
 		27CC7F1717C6F545006DF8C2 /* EDGameStateStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CC7F1617C6F545006DF8C2 /* EDGameStateStore.m */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,7 @@
 		2731298217C6EC450003CFE5 /* EDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EDViewController.m; sourceTree = "<group>"; };
 		2731298F17C6ECDC0003CFE5 /* EDSuspect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSuspect.h; sourceTree = "<group>"; };
 		2731299017C6ECDC0003CFE5 /* EDSuspect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSuspect.m; sourceTree = "<group>"; };
+		2738493617E078660027AB51 /* EDMainConsole.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDMainConsole.xib; sourceTree = "<group>"; };
 		2747E7D717C8CFA0009FA574 /* EDTypedefEnums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EDTypedefEnums.h; sourceTree = "<group>"; };
 		278B463117C7DC1000426C42 /* EDLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDLocation.h; sourceTree = "<group>"; };
 		278B463217C7DC1000426C42 /* EDLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDLocation.m; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				2723A1A317D2BD590039730C /* EDMainView.xib */,
+				2738493617E078660027AB51 /* EDMainConsole.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				2731297E17C6EC450003CFE5 /* Default@2x.png in Resources */,
 				2731298017C6EC450003CFE5 /* Default-568h@2x.png in Resources */,
 				2723A1A417D2BD590039730C /* EDMainView.xib in Resources */,
+				2738493717E078660027AB51 /* EDMainConsole.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

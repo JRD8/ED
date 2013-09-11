@@ -15,6 +15,16 @@
 
 @implementation EDViewController
 
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    NSBundle *appBundle = [NSBundle mainBundle];
+    
+    self = [super initWithNibName:@"EDMainConsole" bundle:appBundle];
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
