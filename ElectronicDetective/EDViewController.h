@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class EDSuspect;
+
 @interface EDViewController : UIViewController
 
 {
@@ -32,6 +34,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *endTurn;
 
 @property (weak, nonatomic) IBOutlet UILabel *mainDisplay;
+
+@property (nonatomic, strong) EDSuspect *interrogatedSuspected;
+
+// Key entry variables
+@property int currentEntry;
+@property (nonatomic, strong) NSString *currentEntryString;
+@property BOOL entryCommenced;
+@property BOOL displayPrivateQuestion;
 
 
 - (IBAction)key1pressed:(id)sender;

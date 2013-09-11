@@ -13,6 +13,7 @@
 
 @implementation EDGameStateStore
 
+@synthesize masterSuspectDirectory, masterLocationDirectory;
 
 // Class Methods
 + (EDGameStateStore *) sharedStore

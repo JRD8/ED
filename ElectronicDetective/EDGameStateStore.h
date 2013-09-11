@@ -13,10 +13,6 @@
 
 @interface EDGameStateStore : NSObject
 {
-    
-    NSMutableDictionary *masterSuspectDirectory;
-    NSMutableDictionary *masterLocationDirectory;
-    
     NSArray *suspectNames;
     NSArray *suspectOccupations;
     NSArray *suspectMaritalStatuses;
@@ -52,6 +48,9 @@
     NSNumber *num14;
     
 }
+
+@property (nonatomic, strong) NSMutableDictionary *masterSuspectDirectory;
+@property (nonatomic, strong) NSMutableDictionary *masterLocationDirectory;
 
 + (EDGameStateStore *) sharedStore;  // Class method
 
