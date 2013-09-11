@@ -15,6 +15,8 @@
 
 @implementation EDViewController
 
+@synthesize key0, key1, key2, key3, key4, key5, key6, key7, key8, key9, suspect, privateQuestion, iAccuse, enter,endTurn, mainDisplay;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +39,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Main Button methods
+
+- (IBAction)key1pressed:(id)sender
+{
+    mainDisplay.text = @"1";
 }
 
 @end

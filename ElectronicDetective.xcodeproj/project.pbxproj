@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2723A1A417D2BD590039730C /* EDMainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2723A1A317D2BD590039730C /* EDMainView.xib */; };
 		2731296A17C6EC450003CFE5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2731296917C6EC450003CFE5 /* UIKit.framework */; };
 		2731296C17C6EC450003CFE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2731296B17C6EC450003CFE5 /* Foundation.framework */; };
 		2731296E17C6EC450003CFE5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2731296D17C6EC450003CFE5 /* CoreGraphics.framework */; };
@@ -25,7 +24,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2723A1A317D2BD590039730C /* EDMainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EDMainView.xib; sourceTree = "<group>"; };
 		2731296617C6EC450003CFE5 /* ElectronicDetective.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElectronicDetective.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2731296917C6EC450003CFE5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2731296B17C6EC450003CFE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -123,7 +121,6 @@
 		2731298C17C6EC770003CFE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2723A1A317D2BD590039730C /* EDMainView.xib */,
 				2738493617E078660027AB51 /* EDMainConsole.xib */,
 			);
 			name = View;
@@ -207,7 +204,6 @@
 				2731297C17C6EC450003CFE5 /* Default.png in Resources */,
 				2731297E17C6EC450003CFE5 /* Default@2x.png in Resources */,
 				2731298017C6EC450003CFE5 /* Default-568h@2x.png in Resources */,
-				2723A1A417D2BD590039730C /* EDMainView.xib in Resources */,
 				2738493717E078660027AB51 /* EDMainConsole.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
