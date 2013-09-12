@@ -18,7 +18,7 @@
 
 @implementation EDViewController
 
-@synthesize key0, key1, key2, key3, key4, key5, key6, key7, key8, key9, suspect, privateQuestion, iAccuse, enter,endTurn, mainDisplay, currentEntry, currentEntryString, entryCommenced, displayPrivateQuestion, interrogatedSuspected;
+@synthesize key0, key1, key2, key3, key4, key5, key6, key7, key8, key9, suspect, privateQuestion, iAccuse, enter, endTurn, mainDisplay, suspectNumber, privateQuestionNumber, currentEntryString, dataEntryInitiated, askPrivateQuestion, interrogatedSuspected;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -38,8 +38,11 @@
     
     interrogatedSuspected = [[EDSuspect alloc] init];
     
-    entryCommenced = NO;
-    displayPrivateQuestion = NO;
+    // Reset these flags & variables
+    dataEntryInitiated = NO;
+    askPrivateQuestion = NO;
+    suspectNumber = 0;
+    privateQuestionNumber = 0;
 
 }
 
@@ -53,95 +56,301 @@
 
 - (IBAction)key1pressed:(id)sender
 {
-    if (entryCommenced) // Suspect key pressed first
+    if (dataEntryInitiated)
     {
-        
-        if (currentEntry == 1)
+        if (!askPrivateQuestion)
         {
-            currentEntry = (currentEntry + 9) + 1;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", currentEntry];
-            mainDisplay.text = currentEntryString;
-            
+            [self suspectNumberCounter:1];
         }
-        else if (currentEntry != 11)
+        else if (askPrivateQuestion)
         {
-            currentEntry = 1;
-         
-            currentEntryString = [NSString stringWithFormat:@"%d", currentEntry];
+            privateQuestionNumber = 1;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
             mainDisplay.text = currentEntryString;
         }
-        
     }
-    
 }
+
 
 - (IBAction)key2pressed:(id)sender
 {
-    if (entryCommenced) // Suspect key pressed first
+    if (dataEntryInitiated)
     {
-        
-        if (currentEntry == 0)
+        if (!askPrivateQuestion)
         {
-            currentEntry = 2;
             
-            currentEntryString = [NSString stringWithFormat:@"%d", currentEntry];
-            mainDisplay.text = currentEntryString;
+            [self suspectNumberCounter:2];
             
         }
-        else if (currentEntry < 11)
+        else if (askPrivateQuestion)
         {
-            currentEntry = (currentEntry + 9) + 2;
+            privateQuestionNumber = 2;
             
-            currentEntryString = [NSString stringWithFormat:@"%d", currentEntry];
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
             mainDisplay.text = currentEntryString;
-
         }
     }
 }
 
+- (IBAction)key3pressed:(id)sender
+{
+    if (dataEntryInitiated)
+    {
+        if (!askPrivateQuestion)
+        {
+            
+            [self suspectNumberCounter:3];
+            
+        }
+        else if (askPrivateQuestion)
+        {
+            privateQuestionNumber = 3;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
+            mainDisplay.text = currentEntryString;
+        }
+    }
+}
+
+- (IBAction)key4pressed:(id)sender
+{
+    if (dataEntryInitiated)
+    {
+        if (!askPrivateQuestion)
+        {
+            
+            [self suspectNumberCounter:4];
+            
+        }
+        else if (askPrivateQuestion)
+        {
+            privateQuestionNumber = 4;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
+            mainDisplay.text = currentEntryString;
+        }
+    }
+}
+
+- (IBAction)key5pressed:(id)sender
+{
+    if (dataEntryInitiated)
+    {
+        if (!askPrivateQuestion)
+        {
+            
+            [self suspectNumberCounter:5];
+            
+        }
+        else if (askPrivateQuestion)
+        {
+            privateQuestionNumber = 5;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
+            mainDisplay.text = currentEntryString;
+        }
+    }
+}
+
+- (IBAction)key6pressed:(id)sender
+{
+    if (dataEntryInitiated)
+    {
+        if (!askPrivateQuestion)
+        {
+            
+            [self suspectNumberCounter:6];
+            
+        }
+        else if (askPrivateQuestion)
+        {
+            privateQuestionNumber = 6;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
+            mainDisplay.text = currentEntryString;
+        }
+    }
+}
+
+- (IBAction)key7pressed:(id)sender
+{
+    if (dataEntryInitiated)
+    {
+        if (!askPrivateQuestion)
+        {
+            
+            [self suspectNumberCounter:7];
+            
+        }
+        else if (askPrivateQuestion)
+        {
+            privateQuestionNumber = 7;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
+            mainDisplay.text = currentEntryString;
+        }
+    }
+}
+
+- (IBAction)key8pressed:(id)sender
+{
+    if (dataEntryInitiated)
+    {
+        if (!askPrivateQuestion)
+        {
+            
+            [self suspectNumberCounter:8];
+            
+        }
+        else if (askPrivateQuestion)
+        {
+            privateQuestionNumber = 8;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
+            mainDisplay.text = currentEntryString;
+        }
+    }
+}
+
+- (IBAction)key9pressed:(id)sender
+{
+    if (dataEntryInitiated)
+    {
+        if (!askPrivateQuestion)
+        {
+            
+            [self suspectNumberCounter:9];
+            
+        }
+        else if (askPrivateQuestion)
+        {
+            privateQuestionNumber = 9;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
+            mainDisplay.text = currentEntryString;
+        }
+    }
+}
+
+
+- (IBAction)key0pressed:(id)sender
+{
+    if (dataEntryInitiated)
+    {
+        if (!askPrivateQuestion)
+        {
+            
+            [self suspectNumberCounter:0];
+            
+        }
+        else if (askPrivateQuestion)
+        {
+            privateQuestionNumber = 0;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
+            mainDisplay.text = currentEntryString;
+        }
+    }
+}
+
+
+
 - (IBAction)suspectPressed:(id)sender
 {
-    entryCommenced = YES;
+    dataEntryInitiated = YES;
     
-    NSLog(@"ENTRY COMMENCED");
+    mainDisplay.text = @"";
+    
+    NSLog(@"DATA ENTRY INITIATED");
+    
 }
+
 
 - (IBAction)privateQuestionPressed:(id)sender
 {
-    displayPrivateQuestion = YES;
+    askPrivateQuestion = YES;
     
     mainDisplay.text = @"";
+    
+    NSLog(@"ASK PRIVATE QUESTION");
+}
+
+
+- (IBAction)iAccusePressed:(id)sender
+{
+    NSLog(@"I ACCUSE...");
+}
+
+
+- (IBAction)enterPressed:(id)sender
+{
+    if (dataEntryInitiated)
+    {
+        
+        if (!askPrivateQuestion) // Display Suspect Alibi
+        {
+            interrogatedSuspected = [[[EDGameStateStore sharedStore] masterSuspectDirectory] objectForKey:[NSString stringWithFormat:@"%d", suspectNumber]];
+            
+            mainDisplay.text = [NSString stringWithFormat:@"%@ #%d - %@", [[interrogatedSuspected suspectName] uppercaseString], suspectNumber, [interrogatedSuspected suspectAlibi]];
+            
+        }
+        else if (askPrivateQuestion) // Display Private Question Answer
+        {
+            NSLog(@"DISPLAY PRIVATE QUESTION #%d FOR SUSPECT #%d", privateQuestionNumber, suspectNumber);
+            
+            mainDisplay.text = [[EDGameStateStore sharedStore] askPrivateQuestion:privateQuestionNumber toSuspect:[interrogatedSuspected suspectNumber]];
+        }
+    }
 }
 
 - (IBAction)endTurnPressed:(id)sender
 {
-    currentEntry = 0;
+    suspectNumber = 0;
+    privateQuestionNumber = 0;
+    
+    dataEntryInitiated = NO;
+    askPrivateQuestion = NO;
+    
     currentEntryString = @"";
     mainDisplay.text = currentEntryString;
-    
-    // Reset flags
-    entryCommenced = NO;
-    displayPrivateQuestion = NO;
     
     NSLog(@"END TURN");
 }
 
-- (IBAction)enterPressed:(id)sender
+// TODO: Handle 0 key and suspectNumber = 20
+- (void) suspectNumberCounter: (int) keyNumber
 {
-    if (!displayPrivateQuestion) // Display Suspect Alibi
+    if (suspectNumber == 0)
     {
-        interrogatedSuspected = [[[EDGameStateStore sharedStore] masterSuspectDirectory] objectForKey:[NSString stringWithFormat:@"%d", currentEntry]];
-        mainDisplay.text = [interrogatedSuspected suspectAlibi];
+        suspectNumber = keyNumber;
         
-        // Reset flag
-        currentEntry = 0;
+        currentEntryString = [NSString stringWithFormat:@"%d", suspectNumber];
+        
+        mainDisplay.text = currentEntryString;
+        
+        NSLog(@"SUSPECT NUMBER IS NOW %d", suspectNumber);
     }
-    else if (displayPrivateQuestion) // Display Private Question Answer
+    else if (suspectNumber == 1)
     {
-        NSLog(@"DISPLAY PRIVATE QUESTION ANSWER");
+        suspectNumber = 10 + keyNumber;
+        
+        currentEntryString = [NSString stringWithFormat:@"%d", suspectNumber];
+        
+        mainDisplay.text = currentEntryString;
+        
+        NSLog(@"SUSPECT NUMBER IS NOW %d", suspectNumber);
     }
 }
-
 
 @end

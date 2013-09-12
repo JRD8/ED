@@ -12,10 +12,6 @@
 
 @interface EDViewController : UIViewController
 
-{
-    
-}
-
 @property (weak, nonatomic) IBOutlet UIButton *key1;
 @property (weak, nonatomic) IBOutlet UIButton *key2;
 @property (weak, nonatomic) IBOutlet UIButton *key3;
@@ -37,11 +33,14 @@
 
 @property (nonatomic, strong) EDSuspect *interrogatedSuspected;
 
-// Key entry variables
-@property int currentEntry;
+// Data entry variables
+@property int suspectNumber;
+@property int privateQuestionNumber;
+
 @property (nonatomic, strong) NSString *currentEntryString;
-@property BOOL entryCommenced;
-@property BOOL displayPrivateQuestion;
+
+@property BOOL dataEntryInitiated;
+@property BOOL askPrivateQuestion;
 
 
 - (IBAction)key1pressed:(id)sender;
@@ -58,8 +57,10 @@
 
 - (IBAction)suspectPressed:(id)sender;
 - (IBAction)privateQuestionPressed:(id)sender;
-- (IBAction)iaccusePressed:(id)sender;
+- (IBAction)iAccusePressed:(id)sender;
 - (IBAction)enterPressed:(id)sender;
 - (IBAction)endTurnPressed:(id)sender;
+
+- (void) suspectNumberCounter: (int) keyNumber;
 
 @end

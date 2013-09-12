@@ -386,6 +386,7 @@
     }
 }
 
+// TODO: ASSIGN @"EEEEE" ALIBI STATEMENT TO VICTIM
 - (void) assignAlibiTypesToSuspects
 {
     // Method Variables
@@ -1273,14 +1274,13 @@
         }
     }
     
-    
     // However, no matter what - if attempting to speak to victim, then must return an error
     if (suspectNumber == victimNumber)
     {
         eligibleQuestion = NO; // Reset to ineligible
     }
     
-    // If not, return error
+    // If ineligible question, return error
     if (eligibleQuestion == NO)
     {
         answerString = @"EEE";
