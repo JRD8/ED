@@ -52,7 +52,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Main Button methods
+#pragma mark - Entry Key methods
 
 - (IBAction)key1pressed:(id)sender
 {
@@ -64,11 +64,7 @@
         }
         else if (askPrivateQuestion)
         {
-            privateQuestionNumber = 1;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-            
-            mainDisplay.text = currentEntryString;
+            [self privateQuestionCounter:1];
         }
     }
 }
@@ -80,17 +76,11 @@
     {
         if (!askPrivateQuestion)
         {
-            
             [self suspectNumberCounter:2];
-            
         }
         else if (askPrivateQuestion)
         {
-            privateQuestionNumber = 2;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-            
-            mainDisplay.text = currentEntryString;
+            [self privateQuestionCounter:2];
         }
     }
 }
@@ -101,17 +91,11 @@
     {
         if (!askPrivateQuestion)
         {
-            
             [self suspectNumberCounter:3];
-            
         }
         else if (askPrivateQuestion)
         {
-            privateQuestionNumber = 3;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-            
-            mainDisplay.text = currentEntryString;
+            [self privateQuestionCounter:3];
         }
     }
 }
@@ -122,17 +106,11 @@
     {
         if (!askPrivateQuestion)
         {
-            
             [self suspectNumberCounter:4];
-            
         }
         else if (askPrivateQuestion)
         {
-            privateQuestionNumber = 4;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-            
-            mainDisplay.text = currentEntryString;
+            [self privateQuestionCounter:4];
         }
     }
 }
@@ -143,17 +121,11 @@
     {
         if (!askPrivateQuestion)
         {
-            
             [self suspectNumberCounter:5];
-            
         }
         else if (askPrivateQuestion)
         {
-            privateQuestionNumber = 5;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-            
-            mainDisplay.text = currentEntryString;
+            [self privateQuestionCounter:5];
         }
     }
 }
@@ -164,17 +136,11 @@
     {
         if (!askPrivateQuestion)
         {
-            
             [self suspectNumberCounter:6];
-            
         }
         else if (askPrivateQuestion)
         {
-            privateQuestionNumber = 6;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-            
-            mainDisplay.text = currentEntryString;
+            [self privateQuestionCounter:6];
         }
     }
 }
@@ -185,17 +151,11 @@
     {
         if (!askPrivateQuestion)
         {
-            
             [self suspectNumberCounter:7];
-            
         }
         else if (askPrivateQuestion)
         {
-            privateQuestionNumber = 7;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-            
-            mainDisplay.text = currentEntryString;
+            [self privateQuestionCounter:7];
         }
     }
 }
@@ -206,17 +166,11 @@
     {
         if (!askPrivateQuestion)
         {
-            
             [self suspectNumberCounter:8];
-            
         }
         else if (askPrivateQuestion)
         {
-            privateQuestionNumber = 8;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-            
-            mainDisplay.text = currentEntryString;
+            [self privateQuestionCounter:8];
         }
     }
 }
@@ -227,17 +181,11 @@
     {
         if (!askPrivateQuestion)
         {
-            
             [self suspectNumberCounter:9];
-            
         }
         else if (askPrivateQuestion)
         {
-            privateQuestionNumber = 9;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-            
-            mainDisplay.text = currentEntryString;
+            [self privateQuestionCounter:9];
         }
     }
 }
@@ -251,17 +199,11 @@
         {
             if (!askPrivateQuestion)
             {
-                
                 [self suspectNumberCounter:0];
-                
             }
             else if (askPrivateQuestion)
             {
-                privateQuestionNumber = 0;
-                
-                currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-                
-                mainDisplay.text = currentEntryString;
+                [self privateQuestionCounter:0];
             }
         }
     }
@@ -331,6 +273,8 @@
     NSLog(@"END TURN");
 }
 
+#pragma mark - Helper Methods
+
 - (void) suspectNumberCounter: (int) keyNumber
 {
     if (suspectNumber == 0)
@@ -377,6 +321,46 @@
             
             NSLog(@"SUSPECT NUMBER IS NOW %d", suspectNumber);
             
+        }
+    }
+}
+
+- (void) privateQuestionCounter: (int) keyNumber
+{
+    
+    if (privateQuestionNumber == 0)
+    {
+        privateQuestionNumber = keyNumber;
+        
+        currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+        
+        mainDisplay.text = currentEntryString;
+        
+        NSLog(@"PRIVATE QUESTION NUMBER IS NOW %d", privateQuestionNumber);
+    }
+    else if (privateQuestionNumber == 1)
+    {
+        privateQuestionNumber = 10 + keyNumber;
+        
+        if (privateQuestionNumber < 15)
+        {
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
+            mainDisplay.text = currentEntryString;
+            
+            NSLog(@"PRIVATE QUESTION NUMBER IS NOW %d", privateQuestionNumber);
+            
+        }
+        else
+        {
+            privateQuestionNumber = 1;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+            
+            mainDisplay.text = currentEntryString;
+            
+            NSLog(@"PRIVATE QUESTION NUMBER IS NOW %d", privateQuestionNumber);
         }
     }
 }

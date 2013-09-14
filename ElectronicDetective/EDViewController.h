@@ -62,5 +62,7 @@
 - (IBAction)endTurnPressed:(id)sender;
 
 - (void) suspectNumberCounter: (int) keyNumber;
+- (void) privateQuestionCounter: (int) keyNumber;
+
 
 @end
