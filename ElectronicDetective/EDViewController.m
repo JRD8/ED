@@ -247,19 +247,22 @@
 {
     if (dataEntryInitiated)
     {
-        if (!askPrivateQuestion)
+        if (suspectNumber != 0)
         {
-            
-            [self suspectNumberCounter:0];
-            
-        }
-        else if (askPrivateQuestion)
-        {
-            privateQuestionNumber = 0;
-            
-            currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
-            
-            mainDisplay.text = currentEntryString;
+            if (!askPrivateQuestion)
+            {
+                
+                [self suspectNumberCounter:0];
+                
+            }
+            else if (askPrivateQuestion)
+            {
+                privateQuestionNumber = 0;
+                
+                currentEntryString = [NSString stringWithFormat:@"%d", privateQuestionNumber];
+                
+                mainDisplay.text = currentEntryString;
+            }
         }
     }
 }
@@ -328,7 +331,6 @@
     NSLog(@"END TURN");
 }
 
-// TODO: Handle 0 key and suspectNumber = 20
 - (void) suspectNumberCounter: (int) keyNumber
 {
     if (suspectNumber == 0)
@@ -350,6 +352,32 @@
         mainDisplay.text = currentEntryString;
         
         NSLog(@"SUSPECT NUMBER IS NOW %d", suspectNumber);
+    }
+    else if (suspectNumber == 2)
+    {
+        suspectNumber = 20 + keyNumber;
+        
+        if (suspectNumber < 21)
+        {
+        
+            currentEntryString = [NSString stringWithFormat:@"%d", suspectNumber];
+            
+            mainDisplay.text = currentEntryString;
+            
+            NSLog(@"SUSPECT NUMBER IS NOW %d", suspectNumber);
+            
+        }
+        else
+        {
+            suspectNumber = 2;
+            
+            currentEntryString = [NSString stringWithFormat:@"%d", suspectNumber];
+            
+            mainDisplay.text = currentEntryString;
+            
+            NSLog(@"SUSPECT NUMBER IS NOW %d", suspectNumber);
+            
+        }
     }
 }
 

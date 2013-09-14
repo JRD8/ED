@@ -386,7 +386,6 @@
     }
 }
 
-// TODO: ASSIGN @"EEEEE" ALIBI STATEMENT TO VICTIM
 - (void) assignAlibiTypesToSuspects
 {
     // Method Variables
@@ -402,7 +401,13 @@
     
     EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", sceneOfTheCrime]];
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
-
+    
+    
+    // Then, locate the VICTIM and set his alibiType = 0 and generate string
+    EDSuspect *tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", victimNumber]];
+    [tempSuspect setAssignedAlibiType:0];
+    [tempSuspect generateAlibiString:0 suspect2:0];
+    
     
     // Then, select the 3-SUSPECT LOCATION & randomly assign either (12,8,7) or (12,8,6) assignedAlibiType values to suspects
     tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", threeSuspectLocation]];

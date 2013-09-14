@@ -105,7 +105,7 @@
     {
         // UnassignedAlibiType    
         case 0: 
-            outputAlibiString = @"UNASSIGNED";
+            outputAlibiString = @"EEEEE";
             break;
         
         // w/SuspectAndSuspect
