@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum
+{
+    newTurn = 0,
+    suspectPressed = 1,
+    privateQuestionPressed = 2,
+    iAccusePressed = 3,
+        
+} status;
+
+
 @class EDSuspect;
 
 @interface EDViewController : UIViewController
@@ -39,8 +49,7 @@
 
 @property (nonatomic, strong) NSString *currentEntryString;
 
-@property BOOL dataEntryInitiated;
-@property BOOL askPrivateQuestion;
+@property status buttonStatus;
 
 
 - (IBAction)key1pressed:(id)sender;
@@ -63,6 +72,7 @@
 
 - (void) suspectNumberCounter: (int) keyNumber;
 - (void) privateQuestionCounter: (int) keyNumber;
+- (void) iAccuseCounter: (int) keyNumber;
 
 
 @end
