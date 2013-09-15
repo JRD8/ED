@@ -386,6 +386,7 @@
     }
 }
 
+
 - (void) assignAlibiTypesToSuspects
 {
     // Method Variables
@@ -441,55 +442,50 @@
     }
     
     // Generate Alibi Statements
-    // FIXME: Still debugging 3 suspect location statement alibi (and possibly assignment rules)
-    for (int i = 0; i < 3; i++)
+    int suspectA, suspectB; // Helper variables for this specific routine
+    
+    for (int j = 0; j < 3; j++)
     {
-        
-        EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
-        
-        if ([tempSuspect assignedAlibiType] == 8)
+        for (int i = 0; i < 3; i++)
         {
-            [tempSuspect generateAlibiString:0 suspect2:0];
-        }
-        
-        int passingValue = 0;
-        
-        if ([tempSuspect assignedAlibiType] == 7)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                EDSuspect *suspectForSearch = [tempAssignedSuspects objectAtIndex:j];
-                
-                if ([suspectForSearch assignedAlibiType] == 8)
-                {
-                     [tempSuspect generateAlibiString:[suspectForSearch suspectNumber] suspect2:0];
-                }
-            }
+            tempSuspect = [tempAssignedSuspects objectAtIndex:i];
             
-            passingValue = [tempSuspect suspectNumber];
-        }
-    
-        if ([tempSuspect assignedAlibiType] == 6)
-        {
-            for (int j = 0; j < 3; j++)
+            switch (j)
             {
-                EDSuspect *suspectForSearch = [tempAssignedSuspects objectAtIndex:j];
-                
-                if ([suspectForSearch assignedAlibiType] == 8)
-                {
-                    [tempSuspect generateAlibiString:[suspectForSearch suspectNumber] suspect2:0];
-                }
+                case 0: // Look for suspectA with alibiType 8 and generate alibiString
+                    
+                    if ([tempSuspect assignedAlibiType] == 8)
+                    {
+                        [tempSuspect generateAlibiString:0 suspect2:0];
+                        
+                        suspectA = [tempSuspect suspectNumber];
+                    }
+                    break;
+                    
+                case 1: // Look for suspectB with alibiType 7 or 6 and generate alibistring with accompanying suspectA
+                    
+                    if (([tempSuspect assignedAlibiType] == 7) || ([tempSuspect assignedAlibiType] == 6))
+                    {
+                        [tempSuspect generateAlibiString:suspectA suspect2:0];
+                        
+                        suspectB = [tempSuspect suspectNumber];
+                    }
+                    break;
+                    
+                case 2: // Look for suspectC with alibiType 12 and generate alibiString with accompanying suspectB
+                    
+                    if ([tempSuspect assignedAlibiType] == 12)
+                    {
+                        [tempSuspect generateAlibiString:suspectB suspect2:0];
+                    }
+                    break;
+                    
+                default:
+                    break;
             }
-            
-            passingValue = [tempSuspect suspectNumber];
-        }
-    
-        if ([tempSuspect assignedAlibiType] == 12)
-        {
-            [tempSuspect generateAlibiString:passingValue suspect2:0];
         }
     }
-
+    
     // Register alibiCombo at location
     if (threeSuspectChoice == 0)
     {
