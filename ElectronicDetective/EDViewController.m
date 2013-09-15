@@ -318,6 +318,8 @@
 {
     NSLog(@"Enter Button at %d", buttonStatus);
     
+    NSString *outputString;
+    
     switch (buttonStatus)
     {
         case newTurn:
@@ -331,7 +333,8 @@
         case privateQuestionPressed:
             NSLog(@"DISPLAY PRIVATE QUESTION #%d FOR SUSPECT #%d", privateQuestionNumber, suspectNumber);
             
-            mainDisplay.text = [[EDGameStateStore sharedStore] askPrivateQuestion:privateQuestionNumber toSuspect:[interrogatedSuspected suspectNumber]];
+            outputString = [NSString stringWithFormat:@"%@ %@", [[EDGameStateStore sharedStore] generatePrivateQuestionString:privateQuestionNumber], [[EDGameStateStore sharedStore] askPrivateQuestion:privateQuestionNumber toSuspect:[interrogatedSuspected suspectNumber]]];
+            mainDisplay.text = outputString;
             break;
             
         case iAccusePressed:

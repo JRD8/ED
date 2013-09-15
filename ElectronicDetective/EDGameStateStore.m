@@ -1288,7 +1288,7 @@
     // If ineligible question, return error
     if (eligibleQuestion == NO)
     {
-        answerString = @"EEE";
+        answerString = @"EEEEE";
     }
     // If yes, process & return answerString
     else if (eligibleQuestion == YES)
