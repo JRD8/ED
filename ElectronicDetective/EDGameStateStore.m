@@ -13,7 +13,7 @@
 
 @implementation EDGameStateStore
 
-@synthesize masterSuspectDirectory, masterLocationDirectory;
+@synthesize masterSuspectDirectory, masterLocationDirectory, murdererNumber;
 
 // Class Methods
 + (EDGameStateStore *) sharedStore

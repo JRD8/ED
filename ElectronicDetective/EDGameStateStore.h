@@ -20,7 +20,6 @@
     NSArray *suspectTypes;
     
     int victimNumber;
-    int murdererNumber;
     
     weapon murderWeapon;
 
@@ -48,6 +47,8 @@
     NSNumber *num14;
     
 }
+
+@property int murdererNumber; // Need to expose this for the EDViewController to access
 
 @property (nonatomic, strong) NSMutableDictionary *masterSuspectDirectory;
 @property (nonatomic, strong) NSMutableDictionary *masterLocationDirectory;

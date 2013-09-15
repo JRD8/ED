@@ -110,7 +110,7 @@
         
         // w/SuspectAndSuspect
         case 1:
-            outputAlibiString = [NSString stringWithFormat:@"I was with %d and %d", accompanyingSuspect1, accompanyingSuspect2];
+            outputAlibiString = [NSString stringWithFormat:@"I was with #%d and #%d", accompanyingSuspect1, accompanyingSuspect2];
             break;
         
         // areaOnly
@@ -225,7 +225,7 @@
                  default:
                     break;
             }
-            outputAlibiString = [NSString stringWithFormat: @"I was %@ with %d", insertString1, accompanyingSuspect1];
+            outputAlibiString = [NSString stringWithFormat: @"I was %@ with #%d", insertString1, accompanyingSuspect1];
             break;
 
         // sideWithSuspect
@@ -242,7 +242,7 @@
                 default:
                     break;
             }
-            outputAlibiString = [NSString stringWithFormat: @"I was %@ with %d", insertString1, accompanyingSuspect1];;
+            outputAlibiString = [NSString stringWithFormat: @"I was %@ with #%d", insertString1, accompanyingSuspect1];;
             break;
         
         // areaAtLocation
@@ -356,7 +356,7 @@
                 default:
                     break;
             }
-            outputAlibiString = [NSString stringWithFormat:@"I was %@ with %d", insertString1, accompanyingSuspect1];
+            outputAlibiString = [NSString stringWithFormat:@"I was %@ with #%d", insertString1, accompanyingSuspect1];
             break;
         
         // sideWithSuspectAndSuspect
@@ -373,7 +373,7 @@
                 default:
                     break;
             }
-            outputAlibiString = [NSString stringWithFormat:@"I was %@ with %d and %d", insertString1, accompanyingSuspect1, accompanyingSuspect2];
+            outputAlibiString = [NSString stringWithFormat:@"I was %@ with #%d and #%d", insertString1, accompanyingSuspect1, accompanyingSuspect2];
             break;
         
         // sideAreaWithSuspect
@@ -405,7 +405,7 @@
                 default:
                     break;
             }
-            outputAlibiString = [NSString stringWithFormat:@"I was %@, %@ with %d", insertString1, insertString2, accompanyingSuspect1];
+            outputAlibiString = [NSString stringWithFormat:@"I was %@, %@ with #%d", insertString1, insertString2, accompanyingSuspect1];
             break;
 
         default:

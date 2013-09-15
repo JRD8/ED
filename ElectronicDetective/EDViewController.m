@@ -51,7 +51,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 #pragma mark - Entry Key methods
+
 
 - (IBAction)key1pressed:(id)sender
 {
@@ -67,6 +69,7 @@
             break;
             
         case iAccusePressed:
+            [self iAccuseCounter:1];
             break;
             
         default:
@@ -89,12 +92,14 @@
             break;
             
         case iAccusePressed:
+            [self iAccuseCounter:2];
             break;
             
         default:
             break;
     }
 }
+
 
 - (IBAction)key3pressed:(id)sender
 {
@@ -110,12 +115,14 @@
             break;
             
         case iAccusePressed:
+            [self iAccuseCounter:3];
             break;
             
         default:
             break;
     }
 }
+
 
 - (IBAction)key4pressed:(id)sender
 {
@@ -130,12 +137,14 @@
             break;
             
         case iAccusePressed:
+            [self iAccuseCounter:4];
             break;
             
         default:
             break;
     }
 }
+
 
 - (IBAction)key5pressed:(id)sender
 {
@@ -150,12 +159,14 @@
             break;
             
         case iAccusePressed:
+            [self iAccuseCounter:5];
             break;
             
         default:
             break;
     }
 }
+
 
 - (IBAction)key6pressed:(id)sender
 {
@@ -170,12 +181,14 @@
             break;
             
         case iAccusePressed:
+            [self iAccuseCounter:6];
             break;
             
         default:
             break;
     }
 }
+
 
 - (IBAction)key7pressed:(id)sender
 {
@@ -191,12 +204,14 @@
             break;
             
         case iAccusePressed:
+            [self iAccuseCounter:7];
             break;
             
         default:
             break;
     }
 }
+
 
 - (IBAction)key8pressed:(id)sender
 {
@@ -212,12 +227,14 @@
             break;
             
         case iAccusePressed:
+            [self iAccuseCounter:8];
             break;
             
         default:
             break;
     }
 }
+
 
 - (IBAction)key9pressed:(id)sender
 {
@@ -232,6 +249,7 @@
             break;
             
         case iAccusePressed:
+            [self iAccuseCounter:9];
             break;
             
         default:
@@ -253,6 +271,7 @@
             break;
             
         case iAccusePressed:
+            [self iAccuseCounter:0];
             break;
             
         default:
@@ -260,6 +279,8 @@
     }
 }
 
+
+#pragma mark - Main Button Methods
 
 
 - (IBAction)suspectPressed:(id)sender
@@ -314,12 +335,22 @@
             break;
             
         case iAccusePressed:
+            if (suspectNumber == [[EDGameStateStore sharedStore] murdererNumber])
+            {
+                interrogatedSuspected = [[[EDGameStateStore sharedStore] masterSuspectDirectory] objectForKey:[NSString stringWithFormat:@"%d", suspectNumber]];
+                mainDisplay.text = [NSString stringWithFormat: @"CORRECT - YOU WIN %@ #%d IS THE MURDERER!", [interrogatedSuspected suspectName], [interrogatedSuspected suspectNumber]];
+            }
+            else
+            {
+                mainDisplay.text = @"INCORRECT - YOU LOSE";
+            }
             break;
             
         default:
             break;
     }
 }
+
 
 - (IBAction)endTurnPressed:(id)sender
 {
@@ -333,7 +364,9 @@
     NSLog(@"END TURN");
 }
 
+
 #pragma mark - Helper Methods
+
 
 - (void) suspectNumberCounter: (int) keyNumber
 {
@@ -385,6 +418,7 @@
     }
 }
 
+
 - (void) privateQuestionCounter: (int) keyNumber
 {
     
@@ -425,7 +459,7 @@
     }
 }
 
-// FIXME: I Accuse keys not registering
+
 - (void) iAccuseCounter: (int) keyNumber
 {
     
