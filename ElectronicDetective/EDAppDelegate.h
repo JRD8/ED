@@ -11,6 +11,9 @@
 @class EDViewController;
 
 @interface EDAppDelegate : UIResponder <UIApplicationDelegate>
+{
+       NSUserDefaults *defaults;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 

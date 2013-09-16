@@ -22,7 +22,15 @@
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     
-        
+    // User defaults from Settings bundle
+    defaults = [NSUserDefaults standardUserDefaults];
+    
+    // Update VERSION # here!
+    NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]; // This will get the current BUILD
+    [[NSUserDefaults standardUserDefaults] setObject:appVersionString forKey:@"currentVersionKey"];
+    
+    [defaults synchronize];
+    
     return YES;
 }
 
