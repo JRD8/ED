@@ -367,6 +367,22 @@
     NSLog(@"END TURN");
 }
 
+- (IBAction)restartGamePressed:(id)sender
+{
+    [[EDGameStateStore sharedStore] restartNewGame];
+    
+    int victimNumber = [[EDGameStateStore sharedStore] victimNumber];
+    int sceneOfTheCrime = [[EDGameStateStore sharedStore] sceneOfTheCrime];
+    
+    EDSuspect *victim = [[[EDGameStateStore sharedStore] masterSuspectDirectory] objectForKey:[NSString stringWithFormat:@"%d", victimNumber ]];
+    
+    currentEntryString = [NSString stringWithFormat:@"The VICTIM was #%d - %@ found at %@", victimNumber, [[victim suspectName] uppercaseString], [[[EDGameStateStore sharedStore] generateLocationString: sceneOfTheCrime] uppercaseString]];
+    
+    mainDisplay.text = currentEntryString;
+    
+    NSLog(@"RESTART GAME");
+}
+
 
 #pragma mark - Helper Methods
 
@@ -513,5 +529,6 @@
         }
     }
 }
+
 
 @end

@@ -38,6 +38,7 @@ typedef enum
 @property (weak, nonatomic) IBOutlet UIButton *iAccuse;
 @property (weak, nonatomic) IBOutlet UIButton *enter;
 @property (weak, nonatomic) IBOutlet UIButton *endTurn;
+@property (weak, nonatomic) IBOutlet UIButton *restartGame;
 
 @property (weak, nonatomic) IBOutlet UILabel *mainDisplay;
 
@@ -63,12 +64,12 @@ typedef enum
 - (IBAction)key9pressed:(id)sender;
 - (IBAction)key0pressed:(id)sender;
 
-
 - (IBAction)suspectPressed:(id)sender;
 - (IBAction)privateQuestionPressed:(id)sender;
 - (IBAction)iAccusePressed:(id)sender;
 - (IBAction)enterPressed:(id)sender;
 - (IBAction)endTurnPressed:(id)sender;
+- (IBAction)restartGamePressed:(id)sender;
 
 - (void) suspectNumberCounter: (int) keyNumber;
 - (void) privateQuestionCounter: (int) keyNumber;

@@ -13,7 +13,7 @@
 
 @implementation EDGameStateStore
 
-@synthesize masterSuspectDirectory, masterLocationDirectory, murdererNumber;
+@synthesize masterSuspectDirectory, masterLocationDirectory, sceneOfTheCrime, murdererNumber, victimNumber;
 
 // Class Methods
 + (EDGameStateStore *) sharedStore
@@ -33,23 +33,7 @@
 {
     self = [super init];
     
-    [self createMasterSuspectDirectory];
-    [self createMasterLocationDirectory];
-    
-    [self killVictim];
-    [self assignMurderer];
-    [self randomizeSuspectsInCity];
-    [self hideWeapons];
-    
-    [self assignSideAreaToLocation];
-    [self assignAlibiTypesToSuspects];
-    
-    NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
-   
-    // Additional log routines
-    [self printLocationAssignedSuspects];
-    [self printMasterSuspectDirectory];
-    [self privateQuestionTestRoutine];
+    [self restartNewGame];
     
     return self;
 }
@@ -1766,6 +1750,29 @@
         
         NSLog(@"%@\r", [temp description]);
     }
+}
+
+
+- (void) restartNewGame
+{
+    [self createMasterSuspectDirectory];
+    [self createMasterLocationDirectory];
+    
+    [self killVictim];
+    [self assignMurderer];
+    [self randomizeSuspectsInCity];
+    [self hideWeapons];
+    
+    [self assignSideAreaToLocation];
+    [self assignAlibiTypesToSuspects];
+    
+    NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
+    
+    // Additional log routines
+    [self printLocationAssignedSuspects];
+    [self printMasterSuspectDirectory];
+    [self privateQuestionTestRoutine];
+
 }
 
 @end 

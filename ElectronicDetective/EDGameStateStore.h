@@ -19,11 +19,8 @@
     NSArray *suspectPrivateQuestionLists;
     NSArray *suspectTypes;
     
-    int victimNumber;
-    
     weapon murderWeapon;
-
-    location sceneOfTheCrime;
+    
     location locationOf38;
     location locationOf45;
     location threeSuspectLocation;
@@ -48,7 +45,11 @@
     
 }
 
-@property int murdererNumber; // Need to expose this for the EDViewController to access
+// Need to expose these variables for EDViewController access
+@property int murdererNumber;
+@property int victimNumber;
+
+@property location sceneOfTheCrime;
 
 @property (nonatomic, strong) NSMutableDictionary *masterSuspectDirectory;
 @property (nonatomic, strong) NSMutableDictionary *masterLocationDirectory;
@@ -76,6 +77,8 @@
 - (void) printLocationAssignedSuspects;
 - (void) privateQuestionTestRoutine;
 - (void) printMasterSuspectDirectory;
+
+- (void) restartNewGame;
 
 
 @end
