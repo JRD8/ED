@@ -47,9 +47,7 @@ typedef enum
 // Data entry variables
 @property int suspectNumber;
 @property int privateQuestionNumber;
-
 @property (nonatomic, strong) NSString *currentEntryString;
-
 @property status buttonStatus;
 
 
@@ -75,5 +73,6 @@ typedef enum
 - (void) privateQuestionCounter: (int) keyNumber;
 - (void) iAccuseCounter: (int) keyNumber;
 
+- (void) displayInitialCrimeInfo;
 
 @end

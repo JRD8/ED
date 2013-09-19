@@ -36,6 +36,10 @@
     
     [EDGameStateStore sharedStore]; // Create a new Store or load a saved Store
     
+    [[EDGameStateStore sharedStore] restartNewGame];
+    
+    [self displayInitialCrimeInfo];
+    
     interrogatedSuspected = [[EDSuspect alloc] init];
     
     // Reset these flags & variables
@@ -373,18 +377,12 @@
 
 - (IBAction)restartGamePressed:(id)sender
 {
+    NSLog(@"RESTART GAME");
+    
     [[EDGameStateStore sharedStore] restartNewGame];
     
-    int victimNumber = [[EDGameStateStore sharedStore] victimNumber];
-    int sceneOfTheCrime = [[EDGameStateStore sharedStore] sceneOfTheCrime];
-    
-    EDSuspect *victim = [[[EDGameStateStore sharedStore] masterSuspectDirectory] objectForKey:[NSString stringWithFormat:@"%d", victimNumber ]];
-    
-    currentEntryString = [NSString stringWithFormat:@"The VICTIM was #%d - %@ found at %@", victimNumber, [[victim suspectName] uppercaseString], [[[EDGameStateStore sharedStore] generateLocationString: sceneOfTheCrime] uppercaseString]];
-    
-    mainDisplay.text = currentEntryString;
-    
-    NSLog(@"RESTART GAME");
+    [self displayInitialCrimeInfo];
+   
 }
 
 
@@ -534,5 +532,16 @@
     }
 }
 
+- (void) displayInitialCrimeInfo
+{
+    int victimNumber = [[EDGameStateStore sharedStore] victimNumber];
+    int sceneOfTheCrime = [[EDGameStateStore sharedStore] sceneOfTheCrime];
+    
+    EDSuspect *victim = [[[EDGameStateStore sharedStore] masterSuspectDirectory] objectForKey:[NSString stringWithFormat:@"%d", victimNumber ]];
+    
+    currentEntryString = [NSString stringWithFormat:@"The VICTIM was #%d - %@ found at %@", victimNumber, [[victim suspectName] uppercaseString], [[[EDGameStateStore sharedStore] generateLocationString: sceneOfTheCrime] uppercaseString]];
+    
+    mainDisplay.text = currentEntryString;
+}
 
 @end

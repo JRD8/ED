@@ -33,8 +33,6 @@
 {
     self = [super init];
     
-    [self restartNewGame];
-    
     return self;
 }
 
@@ -70,7 +68,7 @@
     num13 = [NSNumber numberWithInt:13];
     num14 = [NSNumber numberWithInt:14];
 
-    suspectPrivateQuestionLists = [[NSArray alloc] initWithObjects:[[NSArray alloc] initWithObjects:num1, num2, num9, num13, num14, nil], [[NSArray alloc] initWithObjects:num2, num3, num9, num13, num14, nil], [[NSArray alloc] initWithObjects:num1, num2, num9, num13, num14, nil], [[NSArray alloc] initWithObjects:num3, num4, num5, num13, num14, nil], [[NSArray alloc] initWithObjects:num4, num5, num9, num13, num14, nil], [[NSArray alloc] initWithObjects:num1, num4, num9, num13, num14, nil], [[NSArray alloc] initWithObjects:num5, num6, num12, num13, num14, nil], [[NSArray alloc] initWithObjects:num2, num5, num12, num13, num14, nil], [[NSArray alloc] initWithObjects:num3, num5, num12, num13, num14, nil], [[NSArray alloc] initWithObjects:num1, num5, num12, num13, num14, nil], [[NSArray alloc] initWithObjects:num7, num8, num12, num13, num14, nil], [[NSArray alloc] initWithObjects:num6, num7, num11, num13, num14, nil], [[NSArray alloc] initWithObjects:num2, num6, num11, num13, num14, nil], [[NSArray alloc] initWithObjects:num3, num7, num11, num13, num14, nil], [[NSArray alloc] initWithObjects:num1, num6, num11, num13, num14, nil], [[NSArray alloc] initWithObjects:num4, num7, num11, num13, num14, nil], [[NSArray alloc] initWithObjects:num6, num8, num10, num13, num14, nil], [[NSArray alloc] initWithObjects:num2, num7, num10, num13, num14, nil], [[NSArray alloc] initWithObjects:num1, num8, num10, num13, num14, nil], [[NSArray alloc] initWithObjects:num4, num8, num10, num13, num14, nil], nil];
+    suspectPrivateQuestionLists = [[NSArray alloc] initWithObjects: /* Lenny Little #1 */[[NSArray alloc] initWithObjects:num1, num2, num9, num13, num14, nil], /* Al Farook #2 */ [[NSArray alloc] initWithObjects:num2, num3, num9, num13, num14, nil], /* Pepe Perez #3 */ [[NSArray alloc] initWithObjects:num3, num4, num5, num13, num14, nil], /* Tony Racheti #4 */ [[NSArray alloc] initWithObjects:num4, num5, num9, num13, num14, nil], /* Mickey O'Malley #5 */ [[NSArray alloc] initWithObjects:num1, num4, num9, num13, num14, nil], /* Max Fineflugle #6 */ [[NSArray alloc] initWithObjects:num5, num6, num12, num13, num14, nil], /* Rip Rapp #7 */ [[NSArray alloc] initWithObjects:num2, num5, num12, num13, num14, nil], /* Buster Bailey #8 */ [[NSArray alloc] initWithObjects:num3, num5, num12, num13, num14, nil], /* Rocky Roll #9 */ [[NSArray alloc] initWithObjects:num1, num5, num12, num13, num14, nil], /* Ling Tong #10 */ [[NSArray alloc] initWithObjects:num7, num8, num12, num13, num14, nil], /* Ivy Little #11 */ [[NSArray alloc] initWithObjects:num6, num7, num11, num13, num14, nil], /* Lucy Tumble #12 */ [[NSArray alloc] initWithObjects:num2, num6, num11, num13, num14, nil], /* Piper Perez #13 */ [[NSArray alloc] initWithObjects:num3, num7, num11, num13, num14, nil], /* Dina Racheti #14 */ [[NSArray alloc] initWithObjects:num1, num6, num11, num13, num14, nil], /* Eileen Stellar #15 */ [[NSArray alloc] initWithObjects:num4, num7, num11, num13, num14, nil], /* Joan Fineflugle #16 */ [[NSArray alloc] initWithObjects:num6, num8, num10, num13, num14, nil], /* Rose Pettle #17 */ [[NSArray alloc] initWithObjects:num2, num7, num10, num13, num14, nil], /* Doris Dill #18 */ [[NSArray alloc] initWithObjects:num1, num8, num10, num13, num14, nil], /* Candy Roll #19 */ [[NSArray alloc] initWithObjects:num3, num8, num10, num13, num14, nil], /* Sing Wong #20 */ [[NSArray alloc] initWithObjects:num4, num8, num10, num13, num14, nil], nil];
     
     suspectTypes = [[NSArray alloc] initWithObjects: num0, num1, num0, num1, num0, num1, num0, num1, num0, num1, num2, num3, num2, num3, num2, num3, num2, num3, num2, num3, nil];
     
@@ -1755,6 +1753,25 @@
 
 - (void) restartNewGame
 {
+    // Destroy existing objects & reset variables
+    suspectNames = nil;
+    suspectOccupations = nil;
+    suspectMaritalStatuses = nil;
+    suspectPrivateQuestionLists = nil;
+    suspectTypes = nil;
+    
+    masterLocationDirectory = nil;
+    masterSuspectDirectory = nil;
+    
+    murderWeapon = 0;
+    murdererNumber = 0;
+    victimNumber = 0;
+    locationOf38 = 0;
+    locationOf45 = 0;
+    threeSuspectLocation = 0;
+    murdererLocation = 0;
+    sceneOfTheCrime = 0;
+    
     [self createMasterSuspectDirectory];
     [self createMasterLocationDirectory];
     
