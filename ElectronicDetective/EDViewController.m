@@ -55,10 +55,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)shouldAutorotate
+- (NSUInteger)supportedInterfaceOrientations
 {
-    return YES;
+    return UIInterfaceOrientationMaskPortrait;
 }
+
 
 #pragma mark - Entry Key methods
 

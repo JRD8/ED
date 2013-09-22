@@ -167,12 +167,12 @@
     // Method variables/objects
     EDSuspect *candidateSuspect;
     type candidateType = unassignedType;
-    int candidateSuspectNumber = 0;
+    int candidateSuspectNumber;
     BOOL candidateAssigned = NO;
     
     location targetLocationNumber = unassignedLocation;
     EDLocation *targetLocation;
-    BOOL successfulAssignment;
+    BOOL successfulAssignment = NO;
 
     
     // Assign the Victim to the morgue
@@ -199,23 +199,23 @@
         // If candidateAssigned == NO, proceed...
         
         // Evaluate candidateType
-        if (candidateSuspectNumber < 12 && ((candidateSuspectNumber + 2) % 2 != 0))
+        if (candidateSuspectNumber < 11 && ((candidateSuspectNumber + 2) % 2 != 0))
             {
                 candidateType = oddMale; // OddMale
             }
-        else if (candidateSuspectNumber < 12 && ((candidateSuspectNumber + 2) % 2 == 0))
+        else if (candidateSuspectNumber < 11 && ((candidateSuspectNumber + 2) % 2 == 0))
         {
             candidateType = evenMale; // EvenMale
         }
-        else if (candidateSuspectNumber >= 12 && ((candidateSuspectNumber + 2) % 2 != 0))
+        else if (candidateSuspectNumber >= 11 && ((candidateSuspectNumber + 2) % 2 != 0))
         {
             candidateType = oddFemale; // OddFemale
         }
-        else if (candidateSuspectNumber >= 12 && ((candidateSuspectNumber + 2) % 2 == 0))
+        else if (candidateSuspectNumber >= 11 && ((candidateSuspectNumber + 2) % 2 == 0))
         {
             candidateType = evenFemale; // EvenFemale
         }
-                                                                                   
+        
         // Select random targetLocation
         do
         {
@@ -227,7 +227,8 @@
                 targetLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", targetLocationNumber]];
                 
             }
-            while (targetLocationNumber == sceneOfTheCrime); // Keep looping if targetLocation == murderLocation
+            while (targetLocationNumber == sceneOfTheCrime); // Keep looping if targetLocation == sceneOfTheCrime
+            
             
             if ([[targetLocation assignedSuspects] count] == 0) // No assignedSuspects yet
             {
@@ -778,9 +779,6 @@
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     
     
-    // FIX ME: BUG AROUND HERE SOMEWHERE AND TOP OF METHOD
-    NSLog(@"DID I GET THIS FAR?");
-    
     // Randomly select 2 of the remaining 3 cluster sequences (1,1,6,9), (2,10,1,3) or (4,8,10,11)
 
     // Select 2 random cluster numbers
@@ -1062,6 +1060,8 @@
             }
         }
         
+        NSLog(@"DID I GET THIS FAR?");
+        
         // Generate Alibi Statements
         for (int i = 0; i < 4; i++)
         {
@@ -1093,6 +1093,7 @@
         
         [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     }
+    
     
     if ((clusterSelect1 == 2) || (clusterSelect2 == 2)) // the (4,8,10,11) cluster
     {
@@ -1789,7 +1790,7 @@
     [self hideWeapons];
     
     [self assignSideAreaToLocation];
-    [self assignAlibiTypesToSuspects];
+    // [self assignAlibiTypesToSuspects]; // FIXME: Something about this sets an index out of bounds
     
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
     
