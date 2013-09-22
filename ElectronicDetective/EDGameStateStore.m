@@ -78,9 +78,6 @@
     {
         [masterSuspectDirectory setObject:[[EDSuspect alloc] initWithInitialValues:i + 1 suspectType:[[suspectTypes objectAtIndex:i] intValue] name:[suspectNames objectAtIndex:i] occupation:[suspectOccupations objectAtIndex:i] maritalStatus:[suspectMaritalStatuses objectAtIndex:i] privateQuestionList:[suspectPrivateQuestionLists objectAtIndex:i]] forKey:[NSString stringWithFormat:@"%d", i + 1]];
     }
-    
-    // TODO: REMOVE LOG
-    NSLog(@"Master Suspect Directory: %@", [masterSuspectDirectory description]);
 }
 
 - (void) createMasterLocationDirectory
@@ -93,10 +90,6 @@
     {
         [masterLocationDirectory setObject:[[EDLocation alloc] initWithInitialValues: i name:[locationNames objectAtIndex:i]] forKey:[NSString stringWithFormat:@"%d", i]];
     }
-    
-    
-    // TODO: REMOVE LOG
-    NSLog(@"Master Location Directory: %@", [masterLocationDirectory description]);
 }
 
 - (void) killVictim
@@ -382,10 +375,11 @@
     
     NSArray *tempValues = [[NSArray alloc] init]; // A temp container for routines below
     BOOL proceed; // Loop flag
-    int oddMale;
-    int evenMale;
-    int oddFemale;
-    int evenFemale;
+    int oddMaleSelection;
+    int evenMaleSelection;
+    int oddFemaleSelection;
+    int evenFemaleSelection;
+    int threeSuspectChoice = 999;
     
     // First, set the MURDER LOCATION as Init Completed
     
@@ -408,7 +402,7 @@
     NSArray *threeSuspectOption2Values = [[NSArray alloc] initWithObjects:num12, num8, num6, nil]; // 3 SUSPECT LOCATION - 2ND CHOICE (12,8,6)
     NSArray *masterLocationValues = [[NSArray alloc] initWithObjects:threeSuspectOption1Values, threeSuspectOption2Values, nil]; // Master container for 3 SUSPECT LOCATION values
     
-    int threeSuspectChoice = arc4random_uniform(2); // Either Option 1 or Option 2 in the masterLocationValues array
+    threeSuspectChoice = arc4random_uniform(2); // Either Option 1 or Option 2 in the masterLocationValues array
      
     for (int i = 0; i < 3; i++)
     {
@@ -431,7 +425,10 @@
     }
     
     // Generate Alibi Statements
-    int suspectA, suspectB; // Helper variables for this specific routine
+    
+    // Helper variables for this specific routine
+    int suspectA = 0;
+    int suspectB = 0;
     
     for (int j = 0; j < 3; j++)
     {
@@ -441,9 +438,9 @@
             
             switch (j)
             {
-                case 0: // Look for suspectA with sideAtLocation alibiType and generate alibiString
+                case 0: // Look for suspectA with areaAtLocation alibiType - 8 and generate alibiString
                     
-                    if ([tempSuspect assignedAlibiType] == sideAtLocation)
+                    if ([tempSuspect assignedAlibiType] == areaAtLocation)
                     {
                         [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
                         
@@ -451,7 +448,7 @@
                     }
                     break;
                     
-                case 1: // Look for suspectB with EITHER areaWithSuspect OR sideWithSuspect alibiType and generate alibistring with accompanying suspectA
+                case 1: // Look for suspectB with EITHER areaWithSuspect - 6 OR sideWithSuspect - 7 alibiType and generate alibistring with accompanying suspectA
                     
                     if (([tempSuspect assignedAlibiType] == areaWithSuspect) || ([tempSuspect assignedAlibiType] == sideWithSuspect))
                     {
@@ -461,7 +458,7 @@
                     }
                     break;
                     
-                case 2: // Look for suspectC with sideAreaWithSuspect alibiType and generate alibiString with accompanying suspectB
+                case 2: // Look for suspectC with sideAreaWithSuspect alibiType - 12 and generate alibiString with accompanying suspectB
                     
                     if ([tempSuspect assignedAlibiType] == sideAreaWithSuspect)
                     {
@@ -486,15 +483,15 @@
     }
     
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
-
+    
     
     // Select one of the remaining location as the (1,1,5,4) cluster
     
     // Reset these counters
-    oddMale = 0;
-    evenMale = 0;
-    oddFemale = 0;
-    evenFemale = 0;
+    oddMaleSelection = 0;
+    evenMaleSelection = 0;
+    oddFemaleSelection = 0;
+    evenFemaleSelection = 0;
     
     do
     {
@@ -516,7 +513,7 @@
         {
             [candidate setAssignedAlibiType:withSuspectAndSuspect];
             
-            oddFemale = [candidate suspectNumber];
+            oddFemaleSelection = [candidate suspectNumber];
         }
     }
     // Assign Type 1 to Even Female
@@ -528,7 +525,7 @@
         {
             [candidate setAssignedAlibiType:withSuspectAndSuspect];
             
-            evenFemale = [candidate suspectNumber];
+            evenFemaleSelection = [candidate suspectNumber];
         }
     }
     // Handle 4,5 assignments
@@ -566,11 +563,11 @@
             // Record the current candidate's type
             if (([candidate suspectNumber] + 2) % 2 == 0)
             {
-                evenMale = [candidate suspectNumber];
+                evenMaleSelection = [candidate suspectNumber];
             }
             else if (([candidate suspectNumber] + 2) % 2 != 0)
             {
-                oddMale = [candidate suspectNumber];
+                oddMaleSelection = [candidate suspectNumber];
             }
         }
     }
@@ -592,11 +589,11 @@
             // Record the current candidate's type
             if (([candidate suspectNumber] + 2) % 2 == 0)
             {
-                evenMale = [candidate suspectNumber];
+                evenMaleSelection = [candidate suspectNumber];
             }
             else if (([candidate suspectNumber] + 2) % 2 != 0)
             {
-                oddMale = [candidate suspectNumber];
+                oddMaleSelection = [candidate suspectNumber];
             }
             
             proceed = YES;
@@ -623,12 +620,12 @@
             // Deteremine if odd or even
             if (([tempSuspect suspectNumber] + 2) % 2 == 0) // Even (female)
             {
-                [tempSuspect generateAlibiStringWithSuspect1:oddMale Suspect2:oddFemale];
+                [tempSuspect generateAlibiStringWithSuspect1:oddMaleSelection Suspect2:oddFemaleSelection];
             }
             
             if (([tempSuspect suspectNumber] + 2) % 2 != 0) // Odd (female)
             {
-                [tempSuspect generateAlibiStringWithSuspect1:evenMale Suspect2:evenFemale];
+                [tempSuspect generateAlibiStringWithSuspect1:evenMaleSelection Suspect2:evenFemaleSelection];
             }
         }
     }
@@ -637,15 +634,14 @@
     [tempLocation setAlibiCombo:combo_1_1_5_4];
     
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
-
-    
+     
     // Select one of the remaining location as the (5,11,2,6) cluster
     
     // Reset these counters
-    oddMale = 0;
-    evenMale = 0;
-    oddFemale = 0;
-    evenFemale = 0;
+    oddMaleSelection = 0;
+    evenMaleSelection = 0;
+    oddFemaleSelection = 0;
+    evenFemaleSelection = 0;
     
     do
     {
@@ -667,7 +663,7 @@
         {
             [candidate setAssignedAlibiType:sideWithSuspectAndSuspect];
             
-            evenMale = [candidate suspectNumber];
+            evenMaleSelection = [candidate suspectNumber];
         }
     }
     // Assign Type 6 to Even Female
@@ -679,7 +675,7 @@
         {
             [candidate setAssignedAlibiType:areaWithSuspect];
             
-            evenFemale = [candidate suspectNumber];
+            evenFemaleSelection = [candidate suspectNumber];
         }
     }
     // Handle 5,2 assignments
@@ -714,11 +710,11 @@
             
             if ([candidate suspectNumber] < 11) // (odd) Male
             {
-                oddMale = [candidate suspectNumber];
+                oddMaleSelection = [candidate suspectNumber];
             }
             else if ([candidate suspectNumber] >= 11) // (odd) Female
             {
-                oddFemale = [candidate suspectNumber];
+                oddFemaleSelection = [candidate suspectNumber];
             }
         }
     }
@@ -739,11 +735,11 @@
             
             if ([candidate suspectNumber] < 11) // (odd) Male
             {
-                oddMale = [candidate suspectNumber];
+                oddMaleSelection = [candidate suspectNumber];
             }
             else if ([candidate suspectNumber] >= 11) // (odd) Female
             {
-                oddFemale = [candidate suspectNumber];
+                oddFemaleSelection = [candidate suspectNumber];
             }
             
             proceed = YES;
@@ -767,12 +763,12 @@
         
         if ([tempSuspect assignedAlibiType] == sideWithSuspectAndSuspect)
         {
-            [tempSuspect generateAlibiStringWithSuspect1:oddMale Suspect2:oddFemale];
+            [tempSuspect generateAlibiStringWithSuspect1:oddMaleSelection Suspect2:oddFemaleSelection];
         }
         
         if ([tempSuspect assignedAlibiType] == areaWithSuspect)
         {
-            [tempSuspect generateAlibiStringWithSuspect1:evenMale Suspect2:0];
+            [tempSuspect generateAlibiStringWithSuspect1:evenMaleSelection Suspect2:0];
         }
     }
     
@@ -780,6 +776,10 @@
     [tempLocation setAlibiCombo:combo_5_11_2_6];
     
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
+    
+    
+    // FIX ME: BUG AROUND HERE SOMEWHERE AND TOP OF METHOD
+    NSLog(@"DID I GET THIS FAR?");
     
     // Randomly select 2 of the remaining 3 cluster sequences (1,1,6,9), (2,10,1,3) or (4,8,10,11)
 
@@ -797,10 +797,10 @@
     if ((clusterSelect1 == 0) || (clusterSelect2 == 0)) // The (1,1,6,9) cluster
     {
         // Reset these counters
-        oddMale = 0;
-        evenMale = 0;
-        oddFemale = 0;
-        evenFemale = 0;
+        oddMaleSelection = 0;
+        evenMaleSelection = 0;
+        oddFemaleSelection = 0;
+        evenFemaleSelection = 0;
         
         do
         {
@@ -822,7 +822,7 @@
             {
                 [candidate setAssignedAlibiType:withSuspectAndSuspect];
                 
-                oddFemale = [candidate suspectNumber];
+                oddFemaleSelection = [candidate suspectNumber];
             }
         }
         // Assign Type 1 to Even Female
@@ -834,7 +834,7 @@
             {
                 [candidate setAssignedAlibiType:withSuspectAndSuspect];
                 
-                evenFemale = [candidate suspectNumber];
+                evenFemaleSelection = [candidate suspectNumber];
             }
         }
         // Handle 6,9 assignments
@@ -872,11 +872,11 @@
                 // Record the current candidate's type
                 if (([candidate suspectNumber] +2) % 2 == 0)
                 {
-                    evenMale = [candidate suspectNumber];
+                    evenMaleSelection = [candidate suspectNumber];
                 }
                 else if (([candidate suspectNumber] +2) % 2 != 0)
                 {
-                    oddMale = [candidate suspectNumber];
+                    oddMaleSelection = [candidate suspectNumber];
                 }
             }
         }
@@ -898,11 +898,11 @@
                 // Record the current candidate's type
                 if (([candidate suspectNumber] +2) % 2 == 0)
                 {
-                    evenMale = [candidate suspectNumber];
+                    evenMaleSelection = [candidate suspectNumber];
                 }
                 else if (([candidate suspectNumber] +2) % 2 != 0)
                 {
-                    oddMale = [candidate suspectNumber];
+                    oddMaleSelection = [candidate suspectNumber];
                 }
                 
                 proceed = YES;
@@ -916,7 +916,7 @@
             
             if ([tempSuspect assignedAlibiType] == areaWithSuspect)
             {
-                [tempSuspect generateAlibiStringWithSuspect1:evenMale Suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:evenMaleSelection Suspect2:0];
             }
             
             if ([tempSuspect assignedAlibiType] == sideAtLocation)
@@ -930,13 +930,13 @@
                 if (([tempSuspect suspectNumber] + 2) % 2 == 0) // Even (female)
                 {
                     // Get the odd male and odd female
-                    [tempSuspect generateAlibiStringWithSuspect1:evenMale Suspect2:oddMale];
+                    [tempSuspect generateAlibiStringWithSuspect1:evenMaleSelection Suspect2:oddMaleSelection];
                 }
                 
                 if (([tempSuspect suspectNumber] + 2) % 2 != 0) // Odd (female)
                 {
                     // Get the even male and even female
-                    [tempSuspect generateAlibiStringWithSuspect1:oddMale Suspect2:evenFemale];
+                    [tempSuspect generateAlibiStringWithSuspect1:oddMaleSelection Suspect2:evenFemaleSelection];
                 }
             }
         }
@@ -950,10 +950,10 @@
     if ((clusterSelect1 == 1) || (clusterSelect2 == 1)) // the (2,10,1,3) cluster
     {
         // Reset these counters
-        oddMale = 0;
-        evenMale = 0;
-        oddFemale = 0;
-        evenFemale = 0;
+        oddMaleSelection = 0;
+        evenMaleSelection = 0;
+        oddFemaleSelection = 0;
+        evenFemaleSelection = 0;
         
         do
         {
@@ -975,7 +975,7 @@
             {
                 [candidate setAssignedAlibiType:withSuspectAndSuspect];
                 
-                oddMale = [candidate suspectNumber];
+                oddMaleSelection = [candidate suspectNumber];
             }
         }
         // Assign Type 10 to Even Male
@@ -987,7 +987,7 @@
             {
                 [candidate setAssignedAlibiType:atLocationWithSuspect];
                 
-                evenMale = [candidate suspectNumber];
+                evenMaleSelection = [candidate suspectNumber];
             }
         }
         // Handle 2,3 assignments
@@ -1025,11 +1025,11 @@
                 // Record the current candidate's type
                 if (([candidate suspectNumber] +2) % 2 == 0)
                 {
-                    evenFemale = [candidate suspectNumber];
+                    evenFemaleSelection = [candidate suspectNumber];
                 }
                 else if (([candidate suspectNumber] +2) % 2 != 0)
                 {
-                    oddFemale = [candidate suspectNumber];
+                    oddFemaleSelection = [candidate suspectNumber];
                 }
             }
         }
@@ -1051,11 +1051,11 @@
                 // Record the current candidate's type
                 if (([candidate suspectNumber] +2) % 2 == 0)
                 {
-                    evenFemale = [candidate suspectNumber];
+                    evenFemaleSelection = [candidate suspectNumber];
                 }
                 else if (([candidate suspectNumber] +2) % 2 != 0)
                 {
-                    oddFemale = [candidate suspectNumber];
+                    oddFemaleSelection = [candidate suspectNumber];
                 }
                 
                 proceed = YES;
@@ -1079,12 +1079,12 @@
             
             if ([tempSuspect assignedAlibiType] == atLocationWithSuspect)
             {
-                [tempSuspect generateAlibiStringWithSuspect1:oddMale Suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:oddMaleSelection Suspect2:0];
             }
             
             if ([tempSuspect assignedAlibiType] == withSuspectAndSuspect)
             {
-                [tempSuspect generateAlibiStringWithSuspect1:evenFemale Suspect2:oddFemale];
+                [tempSuspect generateAlibiStringWithSuspect1:evenFemaleSelection Suspect2:oddFemaleSelection];
             }
         }
         
@@ -1097,10 +1097,10 @@
     if ((clusterSelect1 == 2) || (clusterSelect2 == 2)) // the (4,8,10,11) cluster
     {
         // Reset these counters
-        oddMale = 0;
-        evenMale = 0;
-        oddFemale = 0;
-        evenFemale = 0;
+        oddMaleSelection = 0;
+        evenMaleSelection = 0;
+        oddFemaleSelection = 0;
+        evenFemaleSelection = 0;
         
         do
         {
@@ -1122,7 +1122,7 @@
             {
                 [candidate setAssignedAlibiType:atLocationWithSuspect];
                 
-                evenMale = [candidate suspectNumber];
+                evenMaleSelection = [candidate suspectNumber];
             }
         }
         // Assign Type 11 to Odd Female
@@ -1134,7 +1134,7 @@
             {
                 [candidate setAssignedAlibiType:sideWithSuspectAndSuspect];
                 
-                oddFemale = [candidate suspectNumber];
+                oddFemaleSelection = [candidate suspectNumber];
             }
         }
         // Handle 4,8 assignments
@@ -1172,11 +1172,11 @@
                 // Record the current candidate's type
                 if (([candidate suspectNumber] +2) % 2 == 0)
                 {
-                    evenFemale = [candidate suspectNumber];
+                    evenFemaleSelection = [candidate suspectNumber];
                 }
                 else if (([candidate suspectNumber] +2) % 2 != 0)
                 {
-                    oddMale = [candidate suspectNumber];
+                    oddMaleSelection = [candidate suspectNumber];
                 }
             }
         }
@@ -1198,11 +1198,11 @@
                 // Record the current candidate's type
                 if (([candidate suspectNumber] +2) % 2 == 0)
                 {
-                    evenFemale = [candidate suspectNumber];
+                    evenFemaleSelection = [candidate suspectNumber];
                 }
                 else if (([candidate suspectNumber] +2) % 2 != 0)
                 {
-                    oddMale = [candidate suspectNumber];
+                    oddMaleSelection = [candidate suspectNumber];
                 }
                 
                 proceed = YES;
@@ -1226,12 +1226,12 @@
             
             if ([tempSuspect assignedAlibiType] == atLocationWithSuspect)
             {
-                [tempSuspect generateAlibiStringWithSuspect1:oddFemale Suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:oddFemaleSelection Suspect2:0];
             }
             
             if ([tempSuspect assignedAlibiType] == sideWithSuspectAndSuspect)
             {
-                [tempSuspect generateAlibiStringWithSuspect1:oddMale Suspect2:evenFemale];
+                [tempSuspect generateAlibiStringWithSuspect1:oddMaleSelection Suspect2:evenFemaleSelection];
             }
         }
         
@@ -1239,7 +1239,7 @@
         [tempLocation setAlibiCombo:combo_4_8_10_11];
         
         [tempLocation setInitCompleted:YES]; // Flag the Location as completed
-    }
+     }
 }
 
 - (NSString *) askPrivateQuestion: (privateQuestion)questionNumber
