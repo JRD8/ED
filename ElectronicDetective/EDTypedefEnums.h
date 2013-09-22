@@ -89,20 +89,22 @@ typedef enum
 {
     unassignedQuestion = 99,
     
-    didMurdererGoEast = 0,
-    isMaleMurderer = 1,
-    whatAreaWasMurderer = 2,
-    isMurderWeapon38 = 3,
-    whereIs38 = 4,
-    whereIs45 = 5,
-    whereIsThreeSuspectLocation = 6,
-    isMurdererAtABC = 7,
-    wereYouEast = 8,
-    whatWasYourArea = 9,
-    wereYouAtABC = 10,
-    wereYouInAWeaponLocation = 11,
-    areOddPrintsOn38 = 12,
-    areOddPrintsOn45 = 13,
+    // Don't use 0 in this enum - it confuses private question numbers
+    
+    didMurdererGoEast = 1,
+    isMaleMurderer = 2,
+    whatAreaWasMurderer = 3,
+    isMurderWeapon38 = 4,
+    whereIs38 = 5,
+    whereIs45 = 6,
+    whereIsThreeSuspectLocation = 7,
+    isMurdererAtABC = 8,
+    wereYouEast = 9,
+    whatWasYourArea = 10,
+    wereYouAtABC = 11,
+    wereYouInAWeaponLocation = 12,
+    areOddPrintsOn38 = 13,
+    areOddPrintsOn45 = 14,
     
 } privateQuestion;
 

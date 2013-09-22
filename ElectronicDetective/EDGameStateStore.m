@@ -1060,8 +1060,6 @@
             }
         }
         
-        NSLog(@"DID I GET THIS FAR?");
-        
         // Generate Alibi Statements
         for (int i = 0; i < 4; i++)
         {
@@ -1594,22 +1592,22 @@
     switch (location)
     {
         case artShow:
-            outputLocationString = @"Art Show";
+            outputLocationString = @"ART SHOW";
             break;
         case boxAtTheatre:
-            outputLocationString = @"Box At Theatre";
+            outputLocationString = @"BOX AT THEATRE";
             break;
         case cardParty:
-            outputLocationString = @"Card Party";
+            outputLocationString = @"CARD PARTY";
             break;
         case docks:
-            outputLocationString = @"Docks";
+            outputLocationString = @"DOCKS";
             break;
         case embassy:
-            outputLocationString = @"Embassy";
+            outputLocationString = @"EMBASSY";
             break;
         case factory:
-            outputLocationString = @"Factory";
+            outputLocationString = @"FACTORY";
             break;
         default:
             break;
@@ -1646,7 +1644,7 @@
     switch (question)
     {
         case unassignedQuestion:
-            outputQuestionString = @"Unassigned";
+            outputQuestionString = @"UNASSIGNED";
             break;
         case didMurdererGoEast:
             outputQuestionString = @"Did Murderer go the EAST SIDE?";
@@ -1728,11 +1726,11 @@
     
     NSString *answer;
     
-    for (int i = 1; i < 21; i++)
+    for (int i = 1; i <= 20; i++) // Iterate through suspects
     {
         NSLog(@"\r\r");
         
-        for (int j = 0; j < 14; j++)
+        for (int j = 1; j <= 14; j++) // Iterate through private questions
         {
             answer = [self askPrivateQuestion:j toSuspect:i];
             
@@ -1750,7 +1748,7 @@
 {
     NSLog(@"PRINTING MASTER SUSPECT DIRECTORY");
     
-    for (int i = 1; i < 21; i++)
+    for (int i = 1; i <= 20; i++)
     {
         EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", i]];
         
@@ -1790,7 +1788,7 @@
     [self hideWeapons];
     
     [self assignSideAreaToLocation];
-    // [self assignAlibiTypesToSuspects]; // FIXME: Something about this sets an index out of bounds
+    [self assignAlibiTypesToSuspects];
     
     NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
     
