@@ -19,12 +19,20 @@
     
     [self setLocationNumber:lnumber];
     [self setLocationName:lname];
-    [self setThreeSuspectLocation:NO];
-    [self setLocationSide:east];
-    [self setLocationArea:uptown];
-    [self setMurdererLocation:NO];
+    
+    [self setLocationSide:unassignedSide];
+    [self setLocationArea:unassignedArea];
     [self setAlibiCombo:unassignedCombo];
+    
+    [self setLocationOf38:NO];
+    [self setLocationOf45:NO];
+    [self setSceneOfTheCrime:NO];
+    [self setThreeSuspectLocation:NO];
+    [self setMurdererLocation:NO];
     [self setInitCompleted:NO];
+    
+    assignedSuspects = nil; // ** Is this a good idea? **
+    
     assignedSuspects = [[NSMutableArray alloc] init];
     
     return self;
@@ -43,11 +51,11 @@
     // Process side string
     switch (side)
     {
-        case 0:
-            locationAddress = @"0 - East ";
+        case east:
+            locationAddress = @"EAST ";
             break;
-        case 1:
-            locationAddress = @"1 - West ";
+        case west:
+            locationAddress = @"WEST ";
             break;
         default:
             break;
@@ -56,14 +64,14 @@
     // Append with area string
     switch (area)
     {
-        case 0:
-            locationAddress = [locationAddress stringByAppendingString:@"Uptown - 0"];
+        case uptown:
+            locationAddress = [locationAddress stringByAppendingString:@"UPTOWN"];
             break;
-        case 1:
-            locationAddress = [locationAddress stringByAppendingString:@"Midtown - 1"];
+        case midtown:
+            locationAddress = [locationAddress stringByAppendingString:@"MIDTOWN"];
             break;
-        case 2:
-            locationAddress = [locationAddress stringByAppendingString:@"Downtown - 2"];
+        case downtown:
+            locationAddress = [locationAddress stringByAppendingString:@"DOWNTOWN"];
             break;
         default:
             break;
@@ -78,29 +86,29 @@
     
     switch (combo)
     {
-        case 0:
-            outputComboString = @"COMBO 0: UNASSIGNED";
+        case unassignedCombo:
+            outputComboString = @"UNASSIGNED";
             break;
-        case 1:
-            outputComboString = @"COMBO 1: 12/8/7";
+        case combo_12_8_7:
+            outputComboString = @"12/8/7";
             break;
-        case 2:
-            outputComboString = @"COMBO 2: 12/8/6";
+        case combo_12_8_6:
+            outputComboString = @"12/8/6";
             break;
-        case 3:
-            outputComboString = @"COMBO 3: 1/1/5/4";
+        case combo_1_1_5_4:
+            outputComboString = @"1/1/5/4";
             break;
-        case 4:
-            outputComboString = @"COMBO 4: 5/11/2/6";
+        case combo_5_11_2_6:
+            outputComboString = @"5/11/2/6";
             break;
-        case 5:
-            outputComboString = @"COMBO 5: 4/8/10/11";
+        case combo_4_8_10_11:
+            outputComboString = @"4/8/10/11";
             break;
-        case 6:
-            outputComboString = @"COMBO 6: 1/1/6/9";
+        case combo_1_1_6_9:
+            outputComboString = @"1/1/6/9";
             break;
-        case 7:
-            outputComboString = @"COMBO 7: 2/10/1/3";
+        case combo_2_10_1_3:
+            outputComboString = @"2/10/1/3";
             break;
         default:
             break;

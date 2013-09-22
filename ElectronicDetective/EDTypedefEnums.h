@@ -11,15 +11,19 @@
 
 typedef enum
 {
+    unassignedType = 99,
+    
     oddMale = 0,
     evenMale = 1,
     oddFemale = 2,
-    evenFemale = 3
+    evenFemale = 3,
     
 } type;
 
 typedef enum
 {
+    unassignedSide = 99,
+    
     east = 0,
     west = 1
     
@@ -27,6 +31,8 @@ typedef enum
 
 typedef enum
 {
+    unassignedArea = 99,
+    
     uptown = 0,
     midtown = 1,
     downtown = 2
@@ -35,6 +41,8 @@ typedef enum
 
 typedef enum
 {
+    unassignedLocation = 99,
+    
     artShow = 0,
     boxAtTheatre = 1,
     cardParty = 2,
@@ -48,6 +56,8 @@ typedef enum
 
 typedef enum
 {
+    unassignedWeapon = 99,
+    
     handgun38 = 0,
     handgun45 = 1,
     
@@ -55,7 +65,10 @@ typedef enum
 
 typedef enum
 {
-    unassignedAlibiType = 0,
+    unassignedAlibiType = 99,
+    
+    // Don't use 0 in this enum - it confuses combo numbers
+    
     withSuspectAndSuspect = 1,
     areaOnly = 2,
     sideOnly = 3,
@@ -74,34 +87,36 @@ typedef enum
 
 typedef enum
 {
-    unassignedQuestion = 0,
-    didMurdererGoEast = 1,
-    isMaleMurderer = 2,
-    whatAreaWasMurderer = 3,
-    isMurderWeapon38 = 4,
-    locationOf38 = 5,
-    locationOf45 = 6,
-    whereIsThreeSuspectLocation = 7,
-    isMurdererAtABC = 8,
-    wereYouEast = 9,
-    whatWasYourArea = 10,
-    wereYouAtABC = 11,
-    wereYouInAWeaponLocation = 12,
-    areOddPrintsOn38 = 13,
-    areOddPrintsOn45 = 14,
+    unassignedQuestion = 99,
+    
+    didMurdererGoEast = 0,
+    isMaleMurderer = 1,
+    whatAreaWasMurderer = 2,
+    isMurderWeapon38 = 3,
+    whereIs38 = 4,
+    whereIs45 = 5,
+    whereIsThreeSuspectLocation = 6,
+    isMurdererAtABC = 7,
+    wereYouEast = 8,
+    whatWasYourArea = 9,
+    wereYouAtABC = 10,
+    wereYouInAWeaponLocation = 11,
+    areOddPrintsOn38 = 12,
+    areOddPrintsOn45 = 13,
     
 } privateQuestion;
 
 typedef enum
 {
-    unassignedCombo = 0,
-    combo_12_8_7 = 1,
-    combo_12_8_6 = 2,
-    combo_1_1_5_4 = 3,
-    combo_5_11_2_6 = 4,
-    combo_4_8_10_11 = 5,
-    combo_1_1_6_9 = 6,
-    combo_2_10_1_3 = 7,
+    unassignedCombo = 99,
+    
+    combo_12_8_7 = 0,
+    combo_12_8_6 = 1,
+    combo_1_1_5_4 = 2,
+    combo_5_11_2_6 = 3,
+    combo_4_8_10_11 = 4,
+    combo_1_1_6_9 = 5,
+    combo_2_10_1_3 = 6,
     
 } comboType;
 

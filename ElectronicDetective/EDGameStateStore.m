@@ -78,6 +78,9 @@
     {
         [masterSuspectDirectory setObject:[[EDSuspect alloc] initWithInitialValues:i + 1 suspectType:[[suspectTypes objectAtIndex:i] intValue] name:[suspectNames objectAtIndex:i] occupation:[suspectOccupations objectAtIndex:i] maritalStatus:[suspectMaritalStatuses objectAtIndex:i] privateQuestionList:[suspectPrivateQuestionLists objectAtIndex:i]] forKey:[NSString stringWithFormat:@"%d", i + 1]];
     }
+    
+    // TODO: REMOVE LOG
+    NSLog(@"Master Suspect Directory: %@", [masterSuspectDirectory description]);
 }
 
 - (void) createMasterLocationDirectory
@@ -88,8 +91,12 @@
     
     for (int i = 0; i < 6; i++)
     {
-        [masterLocationDirectory setObject:[[EDLocation alloc] initWithInitialValues:i name:[locationNames objectAtIndex:i]] forKey:[NSString stringWithFormat:@"location%d", i]];
+        [masterLocationDirectory setObject:[[EDLocation alloc] initWithInitialValues: i name:[locationNames objectAtIndex:i]] forKey:[NSString stringWithFormat:@"%d", i]];
     }
+    
+    
+    // TODO: REMOVE LOG
+    NSLog(@"Master Location Directory: %@", [masterLocationDirectory description]);
 }
 
 - (void) killVictim
@@ -103,7 +110,7 @@
     [victim setVictim:YES];
     
     // Flag location on EDLocation object
-    EDLocation *murderSite = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", sceneOfTheCrime]];
+    EDLocation *murderSite = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", sceneOfTheCrime]];
     [murderSite setSceneOfTheCrime:YES];
     
     NSLog(@"\rThe Victim was #%d - %@\rThe body was found at %@\rThe murder weapon was a %@\r\r", [victim suspectNumber], [victim suspectName], [self generateLocationString:sceneOfTheCrime], [self generateWeaponString:murderWeapon]);
@@ -141,7 +148,7 @@
     while (locationOf38 == sceneOfTheCrime || locationOf38 == murdererLocation || locationOf38 == threeSuspectLocation); // Can't hide weapon either at SceneOfCrime or guiltySuspectLocation or 3-Suspect Location
     
     // Flag location of .38 on EDLocation object
-    EDLocation *siteOf38 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", locationOf38]];
+    EDLocation *siteOf38 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", locationOf38]];
     [siteOf38 setLocationOf38:YES];
     
     
@@ -157,7 +164,7 @@
     while (locationOf45 == sceneOfTheCrime || locationOf45 == locationOf38 || locationOf45 == murdererLocation || locationOf45 == threeSuspectLocation); // Same as above, buy also can't hide where the .38 is hidden
     
     // Flag location of .45 on EDLocation object
-    EDLocation *siteOf45 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", locationOf45]];
+    EDLocation *siteOf45 = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", locationOf45]];
     [siteOf45 setLocationOf45:YES];
 }
 
@@ -166,18 +173,18 @@
     
     // Method variables/objects
     EDSuspect *candidateSuspect;
-    type candidateType;
-    int candidateSuspectNumber;
+    type candidateType = unassignedType;
+    int candidateSuspectNumber = 0;
     BOOL candidateAssigned = NO;
     
-    location targetLocationNumber;
+    location targetLocationNumber = unassignedLocation;
     EDLocation *targetLocation;
     BOOL successfulAssignment;
 
     
     // Assign the Victim to the morgue
     EDSuspect *temp = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", victimNumber]];
-    [temp setSuspectLocation:6]; // Assign to the morgue
+    [temp setSuspectLocation:morgue]; // Assign to the morgue
     [temp setAssignedYet:YES];
     
     // Iterate 19x representing the remaining 19 suspects
@@ -187,11 +194,11 @@
         
         do
         {
-            // Select a random number between 0 - 19
-            candidateSuspectNumber = arc4random_uniform(20);
+            // Select a random number between 1 - 20
+            candidateSuspectNumber = arc4random_uniform(20) + 1;
             
             // Test if candidate suspect has been assigned yet
-            candidateSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", candidateSuspectNumber + 1]];
+            candidateSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", candidateSuspectNumber]];
             candidateAssigned = [candidateSuspect assignedYet];
         }
         while (candidateAssigned == YES); // If candidateAssigned == YES, then repeat do/while
@@ -199,21 +206,21 @@
         // If candidateAssigned == NO, proceed...
         
         // Evaluate candidateType
-        if (candidateSuspectNumber < 10 && ((candidateSuspectNumber + 1) % 2 != 0))
+        if (candidateSuspectNumber < 12 && ((candidateSuspectNumber + 2) % 2 != 0))
             {
-                candidateType = 0; // OddMale
+                candidateType = oddMale; // OddMale
             }
-        else if (candidateSuspectNumber < 10 && ((candidateSuspectNumber + 1) % 2 == 0))
+        else if (candidateSuspectNumber < 12 && ((candidateSuspectNumber + 2) % 2 == 0))
         {
-            candidateType = 1; // EvenMale
+            candidateType = evenMale; // EvenMale
         }
-        else if (candidateSuspectNumber >= 10 && ((candidateSuspectNumber + 1) % 2 != 0))
+        else if (candidateSuspectNumber >= 12 && ((candidateSuspectNumber + 2) % 2 != 0))
         {
-            candidateType = 2; // OddFemale
+            candidateType = oddFemale; // OddFemale
         }
-        else if (candidateSuspectNumber >= 10 && ((candidateSuspectNumber + 1) % 2 == 0))
+        else if (candidateSuspectNumber >= 12 && ((candidateSuspectNumber + 2) % 2 == 0))
         {
-            candidateType = 3; // EvenFemale
+            candidateType = evenFemale; // EvenFemale
         }
                                                                                    
         // Select random targetLocation
@@ -224,7 +231,7 @@
             {
                 targetLocationNumber = arc4random_uniform(6);
                 
-                targetLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", targetLocationNumber]];
+                targetLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", targetLocationNumber]];
                 
             }
             while (targetLocationNumber == sceneOfTheCrime); // Keep looping if targetLocation == murderLocation
@@ -274,10 +281,10 @@
     }
     
     // Register the guiltySuspectLocation and flag MurderLocation variable in EDLocation object
-    EDSuspect *guiltySuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", murdererNumber + 1]];
+    EDSuspect *guiltySuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", murdererNumber]];
     murdererLocation = [guiltySuspect suspectLocation];
     
-    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murdererLocation]];
+    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", murdererLocation]];
     [tempLocation setMurdererLocation:YES];
     
     NSLog(@"Murderer Location = %@", [self generateLocationString:murdererLocation]);
@@ -292,7 +299,7 @@
 {
     for (int i = 0; i < 6; i++)
     {
-        EDLocation *testLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", i]];
+        EDLocation *testLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", i]];
         
         if ([[testLocation assignedSuspects] count] == 3)
         {
@@ -312,7 +319,7 @@
     {
         locationAssigned = NO;
         
-        EDLocation *candidate = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", i]];
+        EDLocation *candidate = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", i]];
         
         do
         {
@@ -332,7 +339,7 @@
                 // Iterate through prior locations and see test if Side/Area's match
                 for (int j = 0; j < i; j++)
                 {
-                    EDLocation *test = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", j]];
+                    EDLocation *test = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", j]];
                     
                     side testSide = [test locationSide];
                     area testArea = [test locationArea];
@@ -358,11 +365,11 @@
     EDSuspect *tempSuspect = [[EDSuspect alloc] init];
     EDLocation *tempLocation = [[EDLocation alloc] init];
   
-    // Iterate through the 20 suspects and assisn values
+    // Iterate through the 20 suspects and assign values
     for (int i = 0; i < 20; i++)
     {
-        tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", i]];
-        tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", [tempSuspect suspectLocation]]];
+        tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", i + 1]];
+        tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", [tempSuspect suspectLocation]]];
         [tempSuspect setSuspectSide:[tempLocation locationSide]]; // Register Side
         [tempSuspect setSuspectArea:[tempLocation locationArea]]; // Register Area
     }
@@ -382,18 +389,18 @@
     
     // First, set the MURDER LOCATION as Init Completed
     
-    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", sceneOfTheCrime]];
+    EDLocation *tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", sceneOfTheCrime]];
     [tempLocation setInitCompleted:YES]; // Flag the Location as completed
     
     
-    // Then, locate the VICTIM and set his alibiType = 0 and generate string
+    // Then, locate the VICTIM and set his alibiType as unassigned and generate string
     EDSuspect *tempSuspect = [masterSuspectDirectory objectForKey:[NSString stringWithFormat:@"%d", victimNumber]];
-    [tempSuspect setAssignedAlibiType:0];
-    [tempSuspect generateAlibiString:0 suspect2:0];
+    [tempSuspect setAssignedAlibiType:unassignedAlibiType];
+    [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
     
     
     // Then, select the 3-SUSPECT LOCATION & randomly assign either (12,8,7) or (12,8,6) assignedAlibiType values to suspects
-    tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", threeSuspectLocation]];
+    tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", threeSuspectLocation]];
     NSMutableArray *tempAssignedSuspects = [tempLocation assignedSuspects];
     
     // Utility setup for the 3 SUSPECT LOCATION Option
@@ -413,7 +420,7 @@
              tempAssignedSuspects = [tempLocation assignedSuspects];
              EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:candidate];
          
-             if ([tempSuspect assignedAlibiType] == 0)
+             if ([tempSuspect assignedAlibiType] == unassignedAlibiType)
              {
                  tempValues = [masterLocationValues objectAtIndex:threeSuspectChoice]; // Revert to either Option 1 or Option 2
                  [tempSuspect setAssignedAlibiType:[[tempValues objectAtIndex:i] intValue]];
@@ -434,31 +441,31 @@
             
             switch (j)
             {
-                case 0: // Look for suspectA with alibiType 8 and generate alibiString
+                case 0: // Look for suspectA with sideAtLocation alibiType and generate alibiString
                     
-                    if ([tempSuspect assignedAlibiType] == 8)
+                    if ([tempSuspect assignedAlibiType] == sideAtLocation)
                     {
-                        [tempSuspect generateAlibiString:0 suspect2:0];
+                        [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
                         
                         suspectA = [tempSuspect suspectNumber];
                     }
                     break;
                     
-                case 1: // Look for suspectB with alibiType 7 or 6 and generate alibistring with accompanying suspectA
+                case 1: // Look for suspectB with EITHER areaWithSuspect OR sideWithSuspect alibiType and generate alibistring with accompanying suspectA
                     
-                    if (([tempSuspect assignedAlibiType] == 7) || ([tempSuspect assignedAlibiType] == 6))
+                    if (([tempSuspect assignedAlibiType] == areaWithSuspect) || ([tempSuspect assignedAlibiType] == sideWithSuspect))
                     {
-                        [tempSuspect generateAlibiString:suspectA suspect2:0];
+                        [tempSuspect generateAlibiStringWithSuspect1:suspectA Suspect2:0];
                         
                         suspectB = [tempSuspect suspectNumber];
                     }
                     break;
                     
-                case 2: // Look for suspectC with alibiType 12 and generate alibiString with accompanying suspectB
+                case 2: // Look for suspectC with sideAreaWithSuspect alibiType and generate alibiString with accompanying suspectB
                     
-                    if ([tempSuspect assignedAlibiType] == 12)
+                    if ([tempSuspect assignedAlibiType] == sideAreaWithSuspect)
                     {
-                        [tempSuspect generateAlibiString:suspectB suspect2:0];
+                        [tempSuspect generateAlibiStringWithSuspect1:suspectB Suspect2:0];
                     }
                     break;
                     
@@ -493,7 +500,7 @@
     {
         location tempLocationNumber = arc4random_uniform(6);
         
-        tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
+        tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", tempLocationNumber]];
         
     }
     while ([tempLocation initCompleted] == YES);
@@ -505,9 +512,9 @@
     {
         EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
         
-        if ([candidate suspectType] == 2) // Located Odd Female
+        if ([candidate suspectType] == oddFemale) // Located Odd Female
         {
-            [candidate setAssignedAlibiType:1];
+            [candidate setAssignedAlibiType:withSuspectAndSuspect];
             
             oddFemale = [candidate suspectNumber];
         }
@@ -517,9 +524,9 @@
     {
         EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
         
-        if ([candidate suspectType] == 3) // Located Even Female
+        if ([candidate suspectType] == evenFemale) // Located Even Female
         {
-            [candidate setAssignedAlibiType:1];
+            [candidate setAssignedAlibiType:withSuspectAndSuspect];
             
             evenFemale = [candidate suspectNumber];
         }
@@ -537,31 +544,31 @@
         
         EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
         
-        if ([candidate assignedAlibiType] == 0) // Located an unassigned
+        if ([candidate assignedAlibiType] == unassignedAlibiType) // Located an unassigned
         {
             int randomRemainingAlibi = arc4random_uniform(2);
             
             switch (randomRemainingAlibi)
             {
                 case 0:
-                    [candidate setAssignedAlibiType:4];
-                    unusedAlibiType = 5;
+                    [candidate setAssignedAlibiType:sideArea];
+                    unusedAlibiType = atLocation;
                     proceed = YES;
                     break;
                 case 1:
-                    [candidate setAssignedAlibiType:5];
-                    unusedAlibiType = 4;
+                    [candidate setAssignedAlibiType:atLocation];
+                    unusedAlibiType = sideArea;
                     proceed = YES;
                 default:
                     break;
             }
             
             // Record the current candidate's type
-            if (([candidate suspectNumber] +2) % 2 == 0)
+            if (([candidate suspectNumber] + 2) % 2 == 0)
             {
                 evenMale = [candidate suspectNumber];
             }
-            else if (([candidate suspectNumber] +2) % 2 != 0)
+            else if (([candidate suspectNumber] + 2) % 2 != 0)
             {
                 oddMale = [candidate suspectNumber];
             }
@@ -578,16 +585,16 @@
         
         EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
         
-        if ([candidate assignedAlibiType] == 0) // Located final unassigned
+        if ([candidate assignedAlibiType] == unassignedAlibiType) // Located final unassigned
         {
             [candidate setAssignedAlibiType:unusedAlibiType];
             
             // Record the current candidate's type
-            if (([candidate suspectNumber] +2) % 2 == 0)
+            if (([candidate suspectNumber] + 2) % 2 == 0)
             {
                 evenMale = [candidate suspectNumber];
             }
-            else if (([candidate suspectNumber] +2) % 2 != 0)
+            else if (([candidate suspectNumber] + 2) % 2 != 0)
             {
                 oddMale = [candidate suspectNumber];
             }
@@ -601,27 +608,27 @@
     {
         EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
         
-        if ([tempSuspect assignedAlibiType] == 5)
+        if ([tempSuspect assignedAlibiType] == atLocation)
         {
-            [tempSuspect generateAlibiString:0 suspect2:0];
+            [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
         }
         
-        if ([tempSuspect assignedAlibiType] == 4)
+        if ([tempSuspect assignedAlibiType] == sideArea)
         {
-            [tempSuspect generateAlibiString:0 suspect2:0];
+            [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
         }
 
-        if ([tempSuspect assignedAlibiType] == 1)
+        if ([tempSuspect assignedAlibiType] == withSuspectAndSuspect)
         {
             // Deteremine if odd or even
             if (([tempSuspect suspectNumber] + 2) % 2 == 0) // Even (female)
             {
-                [tempSuspect generateAlibiString:oddMale suspect2:oddFemale];
+                [tempSuspect generateAlibiStringWithSuspect1:oddMale Suspect2:oddFemale];
             }
             
             if (([tempSuspect suspectNumber] + 2) % 2 != 0) // Odd (female)
             {
-                [tempSuspect generateAlibiString:evenMale suspect2:evenFemale];
+                [tempSuspect generateAlibiStringWithSuspect1:evenMale Suspect2:evenFemale];
             }
         }
     }
@@ -644,7 +651,7 @@
     {
         location tempLocationNumber = arc4random_uniform(6);
         
-        tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
+        tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", tempLocationNumber]];
         
     }
     while ([tempLocation initCompleted] == YES);
@@ -656,9 +663,9 @@
     {
         EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
         
-        if ([candidate suspectType] == 1) // Located Even Male
+        if ([candidate suspectType] == evenMale) // Located Even Male
         {
-            [candidate setAssignedAlibiType:11];
+            [candidate setAssignedAlibiType:sideWithSuspectAndSuspect];
             
             evenMale = [candidate suspectNumber];
         }
@@ -668,9 +675,9 @@
     {
         EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
         
-        if ([candidate suspectType] == 3) // Located Even Female
+        if ([candidate suspectType] == evenFemale) // Located Even Female
         {
-            [candidate setAssignedAlibiType:6];
+            [candidate setAssignedAlibiType:areaWithSuspect];
             
             evenFemale = [candidate suspectNumber];
         }
@@ -686,20 +693,20 @@
         
         EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
         
-        if ([candidate assignedAlibiType] == 0) // Located an unassigned
+        if ([candidate assignedAlibiType] == unassignedAlibiType) // Located an unassigned
         {
             int randomRemainingAlibi = arc4random_uniform(2);
             
             switch (randomRemainingAlibi)
             {
                 case 0:
-                    [candidate setAssignedAlibiType:5];
-                    unusedAlibiType = 2;
+                    [candidate setAssignedAlibiType:atLocation];
+                    unusedAlibiType = areaOnly;
                     proceed = YES;
                     break;
                 case 1:
-                    [candidate setAssignedAlibiType:2];
-                    unusedAlibiType = 5;
+                    [candidate setAssignedAlibiType:areaOnly];
+                    unusedAlibiType = atLocation;
                     proceed = YES;
                 default:
                     break;
@@ -726,7 +733,7 @@
         
         EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
         
-        if ([candidate assignedAlibiType] == 0) // Located final unassigned
+        if ([candidate assignedAlibiType] == unassignedAlibiType) // Located final unassigned
         {
             [candidate setAssignedAlibiType:unusedAlibiType];
             
@@ -748,24 +755,24 @@
     {
         EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
         
-        if ([tempSuspect assignedAlibiType] == 2)
+        if ([tempSuspect assignedAlibiType] == areaOnly)
         {
-           [tempSuspect generateAlibiString:0 suspect2:0]; 
+           [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
         }
         
-        if ([tempSuspect assignedAlibiType] == 5)
+        if ([tempSuspect assignedAlibiType] == atLocation)
         {
-            [tempSuspect generateAlibiString:0 suspect2:0];
+            [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
         }
         
-        if ([tempSuspect assignedAlibiType] == 11)
+        if ([tempSuspect assignedAlibiType] == sideWithSuspectAndSuspect)
         {
-            [tempSuspect generateAlibiString:oddMale suspect2:oddFemale];
+            [tempSuspect generateAlibiStringWithSuspect1:oddMale Suspect2:oddFemale];
         }
         
-        if ([tempSuspect assignedAlibiType] == 6)
+        if ([tempSuspect assignedAlibiType] == areaWithSuspect)
         {
-            [tempSuspect generateAlibiString:evenMale suspect2:0];
+            [tempSuspect generateAlibiStringWithSuspect1:evenMale Suspect2:0];
         }
     }
     
@@ -799,7 +806,7 @@
         {
             location tempLocationNumber = arc4random_uniform(6);
             
-            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
+            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", tempLocationNumber]];
             
         }
         while ([tempLocation initCompleted] == YES);
@@ -811,9 +818,9 @@
         {
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate suspectType] == 2) // Located Odd Female
+            if ([candidate suspectType] == oddFemale) // Located Odd Female
             {
-                [candidate setAssignedAlibiType:1];
+                [candidate setAssignedAlibiType:withSuspectAndSuspect];
                 
                 oddFemale = [candidate suspectNumber];
             }
@@ -823,9 +830,9 @@
         {
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate suspectType] == 3) // Located Even Female
+            if ([candidate suspectType] == evenFemale) // Located Even Female
             {
-                [candidate setAssignedAlibiType:1];
+                [candidate setAssignedAlibiType:withSuspectAndSuspect];
                 
                 evenFemale = [candidate suspectNumber];
             }
@@ -843,20 +850,20 @@
             
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate assignedAlibiType] == 0) // Located an unassigned
+            if ([candidate assignedAlibiType] == unassignedAlibiType) // Located an unassigned
             {
                 int randomRemainingAlibi = arc4random_uniform(2);
                 
                 switch (randomRemainingAlibi)
                 {
                     case 0:
-                        [candidate setAssignedAlibiType:6];
-                        unusedAlibiType = 9;
+                        [candidate setAssignedAlibiType:areaWithSuspect];
+                        unusedAlibiType = sideAtLocation;
                         proceed = YES;
                         break;
                     case 1:
-                        [candidate setAssignedAlibiType:9];
-                        unusedAlibiType = 6;
+                        [candidate setAssignedAlibiType:sideAtLocation];
+                        unusedAlibiType = areaWithSuspect;
                         proceed = YES;
                     default:
                         break;
@@ -884,7 +891,7 @@
             
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate assignedAlibiType] == 0) // Located final unassigned
+            if ([candidate assignedAlibiType] == unassignedAlibiType) // Located final unassigned
             {
                 [candidate setAssignedAlibiType:unusedAlibiType];
                 
@@ -907,29 +914,29 @@
         {
             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([tempSuspect assignedAlibiType] == 6)
+            if ([tempSuspect assignedAlibiType] == areaWithSuspect)
             {
-                [tempSuspect generateAlibiString:evenMale suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:evenMale Suspect2:0];
             }
             
-            if ([tempSuspect assignedAlibiType] == 9)
+            if ([tempSuspect assignedAlibiType] == sideAtLocation)
             {
-                [tempSuspect generateAlibiString:0 suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
             }
             
-            if ([tempSuspect assignedAlibiType] == 1)
+            if ([tempSuspect assignedAlibiType] == withSuspectAndSuspect)
             {
                 // Deteremine if odd or even
                 if (([tempSuspect suspectNumber] + 2) % 2 == 0) // Even (female)
                 {
                     // Get the odd male and odd female
-                    [tempSuspect generateAlibiString:evenMale suspect2:oddMale];
+                    [tempSuspect generateAlibiStringWithSuspect1:evenMale Suspect2:oddMale];
                 }
                 
                 if (([tempSuspect suspectNumber] + 2) % 2 != 0) // Odd (female)
                 {
                     // Get the even male and even female
-                    [tempSuspect generateAlibiString:oddMale suspect2:evenFemale];
+                    [tempSuspect generateAlibiStringWithSuspect1:oddMale Suspect2:evenFemale];
                 }
             }
         }
@@ -952,7 +959,7 @@
         {
             location tempLocationNumber = arc4random_uniform(6);
             
-            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
+            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", tempLocationNumber]];
             
         }
         while ([tempLocation initCompleted] == YES);
@@ -964,9 +971,9 @@
         {
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate suspectType] == 0) // Located Odd Male
+            if ([candidate suspectType] == oddMale) // Located Odd Male
             {
-                [candidate setAssignedAlibiType:1];
+                [candidate setAssignedAlibiType:withSuspectAndSuspect];
                 
                 oddMale = [candidate suspectNumber];
             }
@@ -976,9 +983,9 @@
         {
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate suspectType] == 1) // Located Even Male
+            if ([candidate suspectType] == evenMale) // Located Even Male
             {
-                [candidate setAssignedAlibiType:10];
+                [candidate setAssignedAlibiType:atLocationWithSuspect];
                 
                 evenMale = [candidate suspectNumber];
             }
@@ -996,20 +1003,20 @@
             
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate assignedAlibiType] == 0) // Located an unassigned
+            if ([candidate assignedAlibiType] == unassignedAlibiType) // Located an unassigned
             {
                 int randomRemainingAlibi = arc4random_uniform(2);
                 
                 switch (randomRemainingAlibi)
                 {
                     case 0:
-                        [candidate setAssignedAlibiType:2];
-                        unusedAlibiType = 3;
+                        [candidate setAssignedAlibiType:areaOnly];
+                        unusedAlibiType = sideOnly;
                         proceed = YES;
                         break;
                     case 1:
-                        [candidate setAssignedAlibiType:3];
-                        unusedAlibiType = 2;
+                        [candidate setAssignedAlibiType:sideOnly];
+                        unusedAlibiType = areaOnly;
                         proceed = YES;
                     default:
                         break;
@@ -1037,7 +1044,7 @@
             
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate assignedAlibiType] == 0) // Located final unassigned
+            if ([candidate assignedAlibiType] == unassignedAlibiType) // Located final unassigned
             {
                 [candidate setAssignedAlibiType:unusedAlibiType];
                 
@@ -1060,24 +1067,24 @@
         {
             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([tempSuspect assignedAlibiType] == 2)
+            if ([tempSuspect assignedAlibiType] == areaOnly)
             {
-                [tempSuspect generateAlibiString:0 suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
             }
             
-            if ([tempSuspect assignedAlibiType] == 3)
+            if ([tempSuspect assignedAlibiType] == sideOnly)
             {
-                [tempSuspect generateAlibiString:0 suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
             }
             
-            if ([tempSuspect assignedAlibiType] == 10)
+            if ([tempSuspect assignedAlibiType] == atLocationWithSuspect)
             {
-                [tempSuspect generateAlibiString:oddMale suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:oddMale Suspect2:0];
             }
             
-            if ([tempSuspect assignedAlibiType] == 1)
+            if ([tempSuspect assignedAlibiType] == withSuspectAndSuspect)
             {
-                [tempSuspect generateAlibiString:evenFemale suspect2:oddFemale];
+                [tempSuspect generateAlibiStringWithSuspect1:evenFemale Suspect2:oddFemale];
             }
         }
         
@@ -1099,7 +1106,7 @@
         {
             location tempLocationNumber = arc4random_uniform(6);
             
-            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", tempLocationNumber]];
+            tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", tempLocationNumber]];
             
         }
         while ([tempLocation initCompleted] == YES);
@@ -1111,9 +1118,9 @@
         {
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate suspectType] == 1) // Located Even Male
+            if ([candidate suspectType] == evenMale) // Located Even Male
             {
-                [candidate setAssignedAlibiType:10];
+                [candidate setAssignedAlibiType:atLocationWithSuspect];
                 
                 evenMale = [candidate suspectNumber];
             }
@@ -1123,9 +1130,9 @@
         {
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate suspectType] == 2) // Located Odd Female
+            if ([candidate suspectType] == oddFemale) // Located Odd Female
             {
-                [candidate setAssignedAlibiType:11];
+                [candidate setAssignedAlibiType:sideWithSuspectAndSuspect];
                 
                 oddFemale = [candidate suspectNumber];
             }
@@ -1143,20 +1150,20 @@
             
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate assignedAlibiType] == 0) // Located an unassigned
+            if ([candidate assignedAlibiType] == unassignedAlibiType) // Located an unassigned
             {
                 int randomRemainingAlibi = arc4random_uniform(2);
                 
                 switch (randomRemainingAlibi)
                 {
                     case 0:
-                        [candidate setAssignedAlibiType:4];
-                        unusedAlibiType = 8;
+                        [candidate setAssignedAlibiType:sideArea];
+                        unusedAlibiType = areaAtLocation;
                         proceed = YES;
                         break;
                     case 1:
-                        [candidate setAssignedAlibiType:8];
-                        unusedAlibiType = 4;
+                        [candidate setAssignedAlibiType:areaAtLocation];
+                        unusedAlibiType = sideArea;
                         proceed = YES;
                     default:
                         break;
@@ -1184,7 +1191,7 @@
             
             EDSuspect *candidate = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([candidate assignedAlibiType] == 0) // Located final unassigned
+            if ([candidate assignedAlibiType] == unassignedAlibiType) // Located final unassigned
             {
                 [candidate setAssignedAlibiType:unusedAlibiType];
                 
@@ -1207,24 +1214,24 @@
         {
             EDSuspect *tempSuspect = [tempAssignedSuspects objectAtIndex:i];
             
-            if ([tempSuspect assignedAlibiType] == 4)
+            if ([tempSuspect assignedAlibiType] == sideArea)
             {
-                [tempSuspect generateAlibiString:0 suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
             }
             
-            if ([tempSuspect assignedAlibiType] == 8)
+            if ([tempSuspect assignedAlibiType] == areaAtLocation)
             {
-                [tempSuspect generateAlibiString:0 suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:0 Suspect2:0];
             }
             
-            if ([tempSuspect assignedAlibiType] == 10)
+            if ([tempSuspect assignedAlibiType] == atLocationWithSuspect)
             {
-                [tempSuspect generateAlibiString:oddFemale suspect2:0];
+                [tempSuspect generateAlibiStringWithSuspect1:oddFemale Suspect2:0];
             }
             
-            if ([tempSuspect assignedAlibiType] == 11)
+            if ([tempSuspect assignedAlibiType] == sideWithSuspectAndSuspect)
             {
-                [tempSuspect generateAlibiString:oddMale suspect2:evenFemale];
+                [tempSuspect generateAlibiStringWithSuspect1:oddMale Suspect2:evenFemale];
             }
         }
         
@@ -1273,7 +1280,7 @@
     {
         switch (questionNumber)
         {
-            case 1: // didMurdererGoEast
+            case didMurdererGoEast: // didMurdererGoEast
                 tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murdererLocation]];
                 if ([tempLocation locationSide] == 0)
                 {
@@ -1285,7 +1292,7 @@
                 }
                 break;
                 
-            case 2: // isMaleMurderer
+            case isMaleMurderer: // isMaleMurderer
                 if (murdererNumber < 10)
                 {
                     answerString = @"YES"; 
@@ -1296,7 +1303,7 @@
                 }
                 break;
                 
-            case 3: // whatAreaWasMurderer
+            case whatAreaWasMurderer: // whatAreaWasMurderer
                 tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murdererLocation]];
                 if ([tempLocation locationArea] == 0)
                 {
@@ -1312,7 +1319,7 @@
                 }
                 break;
                 
-            case 4: // isMurderWeapon38
+            case isMurderWeapon38: // isMurderWeapon38
                 if (murderWeapon == 0)
                 {
                     answerString = @"YES";
@@ -1323,19 +1330,19 @@
                 }
                 break;
                 
-            case 5: // locationOf38
+            case whereIs38: // locationOf38
                 answerString = [self generateLocationString:locationOf38];
                 break;
                 
-            case 6: // locationOf45
+            case whereIs45: // locationOf45
                 answerString = [self generateLocationString:locationOf45];
                 break;
                 
-            case 7: // whereIsThreeSuspectLocation
+            case whereIsThreeSuspectLocation: // whereIsThreeSuspectLocation
                 answerString = [self generateLocationString:threeSuspectLocation];
                 break;
             
-            case 8: // isMurdererAtABC = 8
+            case isMurdererAtABC: // isMurdererAtABC
                 if (murdererLocation < 3)
                 {
                     answerString = @"YES";
@@ -1346,7 +1353,7 @@
                 }
                 break;
 
-            case 9: // wereYouEast
+            case wereYouEast: // wereYouEast
                 tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", [tempSuspect suspectLocation]]];
                 if ([tempLocation locationSide] == 0)
                 {
@@ -1358,7 +1365,7 @@
                 }
                 break;
                 
-            case 10: // whatWasYourArea
+            case whatWasYourArea: // whatWasYourArea
                 tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", [tempSuspect suspectLocation]]];
                 if ([tempLocation locationArea] == 0)
                 {
@@ -1374,7 +1381,7 @@
                 }
                 break;
                 
-            case 11: // wereYouAtABC
+            case wereYouAtABC: // wereYouAtABC
                 if ([tempSuspect suspectLocation] < 3)
                 {
                     answerString = @"YES";
@@ -1385,7 +1392,7 @@
                 }
                 break;
                 
-            case 12: // wereYouInAWeaponLocation
+            case wereYouInAWeaponLocation: // wereYouInAWeaponLocation
                 if (([tempSuspect suspectLocation] == locationOf38) || ([tempSuspect suspectLocation] == locationOf45))
                 {
                     answerString = @"YES";
@@ -1396,7 +1403,7 @@
                 }
                 break;
                 
-            case 13: // areOddPrintsOn38
+            case areOddPrintsOn38: // areOddPrintsOn38
                 {
                     if (!([tempSuspect suspectLocation] == locationOf38))
                     {
@@ -1482,7 +1489,7 @@
                 }
                 break;
             
-            case 14: // areOddPrintsOn45
+            case areOddPrintsOn45: // areOddPrintsOn45
                 {
                     if (!([tempSuspect suspectLocation] == locationOf45))
                     {
@@ -1585,22 +1592,22 @@
     
     switch (location)
     {
-        case 0:
+        case artShow:
             outputLocationString = @"Art Show";
             break;
-        case 1:
+        case boxAtTheatre:
             outputLocationString = @"Box At Theatre";
             break;
-        case 2:
+        case cardParty:
             outputLocationString = @"Card Party";
             break;
-        case 3:
+        case docks:
             outputLocationString = @"Docks";
             break;
-        case 4:
+        case embassy:
             outputLocationString = @"Embassy";
             break;
-        case 5:
+        case factory:
             outputLocationString = @"Factory";
             break;
         default:
@@ -1617,10 +1624,10 @@
     
     switch (weapon)
     {
-        case 0:
+        case handgun38:
             outputWeaponString = @".38";
             break;
-        case 1:
+        case handgun45:
             outputWeaponString = @".45";
             break;
         default:
@@ -1637,49 +1644,49 @@
     
     switch (question)
     {
-        case 0:
+        case unassignedQuestion:
             outputQuestionString = @"Unassigned";
             break;
-        case 1:
+        case didMurdererGoEast:
             outputQuestionString = @"Did Murderer go the EAST SIDE?";
             break;
-        case 2:
+        case isMaleMurderer:
             outputQuestionString = @"Did a MALE do it?";
             break;
-        case 3:
+        case whatAreaWasMurderer:
             outputQuestionString = @"What AREA did the Murderer go to?";
             break;
-        case 4:
+        case isMurderWeapon38:
             outputQuestionString = @"Was the MURDER WEAPON a .38?";
             break;
-        case 5:
+        case whereIs38:
             outputQuestionString = @"Where was the .38 hidden?";
             break;
-        case 6:
+        case whereIs45:
             outputQuestionString = @"Where was the .45 hidden?";
             break;
-        case 7:
+        case whereIsThreeSuspectLocation:
             outputQuestionString = @"Which PLACE contained only 3 suspects?";
             break;
-        case 8:
+        case isMurdererAtABC:
             outputQuestionString = @"Did the murderer go to PLACE A, B or C?";
             break;
-        case 9:
+        case wereYouEast:
             outputQuestionString = @"Were you on the EAST SIDE?";
             break;
-        case 10:
+        case whatWasYourArea:
             outputQuestionString = @"What AREA were you in?";
             break;
-        case 11:
+        case wereYouAtABC:
             outputQuestionString = @"Were you at PLACE A,B or C?";
             break;
-        case 12:
+        case wereYouInAWeaponLocation:
             outputQuestionString = @"Were you where a WEAPON was hidden?";
             break;
-        case 13:
+        case areOddPrintsOn38:
             outputQuestionString = @"Are an odd-numbered suspect's PRINTS on the .38?";
             break;
-        case 14:
+        case areOddPrintsOn45:
             outputQuestionString = @"Are an odd-numbered suspect's PRINTS on the .45?";
             break;
         default:
@@ -1695,7 +1702,7 @@
     
     for (int i = 0; i < 6; i++)
     {
-        EDLocation *temp = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", i]];
+        EDLocation *temp = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", i]];
         
         if ([[temp assignedSuspects] count] == 0)
         {
@@ -1724,7 +1731,7 @@
     {
         NSLog(@"\r\r");
         
-        for (int j = 1; j < 15; j++)
+        for (int j = 0; j < 14; j++)
         {
             answer = [self askPrivateQuestion:j toSuspect:i];
             
@@ -1762,15 +1769,16 @@
     
     masterLocationDirectory = nil;
     masterSuspectDirectory = nil;
+
+    victimNumber = 0; // Suspect #0 is unassigned
+    murdererNumber = 0; // Suspect #0 is unassigned
     
-    murderWeapon = 0;
-    murdererNumber = 0;
-    victimNumber = 0;
-    locationOf38 = 0;
-    locationOf45 = 0;
-    threeSuspectLocation = 0;
-    murdererLocation = 0;
-    sceneOfTheCrime = 0;
+    murderWeapon = unassignedWeapon;
+    locationOf38 = unassignedLocation;
+    locationOf45 = unassignedLocation;
+    threeSuspectLocation = unassignedLocation;
+    murdererLocation = unassignedLocation;
+    sceneOfTheCrime = unassignedLocation;
     
     [self createMasterSuspectDirectory];
     [self createMasterLocationDirectory];

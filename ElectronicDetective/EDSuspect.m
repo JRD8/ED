@@ -22,7 +22,13 @@
     [self setSuspectOccupation:sOccupation];
     [self setSuspectMaritalStatus:sMaritalStatus];
     [self setSuspectPrivateQuestionList:sQuestionList];
+    
+    [self setSuspectLocation:unassignedLocation];
+    [self setSuspectSide:unassignedSide];
+    [self setSuspectArea:unassignedArea];
     [self setAssignedAlibiType:unassignedAlibiType];
+    [self setSuspectAlibi:nil];
+    
     [self setVictim:NO];
     [self setMurderer:NO];
     [self setAssignedYet:NO];
@@ -34,32 +40,35 @@
 {
     NSString *privateQuestionForDescription = [NSString stringWithFormat:@"%@, %@, %@, %@ & %@", [suspectPrivateQuestionList objectAtIndex:0], [suspectPrivateQuestionList objectAtIndex:1], [suspectPrivateQuestionList objectAtIndex:2], [suspectPrivateQuestionList objectAtIndex:3], [suspectPrivateQuestionList objectAtIndex:4]];
     
-    return [NSString stringWithFormat:@"\rSuspect #%d \rName: %@ \rOccupation: %@ \rMarital Status: %@ \rLocation: %@ \rSide: %d \rArea: %d \rPrivate Question List: %@ \rVictim: %@, Murderer: %@ \rAssigned Yet: %@ \rSuspectType: %@ \rAlibiType: %d \rAlibi: %@\r", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, [self generateLocationString:suspectLocation], suspectSide, suspectArea, privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", [self generateTypeString:suspectType], assignedAlibiType, suspectAlibi];
+    return [NSString stringWithFormat:@"\rSuspect #%d \rName: %@ \rOccupation: %@ \rMarital Status: %@ \rLocation: %@ \rSide: %@ \rArea: %@ \rPrivate Question List: %@ \rVictim: %@, Murderer: %@ \rAssigned Yet: %@ \rSuspectType: %@ \rAlibiType: %@ \rAlibi: %@\r", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, [self generateLocationString:suspectLocation], [self generateSideString:suspectSide], [self generateAreaString:suspectArea], privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", [self generateTypeString:suspectType], [self generateAlibiTypeString:assignedAlibiType], suspectAlibi];
 }
 
 - (NSString *)generateTypeString: (type) type
 {
-    NSString *suspectTypeString;
+    NSString *outputTypeString;
     
     switch (type)
     {
-        case 0:
-            suspectTypeString = @"0 - Odd Male";
+        case oddMale:
+            outputTypeString = @"ODD MALE";
             break;
-        case 1:
-            suspectTypeString = @"1 - Even Male";
+        case evenMale:
+            outputTypeString = @"EVEN MALE";
             break;
-        case 2:
-            suspectTypeString = @"2 - Odd Female";
+        case oddFemale:
+            outputTypeString = @"ODD FEMALE";
             break;
-        case 3:
-            suspectTypeString = @"3 - Even Female";
+        case evenFemale:
+            outputTypeString = @"EVEN FEMALE";
+            break;
+        case unassignedType:
+            outputTypeString = @"UNASSIGNED";
             break;
         default:
             break;
     }
     
-    return suspectTypeString;
+    return outputTypeString;
 }
 
 - (NSString *)generateLocationString: (location)location
@@ -68,26 +77,29 @@
     
     switch (location)
     {
-        case 0:
-            outputLocationString = @"0 - Art Show";
+        case artShow:
+            outputLocationString = @"ART SHOW";
             break;
-        case 1:
-            outputLocationString = @"1 - Box At Theatre";
+        case boxAtTheatre:
+            outputLocationString = @"BOX AT THEATRE";
             break;
-        case 2:
-            outputLocationString = @"2 - Card Party";
+        case cardParty:
+            outputLocationString = @"CARD PARTY";
             break;
-        case 3:
-            outputLocationString = @"3 - Docks";
+        case docks:
+            outputLocationString = @"DOCKS";
             break;
-        case 4:
-            outputLocationString = @"4 - Embassy";
+        case embassy:
+            outputLocationString = @"EMBASSY";
             break;
-        case 5:
-            outputLocationString = @"5 - Factory";
+        case factory:
+            outputLocationString = @"FACTORY";
             break;
-        case 6:
-            outputLocationString = @"6 - Morgue (VICTIM)";
+        case morgue:
+            outputLocationString = @"MORGUE (VICTIM)";
+            break;
+        case unassignedLocation:
+            outputLocationString = @"UNASSIGNED";
             break;
         default:
             break;
@@ -96,34 +108,136 @@
     return outputLocationString;
 }
 
-- (void)generateAlibiString: (int) accompanyingSuspect1
-                   suspect2: (int) accompanyingSuspect2;
+- (NSString *)generateSideString: (side)side
+{
+    NSString *outputSideString;
+    
+    switch (side)
+    {
+        case east:
+            outputSideString = @"EAST";
+            break;
+        case west:
+            outputSideString = @"WEST";
+            break;
+        case unassignedSide:
+            outputSideString = @"UNASSIGNED";
+            break;
+        default:
+            break;
+    }
+    
+    return outputSideString;
+
+}
+
+- (NSString *)generateAlibiTypeString: (alibiType)alibiType
+{
+    
+    NSString *outputAlibiTypeString;
+    
+    switch (alibiType)
+    {
+        case withSuspectAndSuspect:
+            outputAlibiTypeString = @"1 - with SUSPECT and SUSPECT";
+            break;
+        case areaOnly:
+            outputAlibiTypeString = @"2 - AREA";
+            break;
+        case sideOnly:
+            outputAlibiTypeString = @"3 - SIDE";
+            break;
+        case sideArea:
+            outputAlibiTypeString = @"4 - SIDE AREA";
+            break;
+        case atLocation:
+            outputAlibiTypeString = @"5 - at LOCATION";
+            break;
+        case areaWithSuspect:
+            outputAlibiTypeString = @"6 - AREA with SUSPECT";
+            break;
+        case sideWithSuspect:
+            outputAlibiTypeString = @"7 - SIDE with SUSPECT";
+            break;
+        case areaAtLocation:
+            outputAlibiTypeString = @"8 - AREA at LOCATION";
+            break;
+        case sideAtLocation:
+            outputAlibiTypeString = @"9 - SIDE at LOCATION";
+            break;
+        case atLocationWithSuspect:
+            outputAlibiTypeString = @"10 - at LOCATION with SUSPECT";
+            break;
+        case sideWithSuspectAndSuspect:
+            outputAlibiTypeString = @"11 - SIDE with SUSPECT and SUSPECT";
+            break;
+        case sideAreaWithSuspect:
+            outputAlibiTypeString = @"12 - SIDE AREA with SUSPECT";
+            break;
+        case unassignedAlibiType:
+            outputAlibiTypeString = @"UNASSIGNED";
+            break;
+        
+        default:
+            break;
+    }
+    
+    return outputAlibiTypeString;
+}
+
+- (NSString *)generateAreaString: (area)area
+{
+    NSString *outputAreaString;
+    
+    switch (area)
+    {
+        case uptown:
+            outputAreaString = @"UPTOWN";
+            break;
+        case midtown:
+            outputAreaString = @"MIDTOWN";
+            break;
+        case downtown:
+            outputAreaString = @"DOWNTOWN";
+            break;
+        case unassignedArea:
+            outputAreaString = @"UNASSIGNED";
+            break;
+        default:
+            break;
+    }
+    
+    return outputAreaString;
+}
+
+- (void)generateAlibiStringWithSuspect1: (int) accompanyingSuspect1
+                               Suspect2: (int) accompanyingSuspect2;
 {
     NSString *insertString1, *insertString2, *outputAlibiString; // Setup helper variables
     
     switch (assignedAlibiType)
     {
         // UnassignedAlibiType    
-        case 0: 
+        case unassignedAlibiType:
             outputAlibiString = @"EEEEE";
             break;
         
         // w/SuspectAndSuspect
-        case 1:
+        case withSuspectAndSuspect:
             outputAlibiString = [NSString stringWithFormat:@"I was with #%d and #%d", accompanyingSuspect1, accompanyingSuspect2];
             break;
         
         // areaOnly
-        case 2: 
+        case areaOnly:
             switch (suspectArea)
             {
-                case 0:
+                case uptown:
                     insertString1 = @"UPTOWN";
                     break;
-                case 1:
+                case midtown:
                     insertString1 = @"MIDTOWN";
                     break;
-                case 2:
+                case downtown:
                     insertString1 = @"DOWNTOWN";
                     break;
                 default:
@@ -133,13 +247,13 @@
             break;
         
         // sideOnly
-        case 3: 
+        case sideOnly:
             switch (suspectSide)
             {
-                case 0:
+                case east:
                     insertString1 = @"EAST";
                     break;
-                case 1:
+                case west:
                     insertString1 = @"WEST";
                     break;
                 default:
@@ -149,14 +263,14 @@
             break;
          
         // sideArea
-        case 4: 
+        case sideArea:
             // Process Side
             switch (suspectSide)
             {
-                case 0:
+                case east:
                     insertString1 = @"EAST";
                     break;
-                case 1:
+                case west:
                     insertString1 = @"WEST";
                     break;
                 default:
@@ -165,13 +279,13 @@
             // Process Area
             switch (suspectArea)
             {
-                case 0:
+                case uptown:
                     insertString2 = @"UPTOWN";
                     break;
-                case 1:
+                case midtown:
                     insertString2 = @"MIDTOWN";
                     break;
-                case 2:
+                case downtown:
                     insertString2 = @"DOWNTOWN";
                     break;
                 default:
@@ -181,26 +295,26 @@
             break;
         
         // atLocation
-        case 5: 
+        case atLocation:
             switch (suspectLocation)
             {
-                case 0:
-                    insertString1 = @"A - ART SHOW";
+                case artShow:
+                    insertString1 = @"ART SHOW";
                     break;
-                case 1:
-                    insertString1 = @"B - BOX AT THEATRE";
+                case boxAtTheatre:
+                    insertString1 = @"BOX AT THEATRE";
                     break;
-                case 2:
-                    insertString1 = @"C - CARD PARTY";
+                case cardParty:
+                    insertString1 = @"CARD PARTY";
                     break;
-                case 3:
-                    insertString1 = @"D - DOCKS";
+                case docks:
+                    insertString1 = @"DOCKS";
                     break;
-                case 4:
-                    insertString1 = @"E - EMBASSY";
+                case embassy:
+                    insertString1 = @"EMBASSY";
                     break;
-                case 5:
-                    insertString1 = @"F - FACTORY";
+                case factory:
+                    insertString1 = @"FACTORY";
                     break;
                 default:
                     break;
@@ -209,17 +323,17 @@
             break;
         
         // areaWithSuspect
-        case 6: 
+        case areaWithSuspect:
             // Process Area
             switch (suspectArea)
              {
-                 case 0:
+                 case uptown:
                     insertString1 = @"UPTOWN";
                     break;
-                 case 1:
+                 case midtown:
                     insertString1 = @"MIDTOWN";
                     break;
-                 case 2:
+                 case downtown:
                     insertString1 = @"DOWNTOWN";
                     break;
                  default:
@@ -229,14 +343,14 @@
             break;
 
         // sideWithSuspect
-        case 7:
+        case sideWithSuspect:
             // Process Side
             switch (suspectSide)
             {
-                case 0:
+                case east:
                     insertString1 = @"EAST";
                     break;
-                case 1:
+                case west:
                     insertString1 = @"WEST";
                     break;
                 default:
@@ -246,17 +360,17 @@
             break;
         
         // areaAtLocation
-        case 8: 
+        case areaAtLocation:
              // Process Area
              switch (suspectArea)
              {
-                case 0:
+                case uptown:
                     insertString1 = @"UPTOWN";
                     break;
-                case 1:
+                case midtown:
                     insertString1 = @"MIDTOWN";
                     break;
-                case 2:
+                case downtown:
                     insertString1 = @"DOWNTOWN";
                     break;
                 default:
@@ -265,23 +379,23 @@
              // Process Location
              switch (suspectLocation)
              {
-                case 0:
-                    insertString2 = @"A - ART SHOW";
+                case artShow:
+                    insertString2 = @"ART SHOW";
                     break;
-                case 1:
-                    insertString2 = @"B - BOX AT THEATRE";
+                case boxAtTheatre:
+                    insertString2 = @"BOX AT THEATRE";
                     break;
-                case 2:
-                    insertString2 = @"C - CARD PARTY";
+                case cardParty:
+                    insertString2 = @"CARD PARTY";
                     break;
-                case 3:
-                    insertString2 = @"D - DOCKS";
+                case docks:
+                    insertString2 = @"DOCKS";
                     break;
-                case 4:
-                    insertString2 = @"E - EMBASSY";
+                case embassy:
+                    insertString2 = @"EMBASSY";
                     break;
-                case 5:
-                    insertString2 = @"F - FACTORY";
+                case factory:
+                    insertString2 = @"FACTORY";
                     break;
                 default:
                     break;
@@ -290,14 +404,14 @@
              break;
         
         // sideAtLocation
-        case 9: 
+        case sideAtLocation:
              // Process Side
              switch (suspectSide)
              {
-                case 0:
+                case east:
                     insertString1 = @"EAST";
                     break;
-                case 1:
+                case west:
                     insertString1 = @"WEST";
                     break;
                 default:
@@ -306,23 +420,23 @@
             // Process Location
             switch (suspectLocation)
             {
-                case 0:
-                    insertString2 = @"A - ART SHOW";
+                case artShow:
+                    insertString2 = @"ART SHOW";
                     break;
-                case 1:
-                    insertString2 = @"B - BOX AT THEATRE";
+                case boxAtTheatre:
+                    insertString2 = @"BOX AT THEATRE";
                     break;
-                case 2:
-                    insertString2 = @"C - CARD PARTY";
+                case cardParty:
+                    insertString2 = @"CARD PARTY";
                     break;
-                case 3:
-                    insertString2 = @"D - DOCKS";
+                case docks:
+                    insertString2 = @"DOCKS";
                     break;
-                case 4:
-                    insertString2 = @"E - EMBASSY";
+                case embassy:
+                    insertString2 = @"EMBASSY";
                     break;
-                case 5:
-                    insertString2 = @"F - FACTORY";
+                case factory:
+                    insertString2 = @"FACTORY";
                     break;
                 default:
                     break;
@@ -331,27 +445,27 @@
             break;
         
         // atLocationWithSuspect
-        case 10:
+        case atLocationWithSuspect:
             // Process Location
             switch (suspectLocation)
             {
-                case 0:
-                    insertString1 = @"A - ART SHOW";
+                case artShow:
+                    insertString1 = @"ART SHOW";
                     break;
-                case 1:
-                    insertString1 = @"B - BOX AT THEATRE";
+                case boxAtTheatre:
+                    insertString1 = @"BOX AT THEATRE";
                     break;
-                case 2:
-                    insertString1 = @"C - CARD PARTY";
+                case cardParty:
+                    insertString1 = @"CARD PARTY";
                     break;
-                case 3:
-                    insertString1 = @"D - DOCKS";
+                case docks:
+                    insertString1 = @"DOCKS";
                     break;
-                case 4:
-                    insertString1 = @"E - EMBASSY";
+                case embassy:
+                    insertString1 = @"EMBASSY";
                     break;
-                case 5:
-                    insertString1 = @"F - FACTORY";
+                case factory:
+                    insertString1 = @"FACTORY";
                     break;
                 default:
                     break;
@@ -360,14 +474,14 @@
             break;
         
         // sideWithSuspectAndSuspect
-        case 11:
+        case sideWithSuspectAndSuspect:
             // Process Side
             switch (suspectSide)
             {
-                case 0:
+                case east:
                     insertString1 = @"EAST";
                     break;
-                case 1:
+                case west:
                     insertString1 = @"WEST";
                     break;
                 default:
@@ -377,14 +491,14 @@
             break;
         
         // sideAreaWithSuspect
-        case 12:
+        case sideAreaWithSuspect:
             // Process Side
             switch (suspectSide)
             {
-                case 0:
+                case east:
                     insertString1 = @"EAST";
                     break;
-                case 1:
+                case west:
                     insertString1 = @"WEST";
                     break;
                 default:
@@ -393,19 +507,19 @@
             // Process Area
             switch (suspectArea)
             {
-                case 0:
+                case uptown:
                     insertString2 = @"UPTOWN";
                     break;
-                case 1:
+                case midtown:
                     insertString2 = @"MIDTOWN";
                     break;
-                case 2:
+                case downtown:
                     insertString2 = @"DOWNTOWN";
                     break;
                 default:
                     break;
             }
-            outputAlibiString = [NSString stringWithFormat:@"I was %@, %@ with #%d", insertString1, insertString2, accompanyingSuspect1];
+            outputAlibiString = [NSString stringWithFormat:@"I was %@ %@ with #%d", insertString1, insertString2, accompanyingSuspect1];
             break;
 
         default:

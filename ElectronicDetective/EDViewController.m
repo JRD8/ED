@@ -377,7 +377,7 @@
 
 - (IBAction)restartGamePressed:(id)sender
 {
-    NSLog(@"RESTART GAME");
+    NSLog(@"\r\r\rRESTART GAME");
     
     [[EDGameStateStore sharedStore] restartNewGame];
     
