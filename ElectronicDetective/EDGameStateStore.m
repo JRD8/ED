@@ -1280,50 +1280,50 @@
         switch (questionNumber)
         {
             case didMurdererGoEast: // didMurdererGoEast
-                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murdererLocation]];
-                if ([tempLocation locationSide] == 0)
+                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", murdererLocation]];
+                if ([tempLocation locationSide] == east)
                 {
                     answerString = @"YES";
                 }
-                else if ([tempLocation locationSide] == 1)
+                else if ([tempLocation locationSide] == west)
                 {
                     answerString = @"NO";
                 }
                 break;
                 
             case isMaleMurderer: // isMaleMurderer
-                if (murdererNumber < 10)
+                if (murdererNumber <= 10)
                 {
                     answerString = @"YES"; 
                 }
-                else if (murdererNumber >= 10)
+                else if (murdererNumber >= 11)
                 {
                     answerString = @"NO";
                 }
                 break;
                 
             case whatAreaWasMurderer: // whatAreaWasMurderer
-                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", murdererLocation]];
-                if ([tempLocation locationArea] == 0)
+                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", murdererLocation]];
+                if ([tempLocation locationArea] == uptown)
                 {
                     answerString = @"UPTOWN";
                 }
-                else if ([tempLocation locationArea] == 1)
+                else if ([tempLocation locationArea] == midtown)
                 {
                     answerString = @"MIDTOWN";
                 }
-                else if ([tempLocation locationArea] == 2)
+                else if ([tempLocation locationArea] == downtown)
                 {
                     answerString = @"DOWNTOWN";
                 }
                 break;
                 
             case isMurderWeapon38: // isMurderWeapon38
-                if (murderWeapon == 0)
+                if (murderWeapon == handgun38)
                 {
                     answerString = @"YES";
                 }
-                else if (murderWeapon == 1)
+                else if (murderWeapon == handgun45)
                 {
                     answerString = @"NO";
                 }
@@ -1342,50 +1342,50 @@
                 break;
             
             case isMurdererAtABC: // isMurdererAtABC
-                if (murdererLocation < 3)
+                if (murdererLocation <= 3)
                 {
                     answerString = @"YES";
                 }
-                else if (murdererLocation >= 3)
+                else if (murdererLocation >= 4)
                 {
                     answerString = @"NO";
                 }
                 break;
 
             case wereYouEast: // wereYouEast
-                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", [tempSuspect suspectLocation]]];
-                if ([tempLocation locationSide] == 0)
+                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", [tempSuspect suspectLocation]]];
+                if ([tempLocation locationSide] == east)
                 {
                     answerString = @"YES";
                 }
-                else if ([tempLocation locationSide] == 1)
+                else if ([tempLocation locationSide] == west)
                 {
                     answerString = @"NO";
                 }
                 break;
                 
             case whatWasYourArea: // whatWasYourArea
-                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"location%d", [tempSuspect suspectLocation]]];
-                if ([tempLocation locationArea] == 0)
+                tempLocation = [masterLocationDirectory objectForKey:[NSString stringWithFormat:@"%d", [tempSuspect suspectLocation]]];
+                if ([tempLocation locationArea] == uptown)
                 {
                     answerString = @"UPTOWN";
                 }
-                else if ([tempLocation locationArea] == 1)
+                else if ([tempLocation locationArea] == midtown)
                 {
                     answerString = @"MIDTOWN";
                 }
-                else if ([tempLocation locationArea] == 2)
+                else if ([tempLocation locationArea] == downtown)
                 {
                     answerString = @"DOWNTOWN";
                 }
                 break;
                 
             case wereYouAtABC: // wereYouAtABC
-                if ([tempSuspect suspectLocation] < 3)
+                if ([tempSuspect suspectLocation] <= 3)
                 {
                     answerString = @"YES";
                 }
-                else if ([tempSuspect suspectLocation] >= 3)
+                else if ([tempSuspect suspectLocation] >= 4)
                 {
                     answerString = @"NO";
                 }
@@ -1413,7 +1413,7 @@
                         // Evaluate and flag correctLocation if the murderWeapon IS .38
                         BOOL correctLocation = NO;
                         
-                        if (murderWeapon == 0) // A .38!
+                        if (murderWeapon == handgun38) // A .38!
                         {
                             correctLocation = YES;
                         }
@@ -1437,7 +1437,7 @@
                             // First, evaluate murderer gender
                             BOOL murdererIsMale = '\0';
                             
-                            if (murdererNumber < 11)
+                            if (murdererNumber <= 10)
                             {
                                 murdererIsMale = YES;
                             }
@@ -1449,7 +1449,7 @@
                             // Then, evaluate suspect gender
                             BOOL suspectIsMale = '\0';
                             
-                            if ([tempSuspect suspectNumber] < 11)
+                            if ([tempSuspect suspectNumber] <= 10)
                             {
                                 suspectIsMale = YES;
                             }
@@ -1473,11 +1473,11 @@
                             }
                             else if (suspectIsMale == murdererIsMale) // MATCHING genders, then generate TRUE/ACCURATE response
                             {
-                                if ((murdererNumber + 2) % 2 == 0) // Add 2 to correctly handle 0 or 1 murdererNumber values
+                                if ((murdererNumber + 2) % 2 == 0) // Add 2 to correctly handle 1 murdererNumber value
                                 {
                                     answerString = @"NO"; // Murderer is even
                                 }
-                                else if ((murdererNumber + 2) % 2 != 0) // Add 2 to correctly handle 0 or 1 murdererNumber values
+                                else if ((murdererNumber + 2) % 2 != 0) // Add 2 to correctly handle 1 murdererNumber value
 
                                 {
                                     answerString = @"YES"; // Murderer is odd
@@ -1500,7 +1500,7 @@
                         // Evaluate and flag correctLocation if the murderWeapon IS .45
                         BOOL correctLocation = NO;
                         
-                        if (murderWeapon == 1) // A .45!
+                        if (murderWeapon == handgun45) // A .45!
                         {
                             correctLocation = YES;
                         }
@@ -1524,7 +1524,7 @@
                             // First, evaluate murderer gender
                             BOOL murdererIsMale = '\0';
                             
-                            if (murdererNumber < 11)
+                            if (murdererNumber <= 10)
                             {
                                 murdererIsMale = YES;
                             }
@@ -1536,7 +1536,7 @@
                             // Then, evaluate suspect gender
                             BOOL suspectIsMale = '\0';
                             
-                            if ([tempSuspect suspectNumber] < 11)
+                            if ([tempSuspect suspectNumber] <= 10)
                             {
                                 suspectIsMale = YES;
                             }
@@ -1560,11 +1560,11 @@
                             }
                             else if (suspectIsMale == murdererIsMale) // MATCHING genders, then generate TRUE/ACCURATE response
                             {
-                                if ((murdererNumber + 2) % 2 == 0) // Add 2 to correctly handle 0 or 1 murdererNumber values
+                                if ((murdererNumber + 2) % 2 == 0) // Add 2 to correctly handle 1 murdererNumber value
                                 {
                                     answerString = @"NO"; // Murderer is even
                                 }
-                                else if ((murdererNumber + 2) % 2 != 0) // Add 2 to correctly handle 0 or 1 murdererNumber values
+                                else if ((murdererNumber + 2) % 2 != 0) // Add 2 to correctly handle 1 murdererNumber value
                                     
                                 {
                                     answerString = @"YES"; // Murderer is odd
