@@ -68,17 +68,19 @@
 - (void) assignAlibiTypesToSuspects;
 - (NSString *) askPrivateQuestion: (privateQuestion)questionNumber
                         toSuspect: (int) suspectNumber;
+- (void) restartNewGame;
 
 // Helper Methods
 - (NSString *)generateLocationString: (location)location;
 - (NSString *)generateWeaponString: (weapon)weapon;
 - (NSString *)generatePrivateQuestionString: (privateQuestion)question;
 
+// Log Methods
 - (void) printLocationAssignedSuspects;
 - (void) privateQuestionTestRoutine;
 - (void) printMasterSuspectDirectory;
 
-- (void) restartNewGame;
+
 
 
 @end

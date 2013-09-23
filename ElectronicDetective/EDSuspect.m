@@ -470,7 +470,7 @@
                 default:
                     break;
             }
-            outputAlibiString = [NSString stringWithFormat:@"I was %@ with #%d", insertString1, accompanyingSuspect1];
+            outputAlibiString = [NSString stringWithFormat:@"I was at %@ with #%d", insertString1, accompanyingSuspect1];
             break;
         
         // sideWithSuspectAndSuspect
@@ -529,6 +529,60 @@
     
     [self setSuspectAlibi:outputAlibiString];  // Set the output string variable in the suspect object
 
+}
+
+#pragma mark - NSCoding Protocol Methods
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeInt:suspectNumber forKey:@"suspectNumber"];
+    [aCoder encodeInt:suspectType forKey:@"suspectType"];
+    
+    [aCoder encodeObject:suspectName forKey:@"suspectName"];
+    [aCoder encodeObject:suspectOccupation forKey:@"suspectOccupation"];
+    [aCoder encodeObject:suspectMaritalStatus forKey:@"suspectMaritalStatus"];
+    [aCoder encodeObject:suspectPrivateQuestionList forKey:@"suspectPrivateQuestionList"];
+    
+    [aCoder encodeInt:suspectLocation forKey:@"suspectLocation"];
+    [aCoder encodeInt:suspectSide forKey:@"suspectSide"];
+    [aCoder encodeInt:suspectArea forKey:@"suspectArea"];
+    [aCoder encodeInt:assignedAlibiType forKey:@"assignedAlibiType"];
+    
+    [aCoder encodeObject:suspectAlibi forKey:@"suspectAlibi"];
+    
+    [aCoder encodeBool:victim forKey:@"victim"];
+    [aCoder encodeBool:murderer forKey:@"murderer"];
+    [aCoder encodeBool:assignedYet forKey:@"assignedYet"];
+    
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    
+    if (self)
+    {
+        [self setSuspectNumber:[aDecoder decodeIntForKey:@"suspectNumber"]];
+        [self setSuspectType:[aDecoder decodeIntForKey:@"suspectType"]];
+        
+        [self setSuspectName:[aDecoder decodeObjectForKey:@"suspectName"]];
+        [self setSuspectOccupation:[aDecoder decodeObjectForKey:@"suspectOccupation"]];
+        [self setSuspectMaritalStatus:[aDecoder decodeObjectForKey:@"suspectMaritalStatus"]];
+        [self setSuspectPrivateQuestionList:[aDecoder decodeObjectForKey:@"suspectPrivateQuestionList"]];
+        
+        [self setSuspectLocation:[aDecoder decodeIntForKey:@"suspectLocation"]];
+        [self setSuspectSide:[aDecoder decodeIntForKey:@"suspectSide"]];
+        [self setSuspectArea:[aDecoder decodeIntForKey:@"suspectArea"]];
+        [self setAssignedAlibiType:[aDecoder decodeIntForKey:@"asssignedAlibiType"]];
+        
+        [self setSuspectAlibi:[aDecoder decodeObjectForKey:@"suspectAlibi"]];
+        
+        [self setVictim:[aDecoder decodeBoolForKey:@"victim"]];
+        [self setMurderer:[aDecoder decodeBoolForKey:@"murderer"]];
+        [self setAssignedYet:[aDecoder decodeBoolForKey:@"assignedYet"]];
+    }
+    
+    return self;
 }
 
 @end

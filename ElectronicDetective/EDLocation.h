@@ -11,7 +11,7 @@
 
 @class EDSuspect;
 
-@interface EDLocation : NSObject
+@interface EDLocation : NSObject <NSCoding>
 
 @property (nonatomic) NSString *locationName;
 @property (nonatomic) location locationNumber;

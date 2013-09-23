@@ -117,5 +117,55 @@
     return outputComboString;
 }
 
+#pragma mark - NSCoding Protocol Methods
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    
+    [aCoder encodeObject:locationName forKey:@"locationName"];
+    [aCoder encodeInt:locationNumber forKey:@"locationNumber"];
+    
+    [aCoder encodeInt:locationSide forKey:@"locationSide"];
+    [aCoder encodeInt:locationArea forKey:@"locationArea"];
+    
+    [aCoder encodeObject:assignedSuspects forKey:@"assignedSuspects"];
+    
+    [aCoder encodeInt:alibiCombo forKey:@"alibiCombo"];
+    
+    [aCoder encodeBool:locationOf38 forKey:@"locationOf38"];
+    [aCoder encodeBool:locationOf45 forKey:@"locationOf45"];
+    [aCoder encodeBool:threeSuspectLocation forKey:@"threeSuspectLocation"];
+    [aCoder encodeBool:sceneOfTheCrime forKey:@"sceneOfTheCrime"];
+    [aCoder encodeBool:murdererLocation forKey:@"murdererLocation"];
+    [aCoder encodeBool:initCompleted forKey:@"initCompleted"];
+    
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    
+    if (self)
+    {
+        [self setLocationName:[aDecoder decodeObjectForKey:@"locationName"]];
+        [self setLocationNumber:[aDecoder decodeIntForKey:@"locationNumber"]];
+        
+        [self setLocationSide:[aDecoder decodeIntForKey:@"locationSide"]];
+        [self setLocationArea:[aDecoder decodeIntForKey:@"locationArea"]];
+        
+        [self setAssignedSuspects:[aDecoder decodeObjectForKey:@"assignedSuspects"]];
+        
+        [self setAlibiCombo:[aDecoder decodeIntForKey:@"alibiCombo"]];
+        
+        [self setLocationOf38:[aDecoder decodeBoolForKey:@"locationOf38"]];
+        [self setLocationOf45:[aDecoder decodeBoolForKey:@"locationOf45"]];
+        [self setThreeSuspectLocation:[aDecoder decodeBoolForKey:@"threeSuspectLocation"]];
+        [self setSceneOfTheCrime:[aDecoder decodeBoolForKey:@"sceneOfTheCrime"]];
+        [self setMurdererLocation:[aDecoder decodeBoolForKey:@"murdererLocation"]];
+        [self setInitCompleted:[aDecoder decodeBoolForKey:@"initCompleted"]];
+    }
+    
+    return self;
+}
 
 @end

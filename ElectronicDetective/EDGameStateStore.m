@@ -1583,6 +1583,50 @@
     return answerString;
 }
 
+
+- (void) restartNewGame
+{
+    // Destroy existing objects & reset variables
+    suspectNames = nil;
+    suspectOccupations = nil;
+    suspectMaritalStatuses = nil;
+    suspectPrivateQuestionLists = nil;
+    suspectTypes = nil;
+    
+    masterLocationDirectory = nil;
+    masterSuspectDirectory = nil;
+    
+    victimNumber = 0; // Suspect #0 is unassigned
+    murdererNumber = 0; // Suspect #0 is unassigned
+    
+    murderWeapon = unassignedWeapon;
+    locationOf38 = unassignedLocation;
+    locationOf45 = unassignedLocation;
+    threeSuspectLocation = unassignedLocation;
+    murdererLocation = unassignedLocation;
+    sceneOfTheCrime = unassignedLocation;
+    
+    [self createMasterSuspectDirectory];
+    [self createMasterLocationDirectory];
+    
+    [self killVictim];
+    [self assignMurderer];
+    [self randomizeSuspectsInCity];
+    [self hideWeapons];
+    
+    [self assignSideAreaToLocation];
+    [self assignAlibiTypesToSuspects];
+    
+    NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
+    
+    // Additional log routines
+    [self printLocationAssignedSuspects];
+    [self printMasterSuspectDirectory];
+    [self privateQuestionTestRoutine];
+    
+}
+
+
 #pragma mark - Helper Methods
 
 - (NSString *)generateLocationString: (location)location
@@ -1695,6 +1739,8 @@
     return outputQuestionString;
 }
 
+#pragma mark - Log Methods
+
 - (void) printLocationAssignedSuspects
 {
     NSLog(@"\r\rLOCATIONS & ASSIGNED SUSPECTS:");
@@ -1754,49 +1800,6 @@
         
         NSLog(@"%@\r", [temp description]);
     }
-}
-
-
-- (void) restartNewGame
-{
-    // Destroy existing objects & reset variables
-    suspectNames = nil;
-    suspectOccupations = nil;
-    suspectMaritalStatuses = nil;
-    suspectPrivateQuestionLists = nil;
-    suspectTypes = nil;
-    
-    masterLocationDirectory = nil;
-    masterSuspectDirectory = nil;
-
-    victimNumber = 0; // Suspect #0 is unassigned
-    murdererNumber = 0; // Suspect #0 is unassigned
-    
-    murderWeapon = unassignedWeapon;
-    locationOf38 = unassignedLocation;
-    locationOf45 = unassignedLocation;
-    threeSuspectLocation = unassignedLocation;
-    murdererLocation = unassignedLocation;
-    sceneOfTheCrime = unassignedLocation;
-    
-    [self createMasterSuspectDirectory];
-    [self createMasterLocationDirectory];
-    
-    [self killVictim];
-    [self assignMurderer];
-    [self randomizeSuspectsInCity];
-    [self hideWeapons];
-    
-    [self assignSideAreaToLocation];
-    [self assignAlibiTypesToSuspects];
-    
-    NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
-    
-    // Additional log routines
-    [self printLocationAssignedSuspects];
-    [self printMasterSuspectDirectory];
-    [self privateQuestionTestRoutine];
-
 }
 
 @end 

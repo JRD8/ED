@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "EDTypedefEnums.h"
 
-@interface EDSuspect : NSObject
+@interface EDSuspect : NSObject <NSCoding>
 
 @property (nonatomic) int suspectNumber;
 @property (nonatomic) type suspectType;
+
 @property (nonatomic) NSString *suspectName;
 @property (nonatomic) NSString *suspectOccupation;
 @property (nonatomic) NSString *suspectMaritalStatus;
