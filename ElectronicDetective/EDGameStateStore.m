@@ -33,6 +33,37 @@
 {
     self = [super init];
     
+    if (self)
+    {
+        // Unarchive savedGameArray
+        NSString *path = [self itemArchivePath];
+        savedGameArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+        
+        // Restore the EDGameStateStore variables from savedGameArray
+        // Objects
+        masterSuspectDirectory = [savedGameArray objectAtIndex:0];
+        masterLocationDirectory = [savedGameArray objectAtIndex:1];
+        suspectNames = [savedGameArray objectAtIndex:2];
+        suspectOccupations = [savedGameArray objectAtIndex:3];
+        suspectMaritalStatuses = [savedGameArray objectAtIndex:4];
+        suspectPrivateQuestionLists = [savedGameArray objectAtIndex:5];
+        suspectTypes = [savedGameArray objectAtIndex:6];
+        
+        // Integers
+        murderWeapon = [[savedGameArray objectAtIndex:7] intValue];
+        locationOf38 = [[savedGameArray objectAtIndex:8] intValue];
+        locationOf45 = [[savedGameArray objectAtIndex:9] intValue];
+        threeSuspectLocation = [[savedGameArray objectAtIndex:10] intValue];
+        murdererLocation = [[savedGameArray objectAtIndex:11] intValue];
+        murdererNumber = [[savedGameArray objectAtIndex:12] intValue];
+        victimNumber = [[savedGameArray objectAtIndex:13] intValue];
+        sceneOfTheCrime = [[savedGameArray objectAtIndex:14] intValue];
+        
+        // If EDGameStateStore variables have not been previously saved, create new ones
+        // TODO: Need to review
+
+    }
+    
     return self;
 }
 
@@ -1584,49 +1615,6 @@
 }
 
 
-- (void) restartNewGame
-{
-    // Destroy existing objects & reset variables
-    suspectNames = nil;
-    suspectOccupations = nil;
-    suspectMaritalStatuses = nil;
-    suspectPrivateQuestionLists = nil;
-    suspectTypes = nil;
-    
-    masterLocationDirectory = nil;
-    masterSuspectDirectory = nil;
-    
-    victimNumber = 0; // Suspect #0 is unassigned
-    murdererNumber = 0; // Suspect #0 is unassigned
-    
-    murderWeapon = unassignedWeapon;
-    locationOf38 = unassignedLocation;
-    locationOf45 = unassignedLocation;
-    threeSuspectLocation = unassignedLocation;
-    murdererLocation = unassignedLocation;
-    sceneOfTheCrime = unassignedLocation;
-    
-    [self createMasterSuspectDirectory];
-    [self createMasterLocationDirectory];
-    
-    [self killVictim];
-    [self assignMurderer];
-    [self randomizeSuspectsInCity];
-    [self hideWeapons];
-    
-    [self assignSideAreaToLocation];
-    [self assignAlibiTypesToSuspects];
-    
-    NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
-    
-    // Additional log routines
-    [self printLocationAssignedSuspects];
-    [self printMasterSuspectDirectory];
-    [self privateQuestionTestRoutine];
-    
-}
-
-
 #pragma mark - Helper Methods
 
 - (NSString *)generateLocationString: (location)location
@@ -1801,5 +1789,75 @@
         NSLog(@"%@\r", [temp description]);
     }
 }
+
+#pragma mark - Save & Archive Methods
+
+- (NSString *) itemArchivePath
+{
+    NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [documentDirectories objectAtIndex:0];
+    
+    return [documentDirectory stringByAppendingPathComponent:@"items.archive"];
+    
+}
+
+- (BOOL) saveGame
+{
+    // Create game save array (Add OBJECTS here w/integers wrapped in NSNumber objects)
+    savedGameArray = [[NSMutableArray alloc] initWithObjects:masterSuspectDirectory, masterLocationDirectory, suspectNames, suspectOccupations, suspectMaritalStatuses, suspectPrivateQuestionLists, suspectTypes, [NSNumber numberWithInt:murderWeapon], [NSNumber numberWithInt:locationOf38], [NSNumber numberWithInt:locationOf45], [NSNumber numberWithInt:threeSuspectLocation], [NSNumber numberWithInt:murdererLocation], [NSNumber numberWithInt:murdererNumber], [NSNumber numberWithInt:victimNumber], [NSNumber numberWithInt:sceneOfTheCrime], nil];
+    
+    NSString *path = [self itemArchivePath];
+    
+    return [NSKeyedArchiver archiveRootObject:savedGameArray toFile:path];
+}
+
+
+- (void) restartNewGame
+{
+    // Destroy existing objects & reset variables
+    suspectNames = nil;
+    suspectOccupations = nil;
+    suspectMaritalStatuses = nil;
+    suspectPrivateQuestionLists = nil;
+    suspectTypes = nil;
+    
+    masterLocationDirectory = nil;
+    masterSuspectDirectory = nil;
+    
+    victimNumber = 0; // Suspect #0 is unassigned
+    murdererNumber = 0; // Suspect #0 is unassigned
+    
+    murderWeapon = unassignedWeapon;
+    locationOf38 = unassignedLocation;
+    locationOf45 = unassignedLocation;
+    threeSuspectLocation = unassignedLocation;
+    murdererLocation = unassignedLocation;
+    sceneOfTheCrime = unassignedLocation;
+    
+    // Destroy game save array & stored file
+    savedGameArray = nil;
+    NSString *path = [self itemArchivePath];
+    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    
+    [self createMasterSuspectDirectory];
+    [self createMasterLocationDirectory];
+    
+    [self killVictim];
+    [self assignMurderer];
+    [self randomizeSuspectsInCity];
+    [self hideWeapons];
+    
+    [self assignSideAreaToLocation];
+    [self assignAlibiTypesToSuspects];
+    
+    NSLog(@"\rMASTER LOCATION DIRECTORY: %@\r", [masterLocationDirectory description]);
+    
+    // Additional log routines
+    [self printLocationAssignedSuspects];
+    [self printMasterSuspectDirectory];
+    [self privateQuestionTestRoutine];
+    
+}
+
 
 @end 

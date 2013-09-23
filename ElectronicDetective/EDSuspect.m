@@ -43,6 +43,8 @@
     return [NSString stringWithFormat:@"\rSuspect #%d \rName: %@ \rOccupation: %@ \rMarital Status: %@ \rLocation: %@ \rSide: %@ \rArea: %@ \rPrivate Question List: %@ \rVictim: %@, Murderer: %@ \rAssigned Yet: %@ \rSuspectType: %@ \rAlibiType: %@ \rAlibi: %@\r", suspectNumber, suspectName, suspectOccupation, suspectMaritalStatus, [self generateLocationString:suspectLocation], [self generateSideString:suspectSide], [self generateAreaString:suspectArea], privateQuestionForDescription, victim ? @"YES" : @"NO", murderer ? @"YES" : @"NO", assignedYet ? @"YES" : @"NO", [self generateTypeString:suspectType], [self generateAlibiTypeString:assignedAlibiType], suspectAlibi];
 }
 
+#pragma mark - Generate String Methods
+
 - (NSString *)generateTypeString: (type) type
 {
     NSString *outputTypeString;

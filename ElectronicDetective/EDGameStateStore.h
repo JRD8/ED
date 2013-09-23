@@ -43,6 +43,8 @@
     NSNumber *num13;
     NSNumber *num14;
     
+    NSMutableArray *savedGameArray;
+    
 }
 
 // Need to expose these variables for EDViewController access
@@ -68,17 +70,21 @@
 - (void) assignAlibiTypesToSuspects;
 - (NSString *) askPrivateQuestion: (privateQuestion)questionNumber
                         toSuspect: (int) suspectNumber;
-- (void) restartNewGame;
 
 // Helper Methods
-- (NSString *)generateLocationString: (location)location;
-- (NSString *)generateWeaponString: (weapon)weapon;
-- (NSString *)generatePrivateQuestionString: (privateQuestion)question;
+- (NSString *) generateLocationString: (location)location;
+- (NSString *) generateWeaponString: (weapon)weapon;
+- (NSString *) generatePrivateQuestionString: (privateQuestion)question;
 
 // Log Methods
 - (void) printLocationAssignedSuspects;
 - (void) privateQuestionTestRoutine;
 - (void) printMasterSuspectDirectory;
+
+// Save & Archive Methods
+- (NSString *) itemArchivePath;
+- (BOOL) saveGame;
+- (void) restartNewGame;
 
 
 

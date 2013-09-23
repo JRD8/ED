@@ -38,10 +38,15 @@
     return self;
 };
 
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"\r%@ \rAddress: %@ \rScene Of The Crime: %@ \rMurderer Location: %@ \rLocation Of .38: %@ \rLocation Of .45: %@ \r3-Suspect Location: %@\rAlibi Combo: %@\r", locationName, [self generateLocationAddressString:locationSide locationArea:locationArea], sceneOfTheCrime ? @"YES" : @"NO", murdererLocation ? @"YES" : @"NO", locationOf38 ? @"YES" : @"NO", locationOf45 ? @"YES" : @"NO", threeSuspectLocation ? @"YES" : @"NO", [self generateComboString:alibiCombo]];
 };
+
+
+#pragma mark - Generate String Methods
+
 
 - (NSString *)generateLocationAddressString: (side)side
                                locationArea: (area)area
@@ -79,6 +84,7 @@
     
     return locationAddress;
 }
+
 
 - (NSString *)generateComboString: (comboType)combo
 {
