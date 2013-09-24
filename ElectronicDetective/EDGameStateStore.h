@@ -84,7 +84,7 @@
 // Save & Archive Methods
 - (NSString *) itemArchivePath;
 - (BOOL) saveGame;
-- (void) restartNewGame;
+- (void) initializeNewGame;
 
 
 

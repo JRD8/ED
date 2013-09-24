@@ -36,9 +36,7 @@
     
     [EDGameStateStore sharedStore]; // Create a new Store or load a saved Store
     
-    [[EDGameStateStore sharedStore] restartNewGame];
-    
-    [self displayInitialCrimeInfo];
+    // [[EDGameStateStore sharedStore] restartNewGame];
     
     interrogatedSuspected = [[EDSuspect alloc] init];
     
@@ -380,7 +378,7 @@
 {
     NSLog(@"\r\r\rRESTART GAME");
     
-    [[EDGameStateStore sharedStore] restartNewGame];
+    [[EDGameStateStore sharedStore] initializeNewGame];
     
     [self displayInitialCrimeInfo];
    

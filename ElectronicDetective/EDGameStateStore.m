@@ -60,8 +60,11 @@
         sceneOfTheCrime = [[savedGameArray objectAtIndex:14] intValue];
         
         // If EDGameStateStore variables have not been previously saved, create new ones
-        // TODO: Need to review
-
+        
+        if (!masterSuspectDirectory)
+        {
+            [self initializeNewGame];
+        }
     }
     
     return self;
@@ -1812,7 +1815,7 @@
 }
 
 
-- (void) restartNewGame
+- (void) initializeNewGame
 {
     // Destroy existing objects & reset variables
     suspectNames = nil;
